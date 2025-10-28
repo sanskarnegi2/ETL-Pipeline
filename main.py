@@ -217,25 +217,25 @@ def load_dpa_data(token, query_values: list, server='avamar_servers'):
 
 
 if __name__ == "__main__":
-    # # get the token for vROps
-    # vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
+    # get the token for vROps
+    vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
     
-    # logger.info('Initialize data fetching and loading into database for VirtualMachine')
-    # load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_properties_names, vmware_column_mapping, db_username, db_password, db_name, db_host, db_port)
+    logger.info('Initialize data fetching and loading into database for VirtualMachine')
+    load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_properties_names, vmware_column_mapping, db_username, db_password, db_name, db_host, db_port)
     
-    # # get the token for vROps (We Twice fetched the token, as we dont know the expiry of token)
-    # vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
+    # get the token for vROps (We Twice fetched the token, as we dont know the expiry of token)
+    vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
 
-    # logger.info('Initialize data fetching and loading into database for ESXi Host')
-    # load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_names, esxi_column_mapping, db_username, db_password, db_name, db_host, db_port)
+    logger.info('Initialize data fetching and loading into database for ESXi Host')
+    load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_names, esxi_column_mapping, db_username, db_password, db_name, db_host, db_port)
 
-    # # Fetch & Load data for desired view_types of AMPs, i.e. view_list = ['view_applications', 'view_database_assets', 'view_it_assets']
-    # for view_type in amps_view_list:
-    #     # get token for AMPs
-    #     amps_token = get_amps_auth_token(svc_uname, svc_pwd, amps_login_url, amps_portal_url)
+    # Fetch & Load data for desired view_types of AMPs, i.e. view_list = ['view_applications', 'view_database_assets', 'view_it_assets']
+    for view_type in amps_view_list:
+        # get token for AMPs
+        amps_token = get_amps_auth_token(svc_uname, svc_pwd, amps_login_url, amps_portal_url)
 
-    #     logger.info(f'Initialize data fetching and loading into database for AMPs: {view_type}')
-    #     load_amps_data(amps_token, view_type, db_username, db_password, db_name, db_host, db_port)
+        logger.info(f'Initialize data fetching and loading into database for AMPs: {view_type}')
+        load_amps_data(amps_token, view_type, db_username, db_password, db_name, db_host, db_port)
     
     ## Fetch & Load data for DPA
     # get dpa-token
