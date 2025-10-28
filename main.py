@@ -245,6 +245,7 @@ if __name__ == "__main__":
     logger.info('Initialize data fetching and loading into database for PPDM Server')
     load_dpa_data(dpa_token, ppdm_list, 'ppdm_servers')
     
+    
 
 
 # from concurrent.futures import ThreadPoolExecutor
