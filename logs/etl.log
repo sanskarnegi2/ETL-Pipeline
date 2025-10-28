@@ -1,0 +1,1853 @@
+2025-10-23 01:45:41,107 - INFO - ETL process started
+2025-10-23 01:45:41,109 - INFO - Initialize data fetching and loading into database for ESXi Host
+2025-10-23 01:45:57,250 - INFO - ETL process started
+2025-10-23 01:45:57,263 - INFO - Initialize data fetching and loading into database for ESXi Host
+2025-10-23 01:47:10,910 - INFO - ETL process started
+2025-10-23 01:47:11,718 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::7c2a2e2a-7eef-4796-a221-845c5f24246d
+2025-10-23 01:47:11,719 - INFO - Initialize data fetching and loading into database for VirtualMachine
+2025-10-23 01:47:13,238 - INFO - Fetched page 0 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:14,751 - INFO - Fetched page 1 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:16,260 - INFO - Fetched page 2 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:17,747 - INFO - Fetched page 3 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:19,312 - INFO - Fetched page 4 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:20,819 - INFO - Fetched page 5 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:22,308 - INFO - Fetched page 6 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:23,843 - INFO - Fetched page 7 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:25,454 - INFO - Fetched page 8 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:26,982 - INFO - Fetched page 9 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:28,499 - INFO - Fetched page 10 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:30,157 - INFO - Fetched page 11 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:31,881 - INFO - Fetched page 12 with 1000 resources for VirtualMachine ids
+2025-10-23 01:47:33,472 - INFO - Fetched page 13 with 949 resources for VirtualMachine ids
+2025-10-23 01:47:33,575 - INFO - All pages fetched VirtualMachine ids. Total resources: 13949
+2025-10-23 01:47:33,617 - INFO - Fetching Metrics and properties for VirtualMachine
+2025-10-23 01:52:37,499 - ERROR - Metrics fetch failed for effc7b80-e33c-4dbe-bf4a-6aae7a3ad243: 
+2025-10-23 01:52:37,522 - INFO - Elapsed time for fetching VirtualMachine : 303.90 seconds
+2025-10-23 01:52:37,522 - INFO - Start flattening the data for {resourceKind}
+2025-10-23 01:52:38,116 - INFO - Start Transforming VirtualMachine data
+2025-10-23 01:52:46,552 - INFO - VirtualMachine Data Saved as Excel File
+2025-10-23 01:52:46,552 - INFO - Transforming VirtualMachine Data Completed.
+2025-10-23 01:52:46,552 - INFO - Loading vmware data into database initialize.
+2025-10-23 01:52:46,612 - INFO - Connection established.
+2025-10-23 01:52:46,629 - INFO - Table created for VMware.
+2025-10-23 01:52:47,563 - INFO - Batch insert completed.
+2025-10-23 01:52:47,563 - INFO - Time taken to complete data loading: 1.0114309787750244
+2025-10-23 01:52:48,446 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::078bdd1a-f5c7-48f8-8fd4-e2a8aa7bcd5b
+2025-10-23 01:52:48,447 - INFO - Initialize data fetching and loading into database for ESXi Host
+2025-10-23 01:52:49,485 - INFO - Fetched page 0 with 650 resources for HostSystem ids
+2025-10-23 01:52:49,582 - INFO - All pages fetched HostSystem ids. Total resources: 650
+2025-10-23 01:52:49,582 - INFO - Fetching Metrics and properties for HostSystem
+2025-10-23 01:52:59,620 - INFO - Elapsed time for fetching HostSystem : 10.04 seconds
+2025-10-23 01:52:59,622 - INFO - Start flattening the data for {resourceKind}
+2025-10-23 01:52:59,667 - INFO - Start Transforming VirtualMachine data
+2025-10-23 01:53:00,296 - INFO - ESXi Host Data Saved as Excel File
+2025-10-23 01:53:00,296 - INFO - Transforming ESXi Host Data Completed.
+2025-10-23 01:53:00,296 - INFO - Loading vmware data into database initialize.
+2025-10-23 01:53:00,296 - INFO - Connection established.
+2025-10-23 01:53:00,304 - INFO - Table created for VMware.
+2025-10-23 01:53:00,386 - INFO - Batch insert completed.
+2025-10-23 01:53:00,386 - INFO - Time taken to complete data loading: 0.0900270938873291
+2025-10-23 01:54:00,499 - ERROR - Login failed: 502 Server Error: Proxy Error for url: https://amps.cloud.pge.com/axe-platform/login
+2025-10-23 01:54:00,500 - INFO - Initialize data fetching and loading into database for AMPs: view_applications
+2025-10-23 01:55:00,595 - ERROR - Error fetching data for view_applications: 502 Server Error: Proxy Error for url: https://amps.cloud.pge.com/axe-platform/api/data-lake/v1/dataview/view_applications?skip=0&take=2000
+2025-10-23 01:55:00,595 - INFO - Something went wrong
+2025-10-23 01:55:01,602 - INFO - Something Went Wrong.
+2025-10-23 01:56:01,656 - ERROR - Login failed: 502 Server Error: Proxy Error for url: https://amps.cloud.pge.com/axe-platform/login
+2025-10-23 01:56:01,656 - INFO - Initialize data fetching and loading into database for AMPs: view_database_assets
+2025-10-23 01:57:01,755 - ERROR - Error fetching data for view_database_assets: 502 Server Error: Proxy Error for url: https://amps.cloud.pge.com/axe-platform/api/data-lake/v1/dataview/view_database_assets?skip=0&take=2000
+2025-10-23 01:57:01,755 - INFO - Something went wrong
+2025-10-23 01:57:02,757 - INFO - Something Went Wrong.
+2025-10-23 01:58:03,983 - ERROR - Login failed: 502 Server Error: Proxy Error for url: https://amps.cloud.pge.com/axe-platform/login
+2025-10-23 01:58:03,983 - INFO - Initialize data fetching and loading into database for AMPs: view_it_assets
+2025-10-23 01:59:04,078 - ERROR - Error fetching data for view_it_assets: 502 Server Error: Proxy Error for url: https://amps.cloud.pge.com/axe-platform/api/data-lake/v1/dataview/view_it_assets?skip=0&take=2000
+2025-10-23 01:59:04,078 - INFO - Something went wrong
+2025-10-23 01:59:05,085 - INFO - Something Went Wrong.
+2025-10-23 01:59:05,085 - INFO - Token generated for dpa
+2025-10-23 01:59:05,085 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-23 01:59:05,253 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-23 01:59:07,401 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-23 01:59:09,578 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-23 01:59:11,724 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-23 01:59:13,875 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-23 01:59:16,000 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-23 01:59:18,003 - INFO - total node ids: 10
+2025-10-23 01:59:19,192 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-23 01:59:21,349 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-23 01:59:23,487 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-23 01:59:25,642 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-23 01:59:27,811 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-23 01:59:29,956 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-23 01:59:31,962 - INFO - total node ids: 10
+2025-10-23 01:59:32,973 - INFO - Inside get_dpa_report
+2025-10-23 01:59:33,005 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:35,038 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:37,057 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:39,072 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:41,088 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:43,119 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:45,122 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:47,138 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:49,155 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:51,184 - INFO - Successfully retrieved the csv report.
+2025-10-23 01:59:54,268 - INFO - Report successfully converted to DataFrame.
+2025-10-23 01:59:54,279 - INFO - Total rows fetched: 1686
+2025-10-23 01:59:54,280 - INFO - Not fetched servers: set()
+2025-10-23 01:59:54,336 - INFO - Database Connection established.
+2025-10-23 01:59:54,354 - INFO - Table created.
+2025-10-23 01:59:54,387 - INFO - range: 0
+2025-10-23 01:59:54,518 - INFO - range: 1000
+2025-10-23 01:59:54,586 - INFO - Batch insert completed.
+2025-10-23 01:59:54,586 - INFO - Time taken to complete data loading: 0.30599546432495117
+2025-10-23 01:59:54,586 - INFO -  Connection closed.
+2025-10-23 01:59:54,593 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-23 01:59:54,710 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-23 01:59:56,839 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-23 01:59:58,959 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-23 02:00:01,105 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-23 02:00:03,263 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-23 02:00:05,391 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-23 02:00:07,557 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-23 02:00:09,694 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-23 02:00:11,806 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-23 02:00:13,963 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-23 02:00:15,970 - INFO - total node ids: 15
+2025-10-23 02:00:17,923 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-23 02:00:20,048 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-23 02:00:22,203 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-23 02:00:24,362 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-23 02:00:26,516 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-23 02:00:28,656 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-23 02:00:30,805 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-23 02:00:32,956 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-23 02:00:35,108 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-23 02:00:37,254 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-23 02:00:39,265 - INFO - total node ids: 15
+2025-10-23 02:00:41,684 - INFO - Inside get_dpa_report
+2025-10-23 02:00:41,743 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:43,817 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:45,838 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:47,869 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:49,902 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:52,038 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:54,062 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:56,083 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:00:58,105 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:01:00,117 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:01:02,138 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:01:04,154 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:01:06,178 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:01:08,205 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:01:10,223 - INFO - Successfully retrieved the csv report.
+2025-10-23 02:01:13,366 - INFO - Report successfully converted to DataFrame.
+2025-10-23 02:01:13,396 - INFO - Total rows fetched: 22174
+2025-10-23 02:01:13,397 - INFO - Not fetched servers: set()
+2025-10-23 02:01:13,431 - INFO - Database Connection established.
+2025-10-23 02:01:13,444 - INFO - Table created.
+2025-10-23 02:01:13,673 - INFO - range: 0
+2025-10-23 02:01:13,819 - INFO - range: 1000
+2025-10-23 02:01:13,894 - INFO - range: 2000
+2025-10-23 02:01:13,972 - INFO - range: 3000
+2025-10-23 02:01:14,055 - INFO - range: 4000
+2025-10-23 02:01:14,134 - INFO - range: 5000
+2025-10-23 02:01:14,216 - INFO - range: 6000
+2025-10-23 02:01:14,294 - INFO - range: 7000
+2025-10-23 02:01:14,381 - INFO - range: 8000
+2025-10-23 02:01:14,457 - INFO - range: 9000
+2025-10-23 02:01:14,533 - INFO - range: 10000
+2025-10-23 02:01:14,609 - INFO - range: 11000
+2025-10-23 02:01:14,687 - INFO - range: 12000
+2025-10-23 02:01:14,760 - INFO - range: 13000
+2025-10-23 02:01:14,837 - INFO - range: 14000
+2025-10-23 02:01:14,916 - INFO - range: 15000
+2025-10-23 02:01:15,002 - INFO - range: 16000
+2025-10-23 02:01:15,083 - INFO - range: 17000
+2025-10-23 02:01:15,197 - INFO - range: 18000
+2025-10-23 02:01:15,308 - INFO - range: 19000
+2025-10-23 02:01:15,407 - INFO - range: 20000
+2025-10-23 02:01:15,494 - INFO - range: 21000
+2025-10-23 02:01:15,576 - INFO - range: 22000
+2025-10-23 02:01:15,595 - INFO - Batch insert completed.
+2025-10-23 02:01:15,595 - INFO - Time taken to complete data loading: 2.197017192840576
+2025-10-23 02:01:15,599 - INFO -  Connection closed.
+2025-10-23 02:28:00,757 - INFO - ETL process started
+2025-10-23 02:28:01,323 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::7d1946a5-af73-493b-83d9-5cc1322a9bfa
+2025-10-23 02:28:01,323 - INFO - Initialize data fetching and loading into database for VirtualMachine
+2025-10-23 02:28:03,058 - INFO - Fetched page 0 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:04,793 - INFO - Fetched page 1 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:06,500 - INFO - Fetched page 2 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:08,139 - INFO - Fetched page 3 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:09,883 - INFO - Fetched page 4 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:11,572 - INFO - Fetched page 5 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:13,304 - INFO - Fetched page 6 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:14,995 - INFO - Fetched page 7 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:16,708 - INFO - Fetched page 8 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:18,325 - INFO - Fetched page 9 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:19,979 - INFO - Fetched page 10 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:21,700 - INFO - Fetched page 11 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:23,574 - INFO - Fetched page 12 with 1000 resources for VirtualMachine ids
+2025-10-23 02:28:25,384 - INFO - Fetched page 13 with 949 resources for VirtualMachine ids
+2025-10-23 02:28:25,504 - INFO - All pages fetched VirtualMachine ids. Total resources: 13949
+2025-10-23 02:28:25,549 - INFO - Fetching Metrics and properties for VirtualMachine
+2025-10-23 02:33:20,696 - INFO - Elapsed time for fetching VirtualMachine : 295.15 seconds
+2025-10-23 02:33:20,699 - INFO - Start flattening the data for {resourceKind}
+2025-10-23 02:33:21,346 - INFO - Start Transforming VirtualMachine data
+2025-10-23 02:33:30,676 - INFO - VirtualMachine Data Saved as Excel File
+2025-10-23 02:33:30,687 - INFO - Transforming VirtualMachine Data Completed.
+2025-10-23 02:33:30,687 - INFO - Loading vmware data into database initialize.
+2025-10-23 02:33:30,784 - INFO - Connection established.
+2025-10-23 02:33:30,811 - INFO - Table created for VMware.
+2025-10-23 02:33:31,868 - INFO - Batch insert completed.
+2025-10-23 02:33:31,868 - INFO - Time taken to complete data loading: 1.1804323196411133
+2025-10-23 02:33:32,769 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::8994c006-e2a7-41f3-8dd2-f870b8f26cd0
+2025-10-23 02:33:32,770 - INFO - Initialize data fetching and loading into database for ESXi Host
+2025-10-23 02:33:33,820 - INFO - Fetched page 0 with 650 resources for HostSystem ids
+2025-10-23 02:33:33,910 - INFO - All pages fetched HostSystem ids. Total resources: 650
+2025-10-23 02:33:33,926 - INFO - Fetching Metrics and properties for HostSystem
+2025-10-23 02:33:44,757 - INFO - Elapsed time for fetching HostSystem : 10.83 seconds
+2025-10-23 02:33:44,757 - INFO - Start flattening the data for {resourceKind}
+2025-10-23 02:33:44,808 - INFO - Start Transforming VirtualMachine data
+2025-10-23 02:33:45,475 - INFO - ESXi Host Data Saved as Excel File
+2025-10-23 02:33:45,475 - INFO - Transforming ESXi Host Data Completed.
+2025-10-23 02:33:45,475 - INFO - Loading vmware data into database initialize.
+2025-10-23 02:33:45,475 - INFO - Connection established.
+2025-10-23 02:33:45,517 - INFO - Table created for VMware.
+2025-10-23 02:33:45,592 - INFO - Batch insert completed.
+2025-10-23 02:33:45,592 - INFO - Time taken to complete data loading: 0.11720132827758789
+2025-10-23 02:33:46,053 - INFO - AMPS login successful. Token acquired.
+2025-10-23 02:33:46,053 - INFO - Initialize data fetching and loading into database for AMPs: view_applications
+2025-10-23 02:35:04,422 - INFO - Fetched view_applications data 0 - 2000
+2025-10-23 02:35:28,975 - INFO - ETL process started
+2025-10-23 02:35:29,374 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::6c99a9a8-384d-4568-ac45-e037a1e8d302
+2025-10-23 02:35:29,375 - INFO - Initialize data fetching and loading into database for VirtualMachine
+2025-10-23 02:35:30,958 - INFO - Fetched page 0 with 1000 resources for VirtualMachine ids
+2025-10-23 02:35:32,592 - INFO - Fetched page 1 with 1000 resources for VirtualMachine ids
+2025-10-23 02:35:34,151 - INFO - Fetched page 2 with 1000 resources for VirtualMachine ids
+2025-10-23 02:35:35,797 - INFO - Fetched page 3 with 1000 resources for VirtualMachine ids
+2025-10-23 02:35:37,372 - INFO - Fetched page 4 with 1000 resources for VirtualMachine ids
+2025-10-23 02:35:38,957 - INFO - Fetched page 5 with 1000 resources for VirtualMachine ids
+2025-10-23 02:35:40,608 - INFO - Fetched page 6 with 1000 resources for VirtualMachine ids
+
+
+
+2025-10-24 21:16:45,182 - INFO - ETL process started
+2025-10-24 21:16:45,825 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::077b0320-1a72-47bd-b6e5-79c2b0d39697
+2025-10-24 21:16:45,825 - INFO - Initialize data fetching and loading into database for VirtualMachine
+2025-10-24 21:16:47,727 - INFO - Fetched page 0 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:49,260 - INFO - Fetched page 1 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:50,722 - INFO - Fetched page 2 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:52,217 - INFO - Fetched page 3 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:53,708 - INFO - Fetched page 4 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:55,090 - INFO - Fetched page 5 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:56,480 - INFO - Fetched page 6 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:57,867 - INFO - Fetched page 7 with 1000 resources for VirtualMachine ids
+2025-10-24 21:16:59,295 - INFO - Fetched page 8 with 1000 resources for VirtualMachine ids
+2025-10-24 21:17:00,683 - INFO - Fetched page 9 with 1000 resources for VirtualMachine ids
+2025-10-24 21:17:02,074 - INFO - Fetched page 10 with 1000 resources for VirtualMachine ids
+2025-10-24 21:17:03,503 - INFO - Fetched page 11 with 1000 resources for VirtualMachine ids
+2025-10-24 21:17:04,938 - INFO - Fetched page 12 with 1000 resources for VirtualMachine ids
+2025-10-24 21:17:06,149 - INFO - Fetched page 13 with 874 resources for VirtualMachine ids
+2025-10-24 21:17:06,262 - INFO - All pages fetched VirtualMachine ids. Total resources: 13874
+2025-10-24 21:17:06,312 - INFO - Fetching Metrics and properties for VirtualMachine
+2025-10-24 21:19:32,190 - ERROR - Metrics fetch failed for ace6f62d-8b2b-4f6d-986a-f9c26fcef955: list index out of range
+2025-10-24 21:19:45,450 - ERROR - Metrics fetch failed for b633194a-a3de-4fa4-be04-3369bcb7b890: list index out of range
+2025-10-24 21:19:56,313 - ERROR - Metrics fetch failed for c0f93061-11c9-4125-ac03-89d47db39be4: list index out of range
+2025-10-24 21:20:25,481 - ERROR - Metrics fetch failed for d13bf4ef-959f-4f23-9ab9-f1cad9e6bd48: list index out of range
+2025-10-24 21:20:49,086 - ERROR - Metrics fetch failed for e67e9e2d-a49d-49c4-ad67-fd872005206c: list index out of range
+2025-10-24 21:21:26,024 - INFO - Elapsed time for fetching VirtualMachine : 259.71 seconds
+2025-10-24 21:21:26,024 - INFO - Start flattening the data for {resourceKind}
+2025-10-24 21:21:26,690 - INFO - Start Transforming VirtualMachine data
+2025-10-24 21:21:36,810 - INFO - VirtualMachine Data Saved as Excel File
+2025-10-24 21:21:36,826 - INFO - Transforming VirtualMachine Data Completed.
+2025-10-24 21:21:36,826 - INFO - Loading vmware data into database initialize.
+2025-10-24 21:21:37,207 - INFO - Connection established.
+2025-10-24 21:21:37,243 - INFO - Table created for VMware.
+2025-10-24 21:21:38,275 - INFO - Batch insert completed.
+2025-10-24 21:21:38,275 - INFO - Time taken to complete data loading: 1.4493134021759033
+2025-10-24 21:21:38,895 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::a992cdfa-d585-403d-8e41-73da0cceeca3
+2025-10-24 21:21:38,897 - INFO - Initialize data fetching and loading into database for ESXi Host
+2025-10-24 21:21:39,732 - INFO - Fetched page 0 with 650 resources for HostSystem ids
+2025-10-24 21:21:39,826 - INFO - All pages fetched HostSystem ids. Total resources: 650
+2025-10-24 21:21:39,829 - INFO - Fetching Metrics and properties for HostSystem
+2025-10-24 21:21:48,710 - INFO - Elapsed time for fetching HostSystem : 8.88 seconds
+2025-10-24 21:21:48,725 - INFO - Start flattening the data for {resourceKind}
+2025-10-24 21:21:48,796 - INFO - Start Transforming VirtualMachine data
+2025-10-24 21:21:49,479 - INFO - ESXi Host Data Saved as Excel File
+2025-10-24 21:21:49,479 - INFO - Transforming ESXi Host Data Completed.
+2025-10-24 21:21:49,479 - INFO - Loading vmware data into database initialize.
+2025-10-24 21:21:49,480 - INFO - Connection established.
+2025-10-24 21:21:49,489 - INFO - Table created for VMware.
+2025-10-24 21:21:49,569 - INFO - Batch insert completed.
+2025-10-24 21:21:49,569 - INFO - Time taken to complete data loading: 0.0898139476776123
+2025-10-24 21:21:49,755 - INFO - AMPS login successful. Token acquired.
+2025-10-24 21:21:49,755 - INFO - Initialize data fetching and loading into database for AMPs: view_applications
+2025-10-24 21:21:51,160 - INFO - Fetched view_applications data 0 - 2000
+2025-10-24 21:21:52,169 - INFO - Fetched view_applications data 2000 - 3199
+2025-10-24 21:21:52,334 - INFO - All data fetched for view_applications. Total data: 3199
+2025-10-24 21:21:53,774 - INFO - Detected List columns and converted into Json: ['middleware_ids', 'database_ids', 'itasset_ids', 'loms_ids', 'storage_ids']
+2025-10-24 21:21:54,984 - INFO - Database Connection established.
+2025-10-24 21:21:55,024 - INFO - Table created.
+2025-10-24 21:21:55,240 - INFO - range: 0
+2025-10-24 21:21:55,652 - INFO - range: 1000
+2025-10-24 21:21:55,965 - INFO - range: 2000
+2025-10-24 21:21:56,246 - INFO - range: 3000
+2025-10-24 21:21:56,319 - INFO - Batch insert completed.
+2025-10-24 21:21:56,319 - INFO - Time taken to complete data loading: 1.5333545207977295
+2025-10-24 21:21:56,321 - INFO -  Connection closed.
+2025-10-24 21:21:56,329 - INFO - Time Taken to fetch and load data for view_applications: 6.573403596878052
+2025-10-24 21:21:56,533 - INFO - AMPS login successful. Token acquired.
+2025-10-24 21:21:56,534 - INFO - Initialize data fetching and loading into database for AMPs: view_database_assets
+2025-10-24 21:21:57,449 - INFO - Fetched view_database_assets data 0 - 2000
+2025-10-24 21:21:58,152 - INFO - Fetched view_database_assets data 2000 - 4000
+2025-10-24 21:21:58,906 - INFO - Fetched view_database_assets data 4000 - 6000
+2025-10-24 21:21:59,750 - INFO - Fetched view_database_assets data 6000 - 8000
+2025-10-24 21:22:00,556 - INFO - Fetched view_database_assets data 8000 - 10000
+2025-10-24 21:22:01,275 - INFO - Fetched view_database_assets data 10000 - 12000
+2025-10-24 21:22:01,907 - INFO - Fetched view_database_assets data 12000 - 14000
+2025-10-24 21:22:02,515 - INFO - Fetched view_database_assets data 14000 - 16000
+2025-10-24 21:22:03,161 - INFO - Fetched view_database_assets data 16000 - 18000
+2025-10-24 21:22:03,917 - INFO - Fetched view_database_assets data 18000 - 20000
+2025-10-24 21:22:04,629 - INFO - Fetched view_database_assets data 20000 - 22000
+2025-10-24 21:22:05,227 - INFO - Fetched view_database_assets data 22000 - 24000
+2025-10-24 21:22:05,851 - INFO - Fetched view_database_assets data 24000 - 26000
+2025-10-24 21:22:06,489 - INFO - Fetched view_database_assets data 26000 - 28000
+2025-10-24 21:22:07,108 - INFO - Fetched view_database_assets data 28000 - 30000
+2025-10-24 21:22:07,746 - INFO - Fetched view_database_assets data 30000 - 32000
+2025-10-24 21:22:08,550 - INFO - Fetched view_database_assets data 32000 - 34000
+2025-10-24 21:22:09,225 - INFO - Fetched view_database_assets data 34000 - 36000
+2025-10-24 21:22:09,925 - INFO - Fetched view_database_assets data 36000 - 38000
+2025-10-24 21:22:10,648 - INFO - Fetched view_database_assets data 38000 - 40000
+2025-10-24 21:22:11,354 - INFO - Fetched view_database_assets data 40000 - 42000
+2025-10-24 21:22:12,028 - INFO - Fetched view_database_assets data 42000 - 44000
+2025-10-24 21:22:12,922 - INFO - Fetched view_database_assets data 44000 - 46000
+2025-10-24 21:22:13,593 - INFO - Fetched view_database_assets data 46000 - 48000
+2025-10-24 21:22:14,235 - INFO - Fetched view_database_assets data 48000 - 50000
+2025-10-24 21:22:14,956 - INFO - Fetched view_database_assets data 50000 - 52000
+2025-10-24 21:22:15,664 - INFO - Fetched view_database_assets data 52000 - 54000
+2025-10-24 21:22:16,386 - INFO - Fetched view_database_assets data 54000 - 56000
+2025-10-24 21:22:17,099 - INFO - Fetched view_database_assets data 56000 - 58000
+2025-10-24 21:22:17,759 - INFO - Fetched view_database_assets data 58000 - 60000
+2025-10-24 21:22:18,695 - INFO - Fetched view_database_assets data 60000 - 62000
+2025-10-24 21:22:19,227 - INFO - Fetched view_database_assets data 62000 - 63237
+2025-10-24 21:22:19,485 - INFO - All data fetched for view_database_assets. Total data: 63237
+2025-10-24 21:22:24,939 - INFO - Detected List columns and converted into Json: ['app_ids_direct', 'app_ids_inferred', 'itasset_ids_direct', 'cluster_ids', 'itasset_ids_clustered', 'ss_ids']
+2025-10-24 21:22:25,968 - INFO - Database Connection established.
+2025-10-24 21:22:25,984 - INFO - Table created.
+2025-10-24 21:22:27,722 - INFO - range: 0
+2025-10-24 21:22:27,899 - INFO - range: 1000
+2025-10-24 21:22:28,050 - INFO - range: 2000
+2025-10-24 21:22:28,242 - INFO - range: 3000
+2025-10-24 21:22:28,440 - INFO - range: 4000
+2025-10-24 21:22:28,652 - INFO - range: 5000
+2025-10-24 21:22:28,860 - INFO - range: 6000
+2025-10-24 21:22:29,041 - INFO - range: 7000
+2025-10-24 21:22:29,208 - INFO - range: 8000
+2025-10-24 21:22:29,387 - INFO - range: 9000
+2025-10-24 21:22:29,565 - INFO - range: 10000
+2025-10-24 21:22:29,755 - INFO - range: 11000
+2025-10-24 21:22:29,940 - INFO - range: 12000
+2025-10-24 21:22:30,113 - INFO - range: 13000
+2025-10-24 21:22:30,270 - INFO - range: 14000
+2025-10-24 21:22:30,418 - INFO - range: 15000
+2025-10-24 21:22:30,559 - INFO - range: 16000
+2025-10-24 21:22:30,719 - INFO - range: 17000
+2025-10-24 21:22:30,893 - INFO - range: 18000
+2025-10-24 21:22:31,040 - INFO - range: 19000
+2025-10-24 21:22:31,207 - INFO - range: 20000
+2025-10-24 21:22:31,374 - INFO - range: 21000
+2025-10-24 21:22:31,530 - INFO - range: 22000
+2025-10-24 21:22:31,682 - INFO - range: 23000
+2025-10-24 21:22:31,830 - INFO - range: 24000
+2025-10-24 21:22:31,977 - INFO - range: 25000
+2025-10-24 21:22:32,129 - INFO - range: 26000
+2025-10-24 21:22:32,291 - INFO - range: 27000
+2025-10-24 21:22:32,442 - INFO - range: 28000
+2025-10-24 21:22:32,591 - INFO - range: 29000
+2025-10-24 21:22:32,746 - INFO - range: 30000
+2025-10-24 21:22:32,896 - INFO - range: 31000
+2025-10-24 21:22:33,045 - INFO - range: 32000
+2025-10-24 21:22:33,198 - INFO - range: 33000
+2025-10-24 21:22:33,450 - INFO - range: 34000
+2025-10-24 21:22:33,615 - INFO - range: 35000
+2025-10-24 21:22:33,760 - INFO - range: 36000
+2025-10-24 21:22:33,914 - INFO - range: 37000
+2025-10-24 21:22:34,075 - INFO - range: 38000
+2025-10-24 21:22:34,249 - INFO - range: 39000
+2025-10-24 21:22:34,402 - INFO - range: 40000
+2025-10-24 21:22:34,573 - INFO - range: 41000
+2025-10-24 21:22:34,723 - INFO - range: 42000
+2025-10-24 21:22:34,907 - INFO - range: 43000
+2025-10-24 21:22:35,074 - INFO - range: 44000
+2025-10-24 21:22:35,239 - INFO - range: 45000
+2025-10-24 21:22:35,393 - INFO - range: 46000
+2025-10-24 21:22:35,544 - INFO - range: 47000
+2025-10-24 21:22:35,716 - INFO - range: 48000
+2025-10-24 21:22:35,865 - INFO - range: 49000
+2025-10-24 21:22:36,031 - INFO - range: 50000
+2025-10-24 21:22:36,180 - INFO - range: 51000
+2025-10-24 21:22:36,346 - INFO - range: 52000
+2025-10-24 21:22:36,529 - INFO - range: 53000
+2025-10-24 21:22:36,672 - INFO - range: 54000
+2025-10-24 21:22:36,832 - INFO - range: 55000
+2025-10-24 21:22:36,990 - INFO - range: 56000
+2025-10-24 21:22:37,141 - INFO - range: 57000
+2025-10-24 21:22:37,295 - INFO - range: 58000
+2025-10-24 21:22:37,431 - INFO - range: 59000
+2025-10-24 21:22:37,587 - INFO - range: 60000
+2025-10-24 21:22:37,746 - INFO - range: 61000
+2025-10-24 21:22:37,897 - INFO - range: 62000
+2025-10-24 21:22:38,054 - INFO - range: 63000
+2025-10-24 21:22:38,098 - INFO - Batch insert completed.
+2025-10-24 21:22:38,099 - INFO - Time taken to complete data loading: 12.133154392242432
+2025-10-24 21:22:38,102 - INFO -  Connection closed.
+2025-10-24 21:22:38,189 - INFO - Time Taken to fetch and load data for view_database_assets: 41.65428614616394
+2025-10-24 21:22:38,735 - INFO - AMPS login successful. Token acquired.
+2025-10-24 21:22:38,736 - INFO - Initialize data fetching and loading into database for AMPs: view_it_assets
+2025-10-24 21:22:40,685 - INFO - Fetched view_it_assets data 0 - 2000
+2025-10-24 21:22:42,213 - INFO - Fetched view_it_assets data 2000 - 4000
+2025-10-24 21:22:43,701 - INFO - Fetched view_it_assets data 4000 - 6000
+2025-10-24 21:22:45,185 - INFO - Fetched view_it_assets data 6000 - 8000
+2025-10-24 21:22:46,942 - INFO - Fetched view_it_assets data 8000 - 10000
+2025-10-24 21:22:48,510 - INFO - Fetched view_it_assets data 10000 - 12000
+2025-10-24 21:22:49,986 - INFO - Fetched view_it_assets data 12000 - 14000
+2025-10-24 21:22:51,422 - INFO - Fetched view_it_assets data 14000 - 16000
+2025-10-24 21:22:52,940 - INFO - Fetched view_it_assets data 16000 - 18000
+2025-10-24 21:22:54,407 - INFO - Fetched view_it_assets data 18000 - 20000
+2025-10-24 21:22:55,907 - INFO - Fetched view_it_assets data 20000 - 22000
+2025-10-24 21:22:57,407 - INFO - Fetched view_it_assets data 22000 - 24000
+2025-10-24 21:22:58,992 - INFO - Fetched view_it_assets data 24000 - 26000
+2025-10-24 21:23:00,619 - INFO - Fetched view_it_assets data 26000 - 28000
+2025-10-24 21:23:02,180 - INFO - Fetched view_it_assets data 28000 - 30000
+2025-10-24 21:23:03,697 - INFO - Fetched view_it_assets data 30000 - 32000
+2025-10-24 21:23:05,246 - INFO - Fetched view_it_assets data 32000 - 34000
+2025-10-24 21:23:06,674 - INFO - Fetched view_it_assets data 34000 - 36000
+2025-10-24 21:23:08,100 - INFO - Fetched view_it_assets data 36000 - 38000
+2025-10-24 21:23:09,526 - INFO - Fetched view_it_assets data 38000 - 40000
+2025-10-24 21:23:10,990 - INFO - Fetched view_it_assets data 40000 - 42000
+2025-10-24 21:23:12,403 - INFO - Fetched view_it_assets data 42000 - 44000
+2025-10-24 21:23:14,022 - INFO - Fetched view_it_assets data 44000 - 46000
+2025-10-24 21:23:15,455 - INFO - Fetched view_it_assets data 46000 - 48000
+2025-10-24 21:23:16,908 - INFO - Fetched view_it_assets data 48000 - 50000
+2025-10-24 21:23:18,339 - INFO - Fetched view_it_assets data 50000 - 52000
+2025-10-24 21:23:19,742 - INFO - Fetched view_it_assets data 52000 - 54000
+2025-10-24 21:23:21,153 - INFO - Fetched view_it_assets data 54000 - 56000
+2025-10-24 21:23:22,543 - INFO - Fetched view_it_assets data 56000 - 58000
+2025-10-24 21:23:24,007 - INFO - Fetched view_it_assets data 58000 - 60000
+2025-10-24 21:23:25,402 - INFO - Fetched view_it_assets data 60000 - 62000
+2025-10-24 21:23:26,820 - INFO - Fetched view_it_assets data 62000 - 64000
+2025-10-24 21:23:28,452 - INFO - Fetched view_it_assets data 64000 - 66000
+2025-10-24 21:23:29,923 - INFO - Fetched view_it_assets data 66000 - 68000
+2025-10-24 21:23:31,374 - INFO - Fetched view_it_assets data 68000 - 70000
+2025-10-24 21:23:32,867 - INFO - Fetched view_it_assets data 70000 - 72000
+2025-10-24 21:23:34,373 - INFO - Fetched view_it_assets data 72000 - 74000
+2025-10-24 21:23:35,855 - INFO - Fetched view_it_assets data 74000 - 76000
+2025-10-24 21:23:37,431 - INFO - Fetched view_it_assets data 76000 - 78000
+2025-10-24 21:23:38,994 - INFO - Fetched view_it_assets data 78000 - 80000
+2025-10-24 21:23:40,640 - INFO - Fetched view_it_assets data 80000 - 82000
+2025-10-24 21:23:42,149 - INFO - Fetched view_it_assets data 82000 - 84000
+2025-10-24 21:23:44,040 - INFO - Fetched view_it_assets data 84000 - 86000
+2025-10-24 21:23:45,609 - INFO - Fetched view_it_assets data 86000 - 88000
+2025-10-24 21:23:47,191 - INFO - Fetched view_it_assets data 88000 - 90000
+2025-10-24 21:23:48,776 - INFO - Fetched view_it_assets data 90000 - 92000
+2025-10-24 21:23:50,374 - INFO - Fetched view_it_assets data 92000 - 94000
+2025-10-24 21:23:51,924 - INFO - Fetched view_it_assets data 94000 - 96000
+2025-10-24 21:23:53,552 - INFO - Fetched view_it_assets data 96000 - 98000
+2025-10-24 21:23:55,351 - INFO - Fetched view_it_assets data 98000 - 100000
+2025-10-24 21:23:56,954 - INFO - Fetched view_it_assets data 100000 - 102000
+2025-10-24 21:23:58,607 - INFO - Fetched view_it_assets data 102000 - 104000
+2025-10-24 21:24:00,312 - INFO - Fetched view_it_assets data 104000 - 106000
+2025-10-24 21:24:01,891 - INFO - Fetched view_it_assets data 106000 - 108000
+2025-10-24 21:24:03,552 - INFO - Fetched view_it_assets data 108000 - 110000
+2025-10-24 21:24:05,565 - INFO - Fetched view_it_assets data 110000 - 112000
+2025-10-24 21:24:07,143 - INFO - Fetched view_it_assets data 112000 - 114000
+2025-10-24 21:24:08,814 - INFO - Fetched view_it_assets data 114000 - 116000
+2025-10-24 21:24:10,462 - INFO - Fetched view_it_assets data 116000 - 118000
+2025-10-24 21:24:12,085 - INFO - Fetched view_it_assets data 118000 - 120000
+2025-10-24 21:24:13,718 - INFO - Fetched view_it_assets data 120000 - 122000
+2025-10-24 21:24:15,373 - INFO - Fetched view_it_assets data 122000 - 124000
+2025-10-24 21:24:17,040 - INFO - Fetched view_it_assets data 124000 - 126000
+2025-10-24 21:24:18,714 - INFO - Fetched view_it_assets data 126000 - 128000
+2025-10-24 21:24:20,414 - INFO - Fetched view_it_assets data 128000 - 130000
+2025-10-24 21:24:22,097 - INFO - Fetched view_it_assets data 130000 - 132000
+2025-10-24 21:24:23,773 - INFO - Fetched view_it_assets data 132000 - 134000
+2025-10-24 21:24:25,440 - INFO - Fetched view_it_assets data 134000 - 136000
+2025-10-24 21:24:27,054 - INFO - Fetched view_it_assets data 136000 - 138000
+2025-10-24 21:24:28,658 - INFO - Fetched view_it_assets data 138000 - 140000
+2025-10-24 21:24:30,307 - INFO - Fetched view_it_assets data 140000 - 142000
+2025-10-24 21:24:32,463 - INFO - Fetched view_it_assets data 142000 - 144000
+2025-10-24 21:24:34,130 - INFO - Fetched view_it_assets data 144000 - 146000
+2025-10-24 21:24:35,769 - INFO - Fetched view_it_assets data 146000 - 148000
+2025-10-24 21:24:37,373 - INFO - Fetched view_it_assets data 148000 - 150000
+2025-10-24 21:24:38,989 - INFO - Fetched view_it_assets data 150000 - 152000
+2025-10-24 21:24:40,651 - INFO - Fetched view_it_assets data 152000 - 154000
+2025-10-24 21:24:42,254 - INFO - Fetched view_it_assets data 154000 - 156000
+2025-10-24 21:24:43,874 - INFO - Fetched view_it_assets data 156000 - 158000
+2025-10-24 21:24:45,563 - INFO - Fetched view_it_assets data 158000 - 160000
+2025-10-24 21:24:47,263 - INFO - Fetched view_it_assets data 160000 - 162000
+2025-10-24 21:24:48,843 - INFO - Fetched view_it_assets data 162000 - 164000
+2025-10-24 21:24:50,500 - INFO - Fetched view_it_assets data 164000 - 166000
+2025-10-24 21:24:52,181 - INFO - Fetched view_it_assets data 166000 - 168000
+2025-10-24 21:24:53,850 - INFO - Fetched view_it_assets data 168000 - 170000
+2025-10-24 21:24:55,540 - INFO - Fetched view_it_assets data 170000 - 172000
+2025-10-24 21:24:57,173 - INFO - Fetched view_it_assets data 172000 - 174000
+2025-10-24 21:24:58,955 - INFO - Fetched view_it_assets data 174000 - 176000
+2025-10-24 21:25:00,707 - INFO - Fetched view_it_assets data 176000 - 178000
+2025-10-24 21:25:02,383 - INFO - Fetched view_it_assets data 178000 - 180000
+2025-10-24 21:25:04,174 - INFO - Fetched view_it_assets data 180000 - 182000
+2025-10-24 21:25:06,662 - INFO - Fetched view_it_assets data 182000 - 184000
+2025-10-24 21:25:08,379 - INFO - Fetched view_it_assets data 184000 - 186000
+2025-10-24 21:25:10,003 - INFO - Fetched view_it_assets data 186000 - 188000
+2025-10-24 21:25:11,674 - INFO - Fetched view_it_assets data 188000 - 190000
+2025-10-24 21:25:13,422 - INFO - Fetched view_it_assets data 190000 - 192000
+2025-10-24 21:25:15,115 - INFO - Fetched view_it_assets data 192000 - 194000
+2025-10-24 21:25:16,856 - INFO - Fetched view_it_assets data 194000 - 196000
+2025-10-24 21:25:18,561 - INFO - Fetched view_it_assets data 196000 - 198000
+2025-10-24 21:25:20,309 - INFO - Fetched view_it_assets data 198000 - 200000
+2025-10-24 21:25:22,007 - INFO - Fetched view_it_assets data 200000 - 202000
+2025-10-24 21:25:23,707 - INFO - Fetched view_it_assets data 202000 - 204000
+2025-10-24 21:25:25,427 - INFO - Fetched view_it_assets data 204000 - 206000
+2025-10-24 21:25:27,207 - INFO - Fetched view_it_assets data 206000 - 208000
+2025-10-24 21:25:29,032 - INFO - Fetched view_it_assets data 208000 - 210000
+2025-10-24 21:25:30,840 - INFO - Fetched view_it_assets data 210000 - 212000
+2025-10-24 21:25:32,607 - INFO - Fetched view_it_assets data 212000 - 214000
+2025-10-24 21:25:34,296 - INFO - Fetched view_it_assets data 214000 - 216000
+2025-10-24 21:25:36,314 - INFO - Fetched view_it_assets data 216000 - 218000
+2025-10-24 21:25:38,298 - INFO - Fetched view_it_assets data 218000 - 220000
+2025-10-24 21:25:40,237 - INFO - Fetched view_it_assets data 220000 - 222000
+2025-10-24 21:25:42,111 - INFO - Fetched view_it_assets data 222000 - 224000
+2025-10-24 21:25:43,947 - INFO - Fetched view_it_assets data 224000 - 226000
+2025-10-24 21:25:45,707 - INFO - Fetched view_it_assets data 226000 - 228000
+2025-10-24 21:25:47,767 - INFO - Fetched view_it_assets data 228000 - 230000
+2025-10-24 21:25:49,930 - INFO - Fetched view_it_assets data 230000 - 232000
+2025-10-24 21:25:52,740 - INFO - Fetched view_it_assets data 232000 - 234000
+2025-10-24 21:25:54,581 - INFO - Fetched view_it_assets data 234000 - 236000
+2025-10-24 21:25:56,760 - INFO - Fetched view_it_assets data 236000 - 238000
+2025-10-24 21:25:58,973 - INFO - Fetched view_it_assets data 238000 - 240000
+2025-10-24 21:26:00,965 - INFO - Fetched view_it_assets data 240000 - 242000
+2025-10-24 21:26:02,922 - INFO - Fetched view_it_assets data 242000 - 244000
+2025-10-24 21:26:05,007 - INFO - Fetched view_it_assets data 244000 - 246000
+2025-10-24 21:26:07,028 - INFO - Fetched view_it_assets data 246000 - 248000
+2025-10-24 21:26:09,133 - INFO - Fetched view_it_assets data 248000 - 250000
+2025-10-24 21:26:11,085 - INFO - Fetched view_it_assets data 250000 - 252000
+2025-10-24 21:26:13,095 - INFO - Fetched view_it_assets data 252000 - 254000
+2025-10-24 21:26:14,540 - INFO - Fetched view_it_assets data 254000 - 254739
+2025-10-24 21:26:15,735 - INFO - All data fetched for view_it_assets. Total data: 254739
+2025-10-24 21:26:40,118 - INFO - Detected List columns and converted into Json: ['app_ids_direct', 'cluster_ids', 'db_ids', 'ss_ids']
+2025-10-24 21:26:41,157 - INFO - Database Connection established.
+2025-10-24 21:26:41,181 - INFO - Table created.
+2025-10-24 21:26:49,596 - INFO - range: 0
+2025-10-24 21:26:49,824 - INFO - range: 1000
+2025-10-24 21:26:50,001 - INFO - range: 2000
+2025-10-24 21:26:50,155 - INFO - range: 3000
+2025-10-24 21:26:50,329 - INFO - range: 4000
+2025-10-24 21:26:50,496 - INFO - range: 5000
+2025-10-24 21:26:50,647 - INFO - range: 6000
+2025-10-24 21:26:50,803 - INFO - range: 7000
+2025-10-24 21:26:51,019 - INFO - range: 8000
+2025-10-24 21:26:51,188 - INFO - range: 9000
+2025-10-24 21:26:51,372 - INFO - range: 10000
+2025-10-24 21:26:51,541 - INFO - range: 11000
+2025-10-24 21:26:51,722 - INFO - range: 12000
+2025-10-24 21:26:51,957 - INFO - range: 13000
+2025-10-24 21:26:52,128 - INFO - range: 14000
+2025-10-24 21:26:52,307 - INFO - range: 15000
+2025-10-24 21:26:52,489 - INFO - range: 16000
+2025-10-24 21:26:52,664 - INFO - range: 17000
+2025-10-24 21:26:52,828 - INFO - range: 18000
+2025-10-24 21:26:52,993 - INFO - range: 19000
+2025-10-24 21:26:53,160 - INFO - range: 20000
+2025-10-24 21:26:53,341 - INFO - range: 21000
+2025-10-24 21:26:53,522 - INFO - range: 22000
+2025-10-24 21:26:53,676 - INFO - range: 23000
+2025-10-24 21:26:53,837 - INFO - range: 24000
+2025-10-24 21:26:53,985 - INFO - range: 25000
+2025-10-24 21:26:54,174 - INFO - range: 26000
+2025-10-24 21:26:54,356 - INFO - range: 27000
+2025-10-24 21:26:54,522 - INFO - range: 28000
+2025-10-24 21:26:54,680 - INFO - range: 29000
+2025-10-24 21:26:54,836 - INFO - range: 30000
+2025-10-24 21:26:54,998 - INFO - range: 31000
+2025-10-24 21:26:55,157 - INFO - range: 32000
+2025-10-24 21:26:55,341 - INFO - range: 33000
+2025-10-24 21:26:55,502 - INFO - range: 34000
+2025-10-24 21:26:55,668 - INFO - range: 35000
+2025-10-24 21:26:55,839 - INFO - range: 36000
+2025-10-24 21:26:56,000 - INFO - range: 37000
+2025-10-24 21:26:56,172 - INFO - range: 38000
+2025-10-24 21:26:56,340 - INFO - range: 39000
+2025-10-24 21:26:56,510 - INFO - range: 40000
+2025-10-24 21:26:56,668 - INFO - range: 41000
+2025-10-24 21:26:56,835 - INFO - range: 42000
+2025-10-24 21:26:57,007 - INFO - range: 43000
+2025-10-24 21:26:57,163 - INFO - range: 44000
+2025-10-24 21:26:57,327 - INFO - range: 45000
+2025-10-24 21:26:57,507 - INFO - range: 46000
+2025-10-24 21:26:57,674 - INFO - range: 47000
+2025-10-24 21:26:57,841 - INFO - range: 48000
+2025-10-24 21:26:58,240 - INFO - range: 49000
+2025-10-24 21:26:58,709 - INFO - range: 50000
+2025-10-24 21:26:58,874 - INFO - range: 51000
+2025-10-24 21:26:59,052 - INFO - range: 52000
+2025-10-24 21:26:59,211 - INFO - range: 53000
+2025-10-24 21:26:59,398 - INFO - range: 54000
+2025-10-24 21:26:59,567 - INFO - range: 55000
+2025-10-24 21:26:59,741 - INFO - range: 56000
+2025-10-24 21:26:59,922 - INFO - range: 57000
+2025-10-24 21:27:00,122 - INFO - range: 58000
+2025-10-24 21:27:00,295 - INFO - range: 59000
+2025-10-24 21:27:00,458 - INFO - range: 60000
+2025-10-24 21:27:00,633 - INFO - range: 61000
+2025-10-24 21:27:00,796 - INFO - range: 62000
+2025-10-24 21:27:00,974 - INFO - range: 63000
+2025-10-24 21:27:01,172 - INFO - range: 64000
+2025-10-24 21:27:01,341 - INFO - range: 65000
+2025-10-24 21:27:01,512 - INFO - range: 66000
+2025-10-24 21:27:01,701 - INFO - range: 67000
+2025-10-24 21:27:01,853 - INFO - range: 68000
+2025-10-24 21:27:02,028 - INFO - range: 69000
+2025-10-24 21:27:02,224 - INFO - range: 70000
+2025-10-24 21:27:02,408 - INFO - range: 71000
+2025-10-24 21:27:02,608 - INFO - range: 72000
+2025-10-24 21:27:02,815 - INFO - range: 73000
+2025-10-24 21:27:03,007 - INFO - range: 74000
+2025-10-24 21:27:03,223 - INFO - range: 75000
+2025-10-24 21:27:03,486 - INFO - range: 76000
+2025-10-24 21:27:03,688 - INFO - range: 77000
+2025-10-24 21:27:03,950 - INFO - range: 78000
+2025-10-24 21:27:04,217 - INFO - range: 79000
+2025-10-24 21:27:04,471 - INFO - range: 80000
+2025-10-24 21:27:04,715 - INFO - range: 81000
+2025-10-24 21:27:04,941 - INFO - range: 82000
+2025-10-24 21:27:05,155 - INFO - range: 83000
+2025-10-24 21:27:05,355 - INFO - range: 84000
+2025-10-24 21:27:05,546 - INFO - range: 85000
+2025-10-24 21:27:05,738 - INFO - range: 86000
+2025-10-24 21:27:05,940 - INFO - range: 87000
+2025-10-24 21:27:06,140 - INFO - range: 88000
+2025-10-24 21:27:06,347 - INFO - range: 89000
+2025-10-24 21:27:06,535 - INFO - range: 90000
+2025-10-24 21:27:06,700 - INFO - range: 91000
+2025-10-24 21:27:06,865 - INFO - range: 92000
+2025-10-24 21:27:07,041 - INFO - range: 93000
+2025-10-24 21:27:07,208 - INFO - range: 94000
+2025-10-24 21:27:07,419 - INFO - range: 95000
+2025-10-24 21:27:07,590 - INFO - range: 96000
+2025-10-24 21:27:07,769 - INFO - range: 97000
+2025-10-24 21:27:07,956 - INFO - range: 98000
+2025-10-24 21:27:08,174 - INFO - range: 99000
+2025-10-24 21:27:08,419 - INFO - range: 100000
+2025-10-24 21:27:08,618 - INFO - range: 101000
+2025-10-24 21:27:08,808 - INFO - range: 102000
+2025-10-24 21:27:09,008 - INFO - range: 103000
+2025-10-24 21:27:09,176 - INFO - range: 104000
+2025-10-24 21:27:09,356 - INFO - range: 105000
+2025-10-24 21:27:09,543 - INFO - range: 106000
+2025-10-24 21:27:09,707 - INFO - range: 107000
+2025-10-24 21:27:09,880 - INFO - range: 108000
+2025-10-24 21:27:10,038 - INFO - range: 109000
+2025-10-24 21:27:10,223 - INFO - range: 110000
+2025-10-24 21:27:10,389 - INFO - range: 111000
+2025-10-24 21:27:10,551 - INFO - range: 112000
+2025-10-24 21:27:10,724 - INFO - range: 113000
+2025-10-24 21:27:10,891 - INFO - range: 114000
+2025-10-24 21:27:11,065 - INFO - range: 115000
+2025-10-24 21:27:11,233 - INFO - range: 116000
+2025-10-24 21:27:11,392 - INFO - range: 117000
+2025-10-24 21:27:11,569 - INFO - range: 118000
+2025-10-24 21:27:11,723 - INFO - range: 119000
+2025-10-24 21:27:11,880 - INFO - range: 120000
+2025-10-24 21:27:12,061 - INFO - range: 121000
+2025-10-24 21:27:12,232 - INFO - range: 122000
+2025-10-24 21:27:12,407 - INFO - range: 123000
+2025-10-24 21:27:12,598 - INFO - range: 124000
+2025-10-24 21:27:12,772 - INFO - range: 125000
+2025-10-24 21:27:12,934 - INFO - range: 126000
+2025-10-24 21:27:13,123 - INFO - range: 127000
+2025-10-24 21:27:13,305 - INFO - range: 128000
+2025-10-24 21:27:13,507 - INFO - range: 129000
+2025-10-24 21:27:13,719 - INFO - range: 130000
+2025-10-24 21:27:13,908 - INFO - range: 131000
+2025-10-24 21:27:14,107 - INFO - range: 132000
+2025-10-24 21:27:14,287 - INFO - range: 133000
+2025-10-24 21:27:14,486 - INFO - range: 134000
+2025-10-24 21:27:14,707 - INFO - range: 135000
+2025-10-24 21:27:14,934 - INFO - range: 136000
+2025-10-24 21:27:15,123 - INFO - range: 137000
+2025-10-24 21:27:15,307 - INFO - range: 138000
+2025-10-24 21:27:15,480 - INFO - range: 139000
+2025-10-24 21:27:15,648 - INFO - range: 140000
+2025-10-24 21:27:15,828 - INFO - range: 141000
+2025-10-24 21:27:16,005 - INFO - range: 142000
+2025-10-24 21:27:16,169 - INFO - range: 143000
+2025-10-24 21:27:16,341 - INFO - range: 144000
+2025-10-24 21:27:16,534 - INFO - range: 145000
+2025-10-24 21:27:16,738 - INFO - range: 146000
+2025-10-24 21:27:16,908 - INFO - range: 147000
+2025-10-24 21:27:17,066 - INFO - range: 148000
+2025-10-24 21:27:17,230 - INFO - range: 149000
+2025-10-24 21:27:17,380 - INFO - range: 150000
+2025-10-24 21:27:17,573 - INFO - range: 151000
+2025-10-24 21:27:17,774 - INFO - range: 152000
+2025-10-24 21:27:17,941 - INFO - range: 153000
+2025-10-24 21:27:18,141 - INFO - range: 154000
+2025-10-24 21:27:18,342 - INFO - range: 155000
+2025-10-24 21:27:18,508 - INFO - range: 156000
+2025-10-24 21:27:18,672 - INFO - range: 157000
+2025-10-24 21:27:18,823 - INFO - range: 158000
+2025-10-24 21:27:19,006 - INFO - range: 159000
+2025-10-24 21:27:19,189 - INFO - range: 160000
+2025-10-24 21:27:19,407 - INFO - range: 161000
+2025-10-24 21:27:19,638 - INFO - range: 162000
+2025-10-24 21:27:19,854 - INFO - range: 163000
+2025-10-24 21:27:20,092 - INFO - range: 164000
+2025-10-24 21:27:20,238 - INFO - range: 165000
+2025-10-24 21:27:20,396 - INFO - range: 166000
+2025-10-24 21:27:20,569 - INFO - range: 167000
+2025-10-24 21:27:20,757 - INFO - range: 168000
+2025-10-24 21:27:20,945 - INFO - range: 169000
+2025-10-24 21:27:21,098 - INFO - range: 170000
+2025-10-24 21:27:21,248 - INFO - range: 171000
+2025-10-24 21:27:21,435 - INFO - range: 172000
+2025-10-24 21:27:21,602 - INFO - range: 173000
+2025-10-24 21:27:21,759 - INFO - range: 174000
+2025-10-24 21:27:21,930 - INFO - range: 175000
+2025-10-24 21:27:22,120 - INFO - range: 176000
+2025-10-24 21:27:22,353 - INFO - range: 177000
+2025-10-24 21:27:22,570 - INFO - range: 178000
+2025-10-24 21:27:22,922 - INFO - range: 179000
+2025-10-24 21:27:23,141 - INFO - range: 180000
+2025-10-24 21:27:23,340 - INFO - range: 181000
+2025-10-24 21:27:23,522 - INFO - range: 182000
+2025-10-24 21:27:23,740 - INFO - range: 183000
+2025-10-24 21:27:23,939 - INFO - range: 184000
+2025-10-24 21:27:24,123 - INFO - range: 185000
+2025-10-24 21:27:24,336 - INFO - range: 186000
+2025-10-24 21:27:24,574 - INFO - range: 187000
+2025-10-24 21:27:24,794 - INFO - range: 188000
+2025-10-24 21:27:25,005 - INFO - range: 189000
+2025-10-24 21:27:25,174 - INFO - range: 190000
+2025-10-24 21:27:25,387 - INFO - range: 191000
+2025-10-24 21:27:25,607 - INFO - range: 192000
+2025-10-24 21:27:25,821 - INFO - range: 193000
+2025-10-24 21:27:26,002 - INFO - range: 194000
+2025-10-24 21:27:26,189 - INFO - range: 195000
+2025-10-24 21:27:26,407 - INFO - range: 196000
+2025-10-24 21:27:26,619 - INFO - range: 197000
+2025-10-24 21:27:26,825 - INFO - range: 198000
+2025-10-24 21:27:27,023 - INFO - range: 199000
+2025-10-24 21:27:27,222 - INFO - range: 200000
+2025-10-24 21:27:27,413 - INFO - range: 201000
+2025-10-24 21:27:27,608 - INFO - range: 202000
+2025-10-24 21:27:27,829 - INFO - range: 203000
+2025-10-24 21:27:28,008 - INFO - range: 204000
+2025-10-24 21:27:28,217 - INFO - range: 205000
+2025-10-24 21:27:28,419 - INFO - range: 206000
+2025-10-24 21:27:28,607 - INFO - range: 207000
+2025-10-24 21:27:28,807 - INFO - range: 208000
+2025-10-24 21:27:29,038 - INFO - range: 209000
+2025-10-24 21:27:29,240 - INFO - range: 210000
+2025-10-24 21:27:29,452 - INFO - range: 211000
+2025-10-24 21:27:29,675 - INFO - range: 212000
+2025-10-24 21:27:29,907 - INFO - range: 213000
+2025-10-24 21:27:30,133 - INFO - range: 214000
+2025-10-24 21:27:30,474 - INFO - range: 215000
+2025-10-24 21:27:30,807 - INFO - range: 216000
+2025-10-24 21:27:31,362 - INFO - range: 217000
+2025-10-24 21:27:31,707 - INFO - range: 218000
+2025-10-24 21:27:32,043 - INFO - range: 219000
+2025-10-24 21:27:32,374 - INFO - range: 220000
+2025-10-24 21:27:32,692 - INFO - range: 221000
+2025-10-24 21:27:33,005 - INFO - range: 222000
+2025-10-24 21:27:33,313 - INFO - range: 223000
+2025-10-24 21:27:33,640 - INFO - range: 224000
+2025-10-24 21:27:33,943 - INFO - range: 225000
+2025-10-24 21:27:34,262 - INFO - range: 226000
+2025-10-24 21:27:34,561 - INFO - range: 227000
+2025-10-24 21:27:34,846 - INFO - range: 228000
+2025-10-24 21:27:35,149 - INFO - range: 229000
+2025-10-24 21:27:35,440 - INFO - range: 230000
+2025-10-24 21:27:35,731 - INFO - range: 231000
+2025-10-24 21:27:35,983 - INFO - range: 232000
+2025-10-24 21:27:36,253 - INFO - range: 233000
+2025-10-24 21:27:36,550 - INFO - range: 234000
+2025-10-24 21:27:36,846 - INFO - range: 235000
+2025-10-24 21:27:37,120 - INFO - range: 236000
+2025-10-24 21:27:37,387 - INFO - range: 237000
+2025-10-24 21:27:37,653 - INFO - range: 238000
+2025-10-24 21:27:37,916 - INFO - range: 239000
+2025-10-24 21:27:38,207 - INFO - range: 240000
+2025-10-24 21:27:38,450 - INFO - range: 241000
+2025-10-24 21:27:38,707 - INFO - range: 242000
+2025-10-24 21:27:38,949 - INFO - range: 243000
+2025-10-24 21:27:39,186 - INFO - range: 244000
+2025-10-24 21:27:39,440 - INFO - range: 245000
+2025-10-24 21:27:39,686 - INFO - range: 246000
+2025-10-24 21:27:39,914 - INFO - range: 247000
+2025-10-24 21:27:40,156 - INFO - range: 248000
+2025-10-24 21:27:40,386 - INFO - range: 249000
+2025-10-24 21:27:40,614 - INFO - range: 250000
+2025-10-24 21:27:40,840 - INFO - range: 251000
+2025-10-24 21:27:41,053 - INFO - range: 252000
+2025-10-24 21:27:41,275 - INFO - range: 253000
+2025-10-24 21:27:41,531 - INFO - range: 254000
+2025-10-24 21:27:41,726 - INFO - Batch insert completed.
+2025-10-24 21:27:41,729 - INFO - Time taken to complete data loading: 60.604326009750366
+2025-10-24 21:27:41,734 - INFO -  Connection closed.
+2025-10-24 21:27:42,134 - INFO - Time Taken to fetch and load data for view_it_assets: 303.3967254161835
+2025-10-24 21:27:43,500 - INFO - Token generated for dpa
+2025-10-24 21:27:43,500 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-24 21:27:53,531 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /apollo-api/nodes/?query=name=ffav01.comp.pge.com
+2025-10-24 21:28:13,555 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /apollo-api/nodes/?query=name=ffav01.comp.pge.com
+2025-10-24 21:28:43,570 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /apollo-api/nodes/?query=name=ffav01.comp.pge.com
+2025-10-24 21:28:53,601 - INFO - Request failed - get node_id: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /apollo-api/nodes/?query=name=ffav01.comp.pge.com (Caused by ProtocolError('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)))
+2025-10-24 21:28:55,613 - INFO - Node IDs not found for :ffav01.comp.pge.com
+2025-10-24 21:29:05,639 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /apollo-api/nodes/?query=name=rcav01.comp.pge.com
+2025-10-24 21:29:25,678 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /apollo-api/nodes/?query=name=rcav01.comp.pge.com
+2025-10-24 21:29:55,718 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /apollo-api/nodes/?query=name=rcav01.comp.pge.com
+2025-10-24 21:29:56,021 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-24 21:29:58,178 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-24 21:30:00,420 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-24 21:30:05,633 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-24 21:30:07,870 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-24 21:30:09,879 - INFO - total node ids: 9
+2025-10-24 21:30:14,011 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-24 21:30:16,196 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-24 21:30:18,349 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-24 21:30:20,620 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-24 21:30:22,902 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-24 21:30:25,035 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-24 21:30:27,046 - INFO - total node ids: 10
+2025-10-24 21:30:28,507 - INFO - Inside get_dpa_report
+2025-10-24 21:30:28,584 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:30:30,595 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:30:38,637 - INFO - Request failed: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /dpa-api/report/result/add3caf1-f4c1-45d5-a7fd-26f55a76be8e (Caused by ResponseError('too many 503 error responses'))
+2025-10-24 21:30:38,680 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:30:40,694 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:30:48,754 - INFO - Request failed: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /dpa-api/report/result/2dbd9511-1a28-4f3d-ae15-d7e436bdfe6c (Caused by ResponseError('too many 503 error responses'))
+2025-10-24 21:30:48,809 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:30:56,883 - INFO - Request failed: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /dpa-api/report/result/28d8ddd0-8d1e-4d9d-8f4a-ff431433ecbf (Caused by ResponseError('too many 503 error responses'))
+2025-10-24 21:30:56,900 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:30:59,947 - INFO - Report successfully converted to DataFrame.
+2025-10-24 21:30:59,964 - INFO - Total rows fetched: 1182
+2025-10-24 21:30:59,968 - INFO - Not fetched servers: {'ffav01.comp.pge.com', 'fxav03'}
+2025-10-24 21:31:00,049 - INFO - Database Connection established.
+2025-10-24 21:31:00,082 - INFO - Table created.
+2025-10-24 21:31:00,126 - INFO - range: 0
+2025-10-24 21:31:00,308 - INFO - range: 1000
+2025-10-24 21:31:00,360 - INFO - Batch insert completed.
+2025-10-24 21:31:00,360 - INFO - Time taken to complete data loading: 0.3882274627685547
+2025-10-24 21:31:00,366 - INFO -  Connection closed.
+2025-10-24 21:31:00,368 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-24 21:31:00,587 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-24 21:31:02,765 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-24 21:31:04,896 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-24 21:31:07,044 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-24 21:31:09,212 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-24 21:31:11,334 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-24 21:31:13,468 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-24 21:31:15,661 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-24 21:31:17,858 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-24 21:31:20,061 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-24 21:31:22,081 - INFO - total node ids: 15
+2025-10-24 21:34:06,053 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-24 21:34:08,167 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-24 21:34:10,291 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-24 21:34:12,433 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-24 21:34:14,597 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-24 21:34:16,705 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-24 21:34:18,850 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-24 21:34:21,004 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-24 21:34:23,239 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-24 21:34:25,370 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-24 21:34:27,380 - INFO - total node ids: 15
+2025-10-24 21:34:30,896 - INFO - Inside get_dpa_report
+2025-10-24 21:34:30,968 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:33,026 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:35,046 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:37,062 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:39,109 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:41,187 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:43,196 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:45,213 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:47,236 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:49,307 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:51,313 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:53,330 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:55,343 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:57,347 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:34:59,378 - INFO - Successfully retrieved the csv report.
+2025-10-24 21:35:02,507 - INFO - Report successfully converted to DataFrame.
+2025-10-24 21:35:02,565 - INFO - Total rows fetched: 17765
+2025-10-24 21:35:02,567 - INFO - Not fetched servers: {'rcppdm04'}
+2025-10-24 21:35:02,603 - INFO - Database Connection established.
+2025-10-24 21:35:02,628 - INFO - Table created.
+2025-10-24 21:35:02,919 - INFO - range: 0
+2025-10-24 21:35:03,063 - INFO - range: 1000
+2025-10-24 21:35:03,172 - INFO - range: 2000
+2025-10-24 21:35:03,276 - INFO - range: 3000
+2025-10-24 21:35:03,370 - INFO - range: 4000
+2025-10-24 21:35:03,465 - INFO - range: 5000
+2025-10-24 21:35:03,562 - INFO - range: 6000
+2025-10-24 21:35:03,671 - INFO - range: 7000
+2025-10-24 21:35:03,772 - INFO - range: 8000
+2025-10-24 21:35:03,867 - INFO - range: 9000
+2025-10-24 21:35:03,971 - INFO - range: 10000
+2025-10-24 21:35:04,071 - INFO - range: 11000
+2025-10-24 21:35:04,172 - INFO - range: 12000
+2025-10-24 21:35:04,297 - INFO - range: 13000
+2025-10-24 21:35:04,405 - INFO - range: 14000
+2025-10-24 21:35:04,553 - INFO - range: 15000
+2025-10-24 21:35:04,662 - INFO - range: 16000
+2025-10-24 21:35:04,798 - INFO - range: 17000
+2025-10-24 21:35:04,895 - INFO - Batch insert completed.
+2025-10-24 21:35:04,896 - INFO - Time taken to complete data loading: 2.3284718990325928
+2025-10-24 21:35:04,902 - INFO -  Connection closed.
+2025-10-24 22:10:47,901 - INFO - ETL process started
+2025-10-24 22:10:47,901 - INFO - Token generated for dpa
+2025-10-24 22:10:47,901 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-24 22:10:48,099 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-24 22:10:50,244 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-24 22:10:52,390 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-24 22:10:54,528 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-24 22:10:56,653 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-24 22:10:58,773 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-24 22:11:00,801 - INFO - total node ids: 10
+2025-10-24 22:11:02,296 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-24 22:11:04,424 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-24 22:11:06,573 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-24 22:11:08,732 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-24 22:11:10,881 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-24 22:11:13,056 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-24 22:11:15,069 - INFO - total node ids: 10
+2025-10-24 22:11:16,459 - INFO - Inside get_dpa_report
+2025-10-24 22:11:16,517 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:18,544 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:20,565 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:22,586 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:24,604 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:26,616 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:28,626 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:30,649 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:32,660 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:34,699 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:11:37,765 - INFO - Report successfully converted to DataFrame.
+2025-10-24 22:11:37,792 - INFO - Total rows fetched: 1616
+2025-10-24 22:11:37,793 - INFO - Not fetched servers: set()
+2025-10-24 22:11:37,885 - INFO - Database Connection established.
+2025-10-24 22:11:37,907 - INFO - Table created.
+2025-10-24 22:11:37,947 - INFO - range: 0
+2025-10-24 22:11:38,087 - INFO - range: 1000
+2025-10-24 22:11:38,167 - INFO - Batch insert completed.
+2025-10-24 22:11:38,167 - INFO - Time taken to complete data loading: 0.3738083839416504
+2025-10-24 22:11:38,170 - INFO -  Connection closed.
+2025-10-24 22:11:38,172 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-24 22:11:38,317 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-24 22:11:40,442 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-24 22:11:42,573 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-24 22:11:44,716 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-24 22:11:46,858 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-24 22:11:48,989 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-24 22:11:51,119 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-24 22:11:53,263 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-24 22:11:55,394 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-24 22:11:57,500 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-24 22:11:59,528 - INFO - total node ids: 15
+2025-10-24 22:12:01,714 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-24 22:12:03,865 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-24 22:12:06,011 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-24 22:12:08,223 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-24 22:12:10,354 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-24 22:12:12,479 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-24 22:12:14,627 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-24 22:12:16,769 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-24 22:12:18,919 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-24 22:12:21,036 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-24 22:12:23,054 - INFO - total node ids: 15
+2025-10-24 22:12:25,450 - INFO - Inside get_dpa_report
+2025-10-24 22:12:25,533 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:27,665 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:29,683 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:31,708 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:33,751 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:35,835 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:37,857 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:39,885 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:41,913 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:43,938 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:45,951 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:47,956 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:49,983 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:52,001 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:54,004 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:12:57,130 - INFO - Report successfully converted to DataFrame.
+2025-10-24 22:12:57,173 - INFO - Total rows fetched: 17689
+2025-10-24 22:12:57,175 - INFO - Not fetched servers: {'rcppdm04'}
+2025-10-24 22:12:57,211 - INFO - Database Connection established.
+2025-10-24 22:12:57,229 - INFO - Table created.
+2025-10-24 22:12:57,515 - INFO - range: 0
+2025-10-24 22:12:57,644 - INFO - range: 1000
+2025-10-24 22:12:57,731 - INFO - range: 2000
+2025-10-24 22:12:57,822 - INFO - range: 3000
+2025-10-24 22:12:57,915 - INFO - range: 4000
+2025-10-24 22:12:58,028 - INFO - range: 5000
+2025-10-24 22:12:58,144 - INFO - range: 6000
+2025-10-24 22:12:58,253 - INFO - range: 7000
+2025-10-24 22:12:58,336 - INFO - range: 8000
+2025-10-24 22:12:58,431 - INFO - range: 9000
+2025-10-24 22:12:58,513 - INFO - range: 10000
+2025-10-24 22:12:58,593 - INFO - range: 11000
+2025-10-24 22:12:58,674 - INFO - range: 12000
+2025-10-24 22:12:58,773 - INFO - range: 13000
+2025-10-24 22:12:58,850 - INFO - range: 14000
+2025-10-24 22:12:58,951 - INFO - range: 15000
+2025-10-24 22:12:59,045 - INFO - range: 16000
+2025-10-24 22:12:59,137 - INFO - range: 17000
+2025-10-24 22:12:59,199 - INFO - Batch insert completed.
+2025-10-24 22:12:59,201 - INFO - Time taken to complete data loading: 2.0260894298553467
+2025-10-24 22:12:59,203 - INFO -  Connection closed.
+2025-10-24 22:23:19,782 - INFO - ETL process started
+2025-10-24 22:23:19,786 - INFO - Token generated for dpa
+2025-10-24 22:23:19,787 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-24 22:23:19,962 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-24 22:23:22,094 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-24 22:23:24,253 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-24 22:23:26,376 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-24 22:23:28,492 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-24 22:23:30,625 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-24 22:23:32,739 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-24 22:23:34,888 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-24 22:23:37,033 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-24 22:23:39,181 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-24 22:23:41,193 - INFO - total node ids: 15
+2025-10-24 22:23:43,547 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-24 22:23:45,683 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-24 22:23:47,814 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-24 22:23:49,935 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-24 22:23:52,050 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-24 22:23:54,180 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-24 22:23:56,313 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-24 22:23:58,429 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-24 22:24:00,579 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-24 22:24:02,712 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-24 22:24:04,721 - INFO - total node ids: 15
+2025-10-24 22:24:06,764 - INFO - Inside get_dpa_report
+2025-10-24 22:24:07,253 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:09,336 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:11,364 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:13,395 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:15,428 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:17,513 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:19,539 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:21,581 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:23,609 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:25,620 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:27,656 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:29,670 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:31,694 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:33,721 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:35,748 - INFO - Successfully retrieved the csv report.
+2025-10-24 22:24:38,912 - INFO - Report successfully converted to DataFrame.
+2025-10-24 22:24:38,950 - INFO - Total rows fetched: 17647
+2025-10-24 22:24:38,953 - INFO - Not fetched servers: {'rcppdm04'}
+2025-10-24 22:24:39,029 - INFO - Database Connection established.
+2025-10-24 22:24:39,044 - INFO - Table created.
+2025-10-24 22:24:39,272 - INFO - range: 0
+2025-10-24 22:24:39,400 - INFO - range: 1000
+2025-10-24 22:24:39,483 - INFO - range: 2000
+2025-10-24 22:24:39,575 - INFO - range: 3000
+2025-10-24 22:24:39,650 - INFO - range: 4000
+2025-10-24 22:24:39,735 - INFO - range: 5000
+2025-10-24 22:24:39,824 - INFO - range: 6000
+2025-10-24 22:24:39,904 - INFO - range: 7000
+2025-10-24 22:24:39,990 - INFO - range: 8000
+2025-10-24 22:24:40,083 - INFO - range: 9000
+2025-10-24 22:24:40,173 - INFO - range: 10000
+2025-10-24 22:24:40,262 - INFO - range: 11000
+2025-10-24 22:24:40,351 - INFO - range: 12000
+2025-10-24 22:24:40,443 - INFO - range: 13000
+2025-10-24 22:24:40,523 - INFO - range: 14000
+2025-10-24 22:24:40,621 - INFO - range: 15000
+2025-10-24 22:24:40,721 - INFO - range: 16000
+2025-10-24 22:24:40,811 - INFO - range: 17000
+2025-10-24 22:24:40,863 - INFO - Batch insert completed.
+2025-10-24 22:24:40,864 - INFO - Time taken to complete data loading: 1.9103362560272217
+2025-10-24 22:24:40,866 - INFO -  Connection closed.
+2025-10-27 19:19:18,134 - INFO - ETL process started
+2025-10-27 19:19:18,152 - INFO - Token generated for dpa
+2025-10-27 19:19:18,152 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-27 19:19:18,284 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-27 19:19:20,293 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}]
+2025-10-27 19:19:20,293 - INFO - total node ids: 1
+2025-10-27 19:19:20,434 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/49986df2-b7f3-4954-ba44-54db1ad5815c'}]
+2025-10-27 19:19:20,538 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-27 19:19:22,547 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}]
+2025-10-27 19:19:22,547 - INFO - total node ids: 2
+2025-10-27 19:19:22,812 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/19267cfa-a2bd-424d-8ec9-bbb452d24530'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/cc387ec6-5a8e-4a50-a573-664c8a0792c1'}]
+2025-10-27 19:19:22,934 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-27 19:19:24,952 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}]
+2025-10-27 19:19:24,952 - INFO - total node ids: 3
+2025-10-27 19:19:25,465 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a4ff4b43-9857-48ec-b062-114585a645b4'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3d242cc5-404f-423f-a411-ba97a77b63a5'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ec448aca-04e8-499b-9d1c-60b89714d1f2'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b608530c-1f25-4e22-8ee2-0bd56a4a0806'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/164325fe-983b-4294-b671-31a74ebc2eae'}]
+2025-10-27 19:19:25,583 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-27 19:19:27,599 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}]
+2025-10-27 19:19:27,599 - INFO - total node ids: 4
+2025-10-27 19:19:28,396 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/251ba709-a0f7-4d2a-8ee6-2d50f9e0e768'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/6ae8c0e6-21ec-4005-a4a2-3023bc65cd71'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4ffd45db-7ae7-4dc5-86e2-bf63d2894a95'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/78879c98-a1cb-4ea0-bcbc-f72e2202f865'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/bc883083-b237-4c68-943c-eff8ad3dcd7c'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/fcd23770-8306-40b6-9220-0d045cafa8c9'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b51a64e1-f83f-4586-bf75-19db3d8c0cc2'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/fda3f174-1aa1-4a15-b7a8-eff3673c5b02'}]
+2025-10-27 19:19:28,507 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-27 19:19:30,514 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}]
+2025-10-27 19:19:30,514 - INFO - total node ids: 5
+2025-10-27 19:19:31,413 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/1092447f-a7c3-42fd-9459-68cd9fad1ea2'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/dd7dd491-2753-45d4-a540-a0034462bf6c'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/324776db-696c-4432-98e6-d27e2b820395'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ac729ae9-05ab-4d22-8a2e-2130ce2cb46e'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/7ec2b635-eb65-4611-876a-6cd853e8bcb3'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/eab6d5f4-a7ad-4edf-8f70-93e423c0d605'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/1284f50a-97d4-4f6a-8e7f-9d453c21ec7d'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/20dcc2d4-867b-4ca0-bfe9-a71318d28b57'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/25009c5b-72ff-4e30-bfff-3b8d2348dc0f'}]
+2025-10-27 19:19:31,526 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-27 19:19:33,541 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-27 19:19:33,541 - INFO - total node ids: 6
+2025-10-27 19:19:34,484 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/533d62ba-418c-43b5-b2e2-30457971e0d0'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/133c6658-776c-4fad-a018-25152a62c7c6'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/163f17c3-d5ee-4c8c-8d36-ddd882bf08a0'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/09e8e66f-ff97-46e0-86de-343c48c9f7eb'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/98d4dc43-700b-408a-abaf-9a897f5a31f7'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d87e7dd9-e016-4a2f-9973-54d7907ca412'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/159fca35-8ee4-4d08-8ce8-b5149b05876a'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d245b21b-8fa6-41dc-bcae-db1c21b38009'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c5ee3c6b-fef3-4deb-93ee-7261182bc776'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/31bd37fd-d8d0-4d44-8fc8-a7014be427b5'}]
+2025-10-27 19:19:34,484 - INFO - Inside get_dpa_report
+2025-10-27 19:19:34,542 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:19:36,570 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:20:49,292 - INFO - ETL process started
+2025-10-27 19:20:49,292 - INFO - Token generated for dpa
+2025-10-27 19:20:49,292 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-27 19:20:49,421 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-27 19:20:51,440 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}]
+2025-10-27 19:20:51,440 - INFO - total node ids: 1
+2025-10-27 19:20:51,566 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/12feb0ce-ebdd-4af5-9932-8301a8bb739e'}]
+2025-10-27 19:20:51,678 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-27 19:20:53,694 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}]
+2025-10-27 19:20:53,694 - INFO - total node ids: 2
+2025-10-27 19:20:53,953 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/5eb86795-d3c8-42b7-9a7d-fa9dd6c61f09'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/fafa84ea-1528-4d81-bdc3-ee3093319b8d'}]
+2025-10-27 19:20:54,069 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-27 19:20:56,078 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}]
+2025-10-27 19:20:56,078 - INFO - total node ids: 3
+2025-10-27 19:20:56,564 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8e6f191a-c956-48db-a509-dc0ffd4ec726'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/41023519-d73e-498e-86f4-5e3dd10be7a6'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/91f2c292-4bc1-4a42-9951-b0e4dd8aae3d'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/41723e39-2132-4e02-b643-871ca69a4a21'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c52b0ee8-27d5-47b1-a5ff-754a3ab3e0a0'}]
+2025-10-27 19:20:56,985 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-27 19:20:58,995 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}]
+2025-10-27 19:20:58,995 - INFO - total node ids: 4
+2025-10-27 19:20:59,714 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c18d241f-3328-4537-b21e-f099ca77dbe9'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/69bac7b8-fe2d-4e33-be45-5035c89ae0ec'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ff898abd-80f6-45c0-ba8c-6027346512d4'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/5e4140ee-8640-4e2a-9818-f6709ad959fa'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/269f5c70-bfa7-47e1-b7ca-80389b0d362e'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/844b38cf-651c-404d-8702-7551b6b5a421'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d685a14d-cfc3-4be8-9da4-f2af3c579a98'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/89504bb7-7568-4f35-9b89-15e18f640c66'}]
+2025-10-27 19:20:59,841 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-27 19:21:01,850 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}]
+2025-10-27 19:21:01,850 - INFO - total node ids: 5
+2025-10-27 19:21:02,768 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a3a0e840-74dc-4b31-8eed-49795019887d'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3039c06b-55de-4b03-964e-7f349f08d068'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/65682b13-b28e-43f6-95f7-41f436c796be'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/345d20c7-6a24-4636-999d-080fb0cc99a1'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f4244a77-23bf-4256-ac6a-6f77ba58a919'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/2691d8c4-be05-45ec-85c4-2fdc0a25ef03'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f73b71b3-f8ac-49c0-a832-0a0f96468c84'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/6946c289-975d-4958-a784-bd4edbd038e8'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ccbf9125-6707-4088-980a-cf897b117476'}]
+2025-10-27 19:21:02,892 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-27 19:21:04,908 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-27 19:21:04,908 - INFO - total node ids: 6
+2025-10-27 19:21:05,972 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/152d1e71-d766-4685-89f4-89dddadc273a'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f0a7698a-8207-4184-b7d4-bc9e7d56098d'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/5088cb3e-b403-40e9-b889-8bc3fb7bfe12'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/afb974ef-9e4e-4894-b316-b5c6744ff844'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f4e0409a-4fbf-49cf-9810-d0c207f04251'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f2a41ee3-027a-4b13-aa9b-ffca38b8b321'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/652ddea7-915d-4fc7-abb8-94f5cb4cf9a5'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/64c040a3-2402-4b97-841c-5d7fa8be658e'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/23a2498c-2513-4f68-8d33-841aa83682c3'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/6afe6284-2b50-4c6b-a9bb-4cb2e0859573'}]
+2025-10-27 19:21:05,973 - INFO - Inside get_dpa_report
+2025-10-27 19:21:06,009 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:08,036 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:10,046 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:12,062 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:14,079 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:16,113 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:18,127 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:20,146 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:22,161 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:24,180 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:21:27,256 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:21:27,271 - INFO - Unfetched servers: ['ffav01.comp.pge.com', 'rcav01.comp.pge.com', 'fxav02.comp.pge.com', 'rcav02.comp.pge.com', 'fxav03']
+2025-10-27 19:21:27,271 - INFO - Failed to parse report CSV: 'Logger' object is not callable
+2025-10-27 19:21:27,280 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-27 19:21:27,395 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-27 19:21:29,401 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}]
+2025-10-27 19:21:29,401 - INFO - total node ids: 1
+2025-10-27 19:21:29,570 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/2ed5706c-05ec-4e51-9215-5f728fa65462'}]
+2025-10-27 19:21:29,678 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-27 19:21:31,684 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}]
+2025-10-27 19:21:31,684 - INFO - total node ids: 2
+2025-10-27 19:21:32,002 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/9e6b28b1-1882-493f-b362-ea8d02212009'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/da0379f7-4723-4df2-a782-a7560ad62fce'}]
+2025-10-27 19:21:32,109 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-27 19:21:34,122 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}]
+2025-10-27 19:21:34,122 - INFO - total node ids: 3
+2025-10-27 19:21:34,625 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/707770d9-452b-4e2c-b45e-9e3cbaea4b89'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8a883c94-b63b-4815-8356-c5d81e1a2e5b'}, {'query_value': 'ffppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c0a57a96-0060-47ea-a35a-87af73520a18'}]
+2025-10-27 19:21:34,742 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-27 19:21:36,749 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'node_ids': ['1282c6e7-ea92-43d0-b1b9-1476411156c7']}]
+2025-10-27 19:21:36,749 - INFO - total node ids: 4
+2025-10-27 19:23:05,274 - INFO - ETL process started
+2025-10-27 19:23:05,274 - INFO - Token generated for dpa
+2025-10-27 19:23:05,274 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-27 19:23:05,388 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-27 19:23:07,509 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-27 19:23:09,631 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-27 19:23:11,753 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-27 19:23:13,889 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-27 19:23:16,012 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-27 19:23:18,020 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-27 19:23:18,020 - INFO - total node ids: 6
+2025-10-27 19:23:18,981 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/94a1d051-8559-4f91-82cc-78ebc50dac2d'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/23dd4937-893c-46b5-ac8f-2ee5d3de2630'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/dea526ae-2d5d-4acc-a342-913de11c6091'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/0a3b7fbe-028f-4d65-8471-fdc19ec5fdb0'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d9c6b220-a086-4e7f-9f5e-56e78d40c851'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4d12a99a-5114-4eed-b46c-e95b27128a8b'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/432c82a0-87ae-49b3-975a-d25a599d30d9'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ee5ebe60-0fbf-4c27-bee1-ae782fabe52a'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a7f3b16d-eda4-4e6c-814d-1a72f8115c85'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ef6afad5-c8c6-4c10-9464-2f1e5a6a4c69'}]
+2025-10-27 19:23:18,981 - INFO - Inside get_dpa_report
+2025-10-27 19:23:19,020 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:21,036 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:23,071 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:25,078 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:27,079 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:29,115 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:31,129 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:33,157 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:35,183 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:37,212 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:23:40,272 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:23:40,272 - INFO - Unfetched servers: ['ffav01.comp.pge.com', 'rcav01.comp.pge.com', 'fxav02.comp.pge.com', 'rcav02.comp.pge.com', 'fxav03']
+2025-10-27 19:23:40,272 - INFO - Failed to parse report CSV: 'Logger' object is not callable
+2025-10-27 19:23:40,285 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-27 19:23:40,431 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-27 19:23:42,548 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-27 19:23:44,664 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-27 19:23:46,763 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-27 19:23:48,881 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-27 19:23:51,006 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-27 19:23:53,129 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-27 19:23:55,247 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-27 19:23:57,393 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-27 19:23:59,511 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-27 19:24:01,517 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'node_ids': ['1282c6e7-ea92-43d0-b1b9-1476411156c7']}, {'query_value': 'rcppdm01.comp.pge.com', 'node_ids': ['eab7b577-e8f2-467a-8d75-6af70134a928']}, {'query_value': 'rcppdm02.comp.pge.com', 'node_ids': ['e4019e68-9b0d-4425-910a-0571e8623922']}, {'query_value': 'rcppdm06.comp.pge.com', 'node_ids': ['22350d59-eef2-4274-8b99-bd07d65dab9d']}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'node_ids': ['a89d11f0-6356-4304-a901-749c3b5fd190']}, {'query_value': 'rcppdm03', 'node_ids': ['8f3acd54-8684-41e3-b19c-ea92e28dc163', 'b1e8c322-b3db-4c7f-9dcb-f1591f98f4b1', '74e11ccc-b11c-4342-8f26-7a585343bea7']}, {'query_value': 'rcppdm04', 'node_ids': ['3c650a52-bcad-4d4c-b333-268b180698da', '444035e2-6418-4648-b9cd-4c2600723d2a', '5ab42d9d-3f59-44a2-914e-5577d545ebe6', 'c5fdc125-34bf-4392-b3fc-323d11a487db']}]
+2025-10-27 19:24:01,517 - INFO - total node ids: 10
+2025-10-27 19:24:03,333 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/5307080f-46cb-4114-84df-343e05b1d928'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a7edd581-5519-462d-ba03-c89624da7fea'}, {'query_value': 'ffppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/9b5cf82e-c47b-4c02-a27f-78906ad887e8'}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/fc16582c-9544-4cce-89dc-de0c5d3e087e'}, {'query_value': 'rcppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/79165b77-f069-418e-9d8a-6ac4d11170d4'}, {'query_value': 'rcppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/763e18fd-96a0-4fe3-b500-b66583093b1b'}, {'query_value': 'rcppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a6153383-b83b-434a-ba5d-ea8b3dbe3529'}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3fc9a0e7-21c6-4932-83b2-1a5706d7d639'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/11c3203b-ee78-4423-b1d3-0263b18c96ab'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f28f1c0d-89fe-4352-a101-3c2d9ea21247'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ff0d4135-72de-4a13-948f-bc6c812cb012'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/2baa05a1-1e9b-4fe3-9c89-37794be8d7fe'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8c125319-458e-4795-8d75-aa9535f7cbd6'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c7253b8d-f648-460c-91dd-88b4f4f84db6'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ae25b1e1-1de0-4725-9c8d-e1b399fb1cd7'}]
+2025-10-27 19:24:03,333 - INFO - Inside get_dpa_report
+2025-10-27 19:24:03,387 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:13,481 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:15,501 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:17,526 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:19,567 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:21,631 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:23,649 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:25,677 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:27,687 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:29,708 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:31,723 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:33,727 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:35,750 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:37,756 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:39,771 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:24:42,913 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:24:42,937 - INFO - Unfetched servers: ['ffppdm01.comp.pge.com', 'ffppdm02.comp.pge.com', 'ffppdm06.comp.pge.com', 'ffppdm07-uiq.comp.pge.com', 'rcppdm01.comp.pge.com', 'rcppdm02.comp.pge.com', 'rcppdm06.comp.pge.com', 'rcppdm07-uiq.comp.pge.com', 'rcppdm03', 'rcppdm04']
+2025-10-27 19:24:42,937 - INFO - Failed to parse report CSV: 'Logger' object is not callable
+2025-10-27 19:27:09,016 - INFO - ETL process started
+2025-10-27 19:27:09,016 - INFO - Token generated for dpa
+2025-10-27 19:27:09,016 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-27 19:27:09,136 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-27 19:27:11,249 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-27 19:27:13,367 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-27 19:27:15,500 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-27 19:27:17,615 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-27 19:27:19,750 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-27 19:27:21,759 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-27 19:27:21,759 - INFO - total node ids: 6
+2025-10-27 19:27:22,741 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ae020087-0ae7-48f9-bf89-43aedddb27f7'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c2141edc-1457-409d-a0df-45779309b4ec'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/89d61b06-c446-4db5-9bca-ca57267107c5'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/90f015c5-9e96-4f7d-8a5c-84e8fde9432b'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4984ac4d-c342-4c5b-86a3-25de9c3d8d79'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/5a373163-505f-4f42-bd98-ccaa706cbc91'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ffc1d930-c4a8-4f48-bdf0-1d29840bfb73'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/01281af9-a14c-4637-b71d-78f73ef0c5b2'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ba4337cc-3fdd-4501-b222-b0a779f28f8c'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/1917eaad-9b85-4f75-aef8-699e3eea9a86'}]
+2025-10-27 19:27:22,741 - INFO - Inside get_dpa_report
+2025-10-27 19:27:22,798 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:24,809 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:26,846 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:28,849 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:30,853 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:32,877 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:34,891 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:36,918 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:38,929 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:40,963 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:27:44,025 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:27:44,041 - INFO - Unfetched servers: []
+2025-10-27 19:27:44,580 - INFO - Database Connection established.
+2025-10-27 19:27:44,632 - INFO - Table created.
+2025-10-27 19:27:44,668 - INFO - range: 0
+2025-10-27 19:27:44,840 - INFO - range: 1000
+2025-10-27 19:27:44,933 - INFO - Batch insert completed.
+2025-10-27 19:27:44,934 - INFO - Time taken to complete data loading: 0.892697811126709
+2025-10-27 19:27:44,936 - INFO -  Connection closed.
+2025-10-27 19:27:44,939 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-27 19:27:45,052 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-27 19:27:47,169 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-27 19:27:49,281 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-27 19:27:51,398 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-27 19:27:53,517 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-27 19:27:55,632 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-27 19:27:57,750 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-27 19:27:59,865 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-27 19:28:01,999 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-27 19:28:04,114 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-27 19:28:06,142 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'node_ids': ['1282c6e7-ea92-43d0-b1b9-1476411156c7']}, {'query_value': 'rcppdm01.comp.pge.com', 'node_ids': ['eab7b577-e8f2-467a-8d75-6af70134a928']}, {'query_value': 'rcppdm02.comp.pge.com', 'node_ids': ['e4019e68-9b0d-4425-910a-0571e8623922']}, {'query_value': 'rcppdm06.comp.pge.com', 'node_ids': ['22350d59-eef2-4274-8b99-bd07d65dab9d']}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'node_ids': ['a89d11f0-6356-4304-a901-749c3b5fd190']}, {'query_value': 'rcppdm03', 'node_ids': ['8f3acd54-8684-41e3-b19c-ea92e28dc163', 'b1e8c322-b3db-4c7f-9dcb-f1591f98f4b1', '74e11ccc-b11c-4342-8f26-7a585343bea7']}, {'query_value': 'rcppdm04', 'node_ids': ['3c650a52-bcad-4d4c-b333-268b180698da', '444035e2-6418-4648-b9cd-4c2600723d2a', '5ab42d9d-3f59-44a2-914e-5577d545ebe6', 'c5fdc125-34bf-4392-b3fc-323d11a487db']}]
+2025-10-27 19:28:06,142 - INFO - total node ids: 10
+2025-10-27 19:28:07,989 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4988cada-88fd-4d78-b103-d21f8a9ed059'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/07b974b4-7b47-4469-a16c-28c291c439fc'}, {'query_value': 'ffppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/e27c98da-a42d-4c82-be4b-41c20233f0d1'}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/9ea0f35a-5623-4aaa-b103-c71345a45560'}, {'query_value': 'rcppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3524077b-70f5-43e2-b926-4276a0429591'}, {'query_value': 'rcppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c65fe590-fdd4-4b90-87bd-ddec5f7cecfd'}, {'query_value': 'rcppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c1f9d177-3092-426c-b0eb-93082369a8c5'}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/335082a4-5e19-4fad-be03-c223f3f20d70'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4aa9562b-f1f7-4672-83f7-c7e71f8469f8'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/66ae3466-3b13-4f6a-94a8-6f59b1c0087e'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b003a086-992c-4d6a-8007-fc1fe6166057'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/7c0d4bb1-4fee-4fcd-bee4-ff01cf2ee894'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/1156dd87-a81a-458c-827d-aaa65228bc27'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f4013c2c-d8db-434c-8347-e0b774b4d77b'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/9b39757a-ff81-497e-ba33-9f193d981d7a'}]
+2025-10-27 19:28:07,990 - INFO - Inside get_dpa_report
+2025-10-27 19:28:08,165 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:18,237 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:20,262 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:22,283 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:24,324 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:26,381 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:28,419 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:30,438 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:32,463 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:34,469 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:36,478 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:38,491 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:40,501 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:42,514 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:44,520 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:28:47,625 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:28:47,669 - INFO - Unfetched servers: ['rcppdm04']
+2025-10-27 19:28:47,669 - INFO - Failed to parse report CSV: 'Logger' object is not callable
+2025-10-27 19:31:30,554 - INFO - ETL process started
+2025-10-27 19:31:30,554 - INFO - Token generated for dpa
+2025-10-27 19:31:30,554 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-27 19:31:30,699 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-27 19:31:32,844 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-27 19:31:34,984 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-27 19:31:37,120 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-27 19:31:39,244 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-27 19:31:41,352 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-27 19:31:43,362 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-27 19:31:43,362 - INFO - total node ids: 6
+2025-10-27 19:31:44,360 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/48f3b805-fa93-49fe-9a9f-16193bb87f37'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4bbf0207-ceb7-4754-85d3-0b88961bc313'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d0f7d09b-7ec0-4c59-acb9-bad7041db3e9'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3b2ecb04-e210-422f-82b0-cd2de310f831'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4dd00db1-b487-4243-b12b-13894b94f5ad'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/06e9cc73-63c9-4840-aff5-24fd8b99ceee'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a573c554-95ac-461f-ae43-b9ac22a76430'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/63aadda4-621c-40f1-bfda-fe46b6397fd3'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/6d8e79c9-3d07-4222-93d1-d5d4f22ae7a2'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b0e5f253-4ec0-44f5-98ba-8e723e2fdf44'}]
+2025-10-27 19:31:44,362 - INFO - Inside get_dpa_report
+2025-10-27 19:31:44,422 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:31:46,449 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:31:48,478 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:31:50,495 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:31:52,520 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:31:54,536 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:31:56,538 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:31:58,553 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:00,567 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:02,584 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:05,650 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:32:05,652 - INFO - Unfetched servers: []
+2025-10-27 19:32:05,919 - INFO - Database Connection established.
+2025-10-27 19:32:06,008 - INFO - Table created.
+2025-10-27 19:32:06,046 - INFO - range: 0
+2025-10-27 19:32:06,236 - INFO - range: 1000
+2025-10-27 19:32:06,330 - INFO - Batch insert completed.
+2025-10-27 19:32:06,331 - INFO - Time taken to complete data loading: 0.6789205074310303
+2025-10-27 19:32:06,338 - INFO -  Connection closed.
+2025-10-27 19:32:06,341 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-27 19:32:06,452 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-27 19:32:08,562 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-27 19:32:10,695 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-27 19:32:12,828 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-27 19:32:14,947 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-27 19:32:17,077 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-27 19:32:19,196 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-27 19:32:21,310 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-27 19:32:23,443 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-27 19:32:25,562 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-27 19:32:27,573 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'node_ids': ['1282c6e7-ea92-43d0-b1b9-1476411156c7']}, {'query_value': 'rcppdm01.comp.pge.com', 'node_ids': ['eab7b577-e8f2-467a-8d75-6af70134a928']}, {'query_value': 'rcppdm02.comp.pge.com', 'node_ids': ['e4019e68-9b0d-4425-910a-0571e8623922']}, {'query_value': 'rcppdm06.comp.pge.com', 'node_ids': ['22350d59-eef2-4274-8b99-bd07d65dab9d']}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'node_ids': ['a89d11f0-6356-4304-a901-749c3b5fd190']}, {'query_value': 'rcppdm03', 'node_ids': ['8f3acd54-8684-41e3-b19c-ea92e28dc163', 'b1e8c322-b3db-4c7f-9dcb-f1591f98f4b1', '74e11ccc-b11c-4342-8f26-7a585343bea7']}, {'query_value': 'rcppdm04', 'node_ids': ['3c650a52-bcad-4d4c-b333-268b180698da', '444035e2-6418-4648-b9cd-4c2600723d2a', '5ab42d9d-3f59-44a2-914e-5577d545ebe6', 'c5fdc125-34bf-4392-b3fc-323d11a487db']}]
+2025-10-27 19:32:27,573 - INFO - total node ids: 10
+2025-10-27 19:32:29,426 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/23228ad4-bb12-4265-82f9-3869f78bfe49'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/c127d625-e2f0-44ca-a955-cf158583cd2b'}, {'query_value': 'ffppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ebd0abe7-6ad6-4ff1-924c-dbffa5e3e795'}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/120b0dac-d721-4713-a5e1-9082136ffb90'}, {'query_value': 'rcppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4bdf9358-53c7-4a8e-b434-e61d20aefb31'}, {'query_value': 'rcppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/015a1fe3-cb93-416c-a8eb-b426ffd0dee8'}, {'query_value': 'rcppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d66e487d-052f-4381-801a-a0269888011f'}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/100c9994-1ff3-462a-a243-e7384c0289cb'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/45bfadcc-92a1-4d69-88ae-3abd45f360ed'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/638a81b1-b638-4c70-bdf5-9dd49d1632a9'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/2ca309a4-59f9-4c8b-b7a8-38c5680341dc'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/87a1e9a8-6744-4e22-8878-db7617bd810b'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3b25e59e-75d5-44b6-ab00-c7eb9adedb9a'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/451d8047-0403-4b38-84ac-4211d001fbbb'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/96453eaa-c12e-4aa8-aa3f-bc921caa2551'}]
+2025-10-27 19:32:29,426 - INFO - Inside get_dpa_report
+2025-10-27 19:32:29,472 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:39,566 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:41,595 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:43,623 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:45,657 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:47,717 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:49,738 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:51,758 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:53,775 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:55,807 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:57,809 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:32:59,819 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:33:01,825 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:33:03,828 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:33:05,842 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:33:08,940 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:33:08,993 - INFO - Unfetched servers: ['rcppdm04']
+2025-10-27 19:33:08,994 - INFO - Failed to parse report CSV: 'Logger' object is not callable
+2025-10-27 19:39:08,463 - INFO - ETL process started
+2025-10-27 19:39:08,463 - INFO - Token generated for dpa
+2025-10-27 19:39:08,463 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-27 19:39:08,607 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-27 19:39:10,722 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-27 19:39:12,870 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-27 19:39:15,018 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-27 19:39:17,154 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-27 19:39:19,262 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-27 19:39:21,276 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-27 19:39:21,276 - INFO - total node ids: 6
+2025-10-27 19:39:22,238 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/be2e94bb-da35-4e5e-b29e-c64902f61a6e'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/39903800-5478-4dda-94fe-2feb97ac50de'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/fbeeee4a-8a4c-4f8d-9690-3ed8db68447b'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/220b3fed-60b7-4009-8e1d-28f09436eced'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ae7fada9-607f-441f-9f9c-a1216a7d99a3'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b410b660-230a-4272-bc21-58fac3751fe3'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/927deaa0-2970-47bf-8ae8-3821eaece0ec'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/0c1b7d18-3191-464b-a2c2-e9980b6f4e3b'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a45d8e0f-9496-478a-8bfa-1d40c3f61cff'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/58a906fb-5742-4e85-9ce1-748bfc65ee37'}]
+2025-10-27 19:39:22,238 - INFO - Inside get_dpa_report
+2025-10-27 19:39:22,286 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:24,304 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:26,321 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:28,334 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:30,340 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:32,365 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:34,379 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:36,403 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:38,419 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:40,452 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:39:43,513 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:39:43,546 - INFO - Unfetched servers: []
+2025-10-27 19:39:43,690 - INFO - Database Connection established.
+2025-10-27 19:39:43,784 - INFO - Table created.
+2025-10-27 19:39:43,816 - INFO - range: 0
+2025-10-27 19:39:44,005 - INFO - range: 1000
+2025-10-27 19:39:44,110 - INFO - Batch insert completed.
+2025-10-27 19:39:44,111 - INFO - Time taken to complete data loading: 0.5650644302368164
+2025-10-27 19:39:44,115 - INFO -  Connection closed.
+2025-10-27 19:39:44,117 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-27 19:39:44,272 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-27 19:39:46,399 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-27 19:39:48,513 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-27 19:39:50,661 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-27 19:39:52,961 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-27 19:39:55,101 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-27 19:39:57,233 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-27 19:39:59,361 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-27 19:40:01,501 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-27 19:40:03,647 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-27 19:40:05,660 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'node_ids': ['1282c6e7-ea92-43d0-b1b9-1476411156c7']}, {'query_value': 'rcppdm01.comp.pge.com', 'node_ids': ['eab7b577-e8f2-467a-8d75-6af70134a928']}, {'query_value': 'rcppdm02.comp.pge.com', 'node_ids': ['e4019e68-9b0d-4425-910a-0571e8623922']}, {'query_value': 'rcppdm06.comp.pge.com', 'node_ids': ['22350d59-eef2-4274-8b99-bd07d65dab9d']}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'node_ids': ['a89d11f0-6356-4304-a901-749c3b5fd190']}, {'query_value': 'rcppdm03', 'node_ids': ['8f3acd54-8684-41e3-b19c-ea92e28dc163', 'b1e8c322-b3db-4c7f-9dcb-f1591f98f4b1', '74e11ccc-b11c-4342-8f26-7a585343bea7']}, {'query_value': 'rcppdm04', 'node_ids': ['3c650a52-bcad-4d4c-b333-268b180698da', '444035e2-6418-4648-b9cd-4c2600723d2a', '5ab42d9d-3f59-44a2-914e-5577d545ebe6', 'c5fdc125-34bf-4392-b3fc-323d11a487db']}]
+2025-10-27 19:40:05,660 - INFO - total node ids: 10
+2025-10-27 19:40:07,535 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ec5b21d9-d711-4ac2-a7ac-ad6366bf25ab'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/592c0a8f-bf22-4069-b07b-2be899ede276'}, {'query_value': 'ffppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/50f6e46b-2b9c-4972-bc57-d8e1a329a43d'}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/453e0153-d742-488f-b58d-012ffb8086e8'}, {'query_value': 'rcppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/cea10ada-d37a-43e5-9f19-d4f94c8de156'}, {'query_value': 'rcppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/19b48f9c-77a6-4c77-ae99-b5262ba2aa52'}, {'query_value': 'rcppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/cf2ff0d2-9c94-4aa2-a741-a69a0947c995'}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8ab759ba-c784-427d-a404-022c02626f5c'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/9969a386-951d-49fe-bc04-1620633b26cd'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/203e4aee-41e1-4d39-8a66-421049bc09b0'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/823c1c22-eec3-451d-b7eb-c08f89a6dc85'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/0e049a77-affa-481b-adce-06330e0ee335'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/869f2eef-09d0-433a-8907-d1e1c7da1a56'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/739c9da7-7bd6-4ff3-80f7-951c416a0ad1'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/afd3f812-0674-4693-bf2c-b7f425b550db'}]
+2025-10-27 19:40:07,535 - INFO - Inside get_dpa_report
+2025-10-27 19:40:07,613 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:17,737 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:19,757 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:21,783 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:23,814 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:25,869 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:27,897 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:29,922 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:31,950 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:33,970 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:35,982 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:37,994 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:40,004 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:42,017 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:44,031 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:47,130 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:40:47,166 - INFO - Unfetched servers: ['rcppdm04']
+2025-10-27 19:40:47,167 - INFO - Unfetched reports in 1 try for URLs: [{'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/0e049a77-affa-481b-adce-06330e0ee335'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/869f2eef-09d0-433a-8907-d1e1c7da1a56'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/739c9da7-7bd6-4ff3-80f7-951c416a0ad1'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/afd3f812-0674-4693-bf2c-b7f425b550db'}]
+2025-10-27 19:40:47,168 - INFO - Inside get_dpa_report
+2025-10-27 19:40:47,229 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:49,247 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:51,257 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:53,271 - INFO - Successfully retrieved the csv report.
+2025-10-27 19:40:56,380 - INFO - Report successfully converted to DataFrame.
+2025-10-27 19:40:56,491 - INFO - Unfetched servers: ['rcppdm04']
+2025-10-27 19:40:56,491 - INFO - Unfetched reports in 2 try for URLs: [{'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/0e049a77-affa-481b-adce-06330e0ee335'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/869f2eef-09d0-433a-8907-d1e1c7da1a56'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/739c9da7-7bd6-4ff3-80f7-951c416a0ad1'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/afd3f812-0674-4693-bf2c-b7f425b550db'}]
+2025-10-27 19:40:56,493 - INFO - Database Connection established.
+2025-10-27 19:40:56,512 - INFO - Table created.
+2025-10-27 19:40:56,806 - INFO - range: 0
+2025-10-27 19:40:56,933 - INFO - range: 1000
+2025-10-27 19:40:57,013 - INFO - range: 2000
+2025-10-27 19:40:57,084 - INFO - range: 3000
+2025-10-27 19:40:57,174 - INFO - range: 4000
+2025-10-27 19:40:57,254 - INFO - range: 5000
+2025-10-27 19:40:57,343 - INFO - range: 6000
+2025-10-27 19:40:57,417 - INFO - range: 7000
+2025-10-27 19:40:57,488 - INFO - range: 8000
+2025-10-27 19:40:57,571 - INFO - range: 9000
+2025-10-27 19:40:57,650 - INFO - range: 10000
+2025-10-27 19:40:57,754 - INFO - range: 11000
+2025-10-27 19:40:57,924 - INFO - range: 12000
+2025-10-27 19:40:58,004 - INFO - range: 13000
+2025-10-27 19:40:58,083 - INFO - range: 14000
+2025-10-27 19:40:58,154 - INFO - range: 15000
+2025-10-27 19:40:58,237 - INFO - range: 16000
+2025-10-27 19:40:58,311 - INFO - range: 17000
+2025-10-27 19:40:58,386 - INFO - range: 18000
+2025-10-27 19:40:58,471 - INFO - range: 19000
+2025-10-27 19:40:58,549 - INFO - range: 20000
+2025-10-27 19:40:58,621 - INFO - range: 21000
+2025-10-27 19:40:58,706 - INFO - range: 22000
+2025-10-27 19:40:58,781 - INFO - range: 23000
+2025-10-27 19:40:58,851 - INFO - range: 24000
+2025-10-27 19:40:58,937 - INFO - range: 25000
+2025-10-27 19:40:59,025 - INFO - range: 26000
+2025-10-27 19:40:59,100 - INFO - range: 27000
+2025-10-27 19:40:59,169 - INFO - Batch insert completed.
+2025-10-27 19:40:59,169 - INFO - Time taken to complete data loading: 2.677445411682129
+2025-10-27 19:40:59,172 - INFO -  Connection closed.
+2025-10-28 21:59:00,914 - INFO - ETL process started
+2025-10-28 21:59:00,929 - INFO - Starting parallel data loading tasks...
+2025-10-28 21:59:53,001 - INFO - ETL process started
+2025-10-28 21:59:53,001 - INFO - Starting parallel data loading tasks...
+2025-10-28 21:59:53,559 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::7780507a-7cfd-430d-b9ec-bf12dfa1a172
+2025-10-28 21:59:54,045 - INFO - Token acquired: 2d2d9403-27cd-4529-810b-e50db30c4d3c::93a9ac1b-d270-45ef-a312-8ae8c65ca989
+2025-10-28 21:59:54,239 - INFO - AMPS login successful. Token acquired.
+2025-10-28 21:59:54,432 - INFO - AMPS login successful. Token acquired.
+2025-10-28 21:59:54,641 - INFO - AMPS login successful. Token acquired.
+2025-10-28 21:59:54,643 - INFO - Token generated for dpa
+2025-10-28 21:59:54,818 - ERROR - Error fetching data for view_it_assets: 404 Client Error: Not Found for url: https://amps.cloud.pge.com/axe-platform/api/data-lake/v1/dataview/view_it_assets?skip=0&take=2000
+2025-10-28 21:59:54,819 - INFO - All data fetched for view_it_assets. Total data: 0
+2025-10-28 21:59:54,887 - INFO - Fetched page 0 with 650 resources for HostSystem ids
+2025-10-28 21:59:54,908 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-28 21:59:54,909 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-28 21:59:54,996 - INFO - All pages fetched HostSystem ids. Total resources: 650
+2025-10-28 21:59:55,004 - INFO - Fetching Metrics and properties for HostSystem
+2025-10-28 21:59:55,307 - INFO - Fetched view_database_assets data 0 - 2000
+2025-10-28 21:59:55,610 - INFO - Fetched page 0 with 1000 resources for VirtualMachine ids
+2025-10-28 21:59:55,829 - INFO - Something Went Wrong.
+2025-10-28 21:59:56,031 - INFO - Fetched view_applications data 0 - 2000
+2025-10-28 21:59:56,153 - INFO - Fetched view_database_assets data 2000 - 4000
+2025-10-28 21:59:56,858 - INFO - Fetched view_applications data 2000 - 3202
+2025-10-28 21:59:57,029 - INFO - Fetched view_database_assets data 4000 - 6000
+2025-10-28 21:59:57,071 - INFO - All data fetched for view_applications. Total data: 3202
+2025-10-28 21:59:57,120 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-28 21:59:57,122 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-28 21:59:57,546 - INFO - Fetched page 1 with 1000 resources for VirtualMachine ids
+2025-10-28 21:59:57,798 - INFO - Fetched view_database_assets data 6000 - 8000
+2025-10-28 21:59:58,564 - INFO - Detected List columns and converted into Json: ['middleware_ids', 'database_ids', 'itasset_ids', 'loms_ids', 'storage_ids']
+2025-10-28 21:59:58,683 - INFO - Fetched view_database_assets data 8000 - 10000
+2025-10-28 21:59:59,278 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-28 21:59:59,278 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-28 21:59:59,403 - INFO - Fetched view_database_assets data 10000 - 12000
+2025-10-28 21:59:59,429 - INFO - Fetched page 2 with 1000 resources for VirtualMachine ids
+2025-10-28 21:59:59,989 - INFO - Database Connection established.
+2025-10-28 22:00:00,466 - INFO - Fetched view_database_assets data 12000 - 14000
+2025-10-28 22:00:00,473 - INFO - Table created.
+2025-10-28 22:00:00,698 - INFO - range: 0
+2025-10-28 22:00:01,167 - INFO - range: 1000
+2025-10-28 22:00:01,331 - INFO - Fetched view_database_assets data 14000 - 16000
+2025-10-28 22:00:01,390 - INFO - Fetched page 3 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:01,565 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-28 22:00:01,579 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-28 22:00:01,747 - INFO - range: 2000
+2025-10-28 22:00:02,037 - INFO - range: 3000
+2025-10-28 22:00:02,096 - INFO - Batch insert completed.
+2025-10-28 22:00:02,096 - INFO - Time taken to complete data loading: 2.5165634155273438
+2025-10-28 22:00:02,102 - INFO -  Connection closed.
+2025-10-28 22:00:02,114 - INFO - Time Taken to fetch and load data for view_applications: 7.873251438140869
+2025-10-28 22:00:02,275 - INFO - Fetched view_database_assets data 16000 - 18000
+2025-10-28 22:00:03,176 - INFO - Fetched view_database_assets data 18000 - 20000
+2025-10-28 22:00:03,455 - INFO - Fetched page 4 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:03,731 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-28 22:00:03,731 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-28 22:00:03,917 - INFO - Fetched view_database_assets data 20000 - 22000
+2025-10-28 22:00:04,653 - INFO - Fetched view_database_assets data 22000 - 24000
+2025-10-28 22:00:05,373 - INFO - Fetched view_database_assets data 24000 - 26000
+2025-10-28 22:00:05,579 - INFO - Fetched page 5 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:05,888 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-28 22:00:05,888 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-28 22:00:06,310 - INFO - Fetched view_database_assets data 26000 - 28000
+2025-10-28 22:00:07,090 - INFO - Fetched view_database_assets data 28000 - 30000
+2025-10-28 22:00:07,105 - INFO - Elapsed time for fetching HostSystem : 12.10 seconds
+2025-10-28 22:00:07,140 - INFO - Start flattening the data for {resourceKind}
+2025-10-28 22:00:07,199 - INFO - Start Transforming VirtualMachine data
+2025-10-28 22:00:07,343 - INFO - Fetched page 6 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:07,864 - INFO - Fetched view_database_assets data 30000 - 32000
+2025-10-28 22:00:07,916 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-28 22:00:07,918 - INFO - total node ids: 6
+2025-10-28 22:00:08,041 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-28 22:00:08,778 - INFO - Fetched view_database_assets data 32000 - 34000
+2025-10-28 22:00:08,824 - INFO - Fetched page 7 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:09,378 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a91d0e09-2225-4b05-8cfd-8e484942c184'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a941bad9-2c48-4b76-88ac-25422c59bcff'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/67850514-f561-4483-9e2e-45d1789497cb'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/0e837569-2519-49ad-8125-7905f861d77e'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/95a0c0bc-795f-44a8-bcae-fe8e7fd6bebb'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/77494b47-1a9e-405e-99fb-c0c61bd27fa3'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f7c2553e-7c9f-45e6-8264-37361fc7de98'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/61d090b5-2155-47fe-92f0-25ffe8c31314'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/39e0e315-17f1-4e78-9090-5af85a536336'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3619ed3e-f988-4228-8bf5-f2b4b5fcc891'}]
+2025-10-28 22:00:09,378 - INFO - Inside get_dpa_report
+2025-10-28 22:00:09,599 - INFO - Fetched view_database_assets data 34000 - 36000
+2025-10-28 22:00:09,601 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:10,186 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-28 22:00:10,441 - INFO - Fetched view_database_assets data 36000 - 38000
+2025-10-28 22:00:10,477 - INFO - Fetched page 8 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:11,308 - INFO - Fetched view_database_assets data 38000 - 40000
+2025-10-28 22:00:11,736 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:12,031 - INFO - Fetched page 9 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:12,331 - INFO - Fetched view_database_assets data 40000 - 42000
+2025-10-28 22:00:12,347 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-28 22:00:12,379 - INFO - ESXi Host Data Saved as Excel File
+2025-10-28 22:00:12,380 - INFO - Transforming ESXi Host Data Completed.
+2025-10-28 22:00:12,380 - INFO - Loading vmware data into database initialize.
+2025-10-28 22:00:12,610 - INFO - Connection established.
+2025-10-28 22:00:12,631 - INFO - Table created for VMware.
+2025-10-28 22:00:12,723 - INFO - Batch insert completed.
+2025-10-28 22:00:12,723 - INFO - Time taken to complete data loading: 0.3426380157470703
+2025-10-28 22:00:13,131 - INFO - Fetched view_database_assets data 42000 - 44000
+2025-10-28 22:00:13,497 - INFO - Fetched page 10 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:13,765 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:13,901 - INFO - Fetched view_database_assets data 44000 - 46000
+2025-10-28 22:00:14,554 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-28 22:00:14,683 - INFO - Fetched view_database_assets data 46000 - 48000
+2025-10-28 22:00:14,817 - INFO - Fetched page 11 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:15,531 - INFO - Fetched view_database_assets data 48000 - 50000
+2025-10-28 22:00:15,779 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:16,342 - INFO - Fetched page 12 with 1000 resources for VirtualMachine ids
+2025-10-28 22:00:16,461 - INFO - Fetched view_database_assets data 50000 - 52000
+2025-10-28 22:00:16,575 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'node_ids': ['1282c6e7-ea92-43d0-b1b9-1476411156c7']}, {'query_value': 'rcppdm01.comp.pge.com', 'node_ids': ['eab7b577-e8f2-467a-8d75-6af70134a928']}, {'query_value': 'rcppdm02.comp.pge.com', 'node_ids': ['e4019e68-9b0d-4425-910a-0571e8623922']}, {'query_value': 'rcppdm06.comp.pge.com', 'node_ids': ['22350d59-eef2-4274-8b99-bd07d65dab9d']}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'node_ids': ['a89d11f0-6356-4304-a901-749c3b5fd190']}, {'query_value': 'rcppdm03', 'node_ids': ['8f3acd54-8684-41e3-b19c-ea92e28dc163', 'b1e8c322-b3db-4c7f-9dcb-f1591f98f4b1', '74e11ccc-b11c-4342-8f26-7a585343bea7']}, {'query_value': 'rcppdm04', 'node_ids': ['3c650a52-bcad-4d4c-b333-268b180698da', '444035e2-6418-4648-b9cd-4c2600723d2a', '5ab42d9d-3f59-44a2-914e-5577d545ebe6', 'c5fdc125-34bf-4392-b3fc-323d11a487db']}]
+2025-10-28 22:00:16,575 - INFO - total node ids: 10
+2025-10-28 22:00:17,382 - INFO - Fetched view_database_assets data 52000 - 54000
+2025-10-28 22:00:17,447 - INFO - Fetched page 13 with 823 resources for VirtualMachine ids
+2025-10-28 22:00:17,539 - INFO - All pages fetched VirtualMachine ids. Total resources: 13823
+2025-10-28 22:00:17,593 - INFO - Fetching Metrics and properties for VirtualMachine
+2025-10-28 22:00:18,757 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:20,977 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:21,113 - INFO - Fetched view_database_assets data 54000 - 56000
+2025-10-28 22:00:21,198 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4ddb615c-08b5-4bfc-8df6-35b446c5a8a3'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/5a6c1a71-124c-462d-9079-d6b86f764e1d'}, {'query_value': 'ffppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/519f123a-b06d-4512-9617-cf9d2c432651'}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/55dc21b3-b6f8-4549-b3df-26d784b4fe2a'}, {'query_value': 'rcppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8075c5a5-6382-4d2d-b60e-26aa168b40c3'}, {'query_value': 'rcppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/043b2634-ca56-4c95-911f-74343e985026'}, {'query_value': 'rcppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/1521e0ea-b7a9-4c3d-a118-4936544f2356'}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b65722a2-ec91-4957-b181-c818ba1652b1'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/261e516c-da6d-4494-98f8-7e6790b2c9d8'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/bb2edacd-adce-49b4-b53a-fa76d329db81'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ae46d52c-532a-4054-90f0-0562b16e862c'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/6cfe9663-ab71-4f57-b64d-12a74a6f14ee'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/65adb24e-6ff0-4505-b47d-f9cf732b723b'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8e7d03ba-10d2-4e93-b6aa-41c3067713da'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/feeb60eb-8f77-4126-bbe6-e92cfdde6536'}]
+2025-10-28 22:00:21,259 - INFO - Inside get_dpa_report
+2025-10-28 22:00:22,292 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:22,546 - INFO - Fetched view_database_assets data 56000 - 58000
+2025-10-28 22:00:23,035 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:23,418 - INFO - Fetched view_database_assets data 58000 - 60000
+2025-10-28 22:00:24,252 - INFO - Fetched view_database_assets data 60000 - 62000
+2025-10-28 22:00:24,958 - INFO - Fetched view_database_assets data 62000 - 63301
+2025-10-28 22:00:25,333 - INFO - All data fetched for view_database_assets. Total data: 63301
+2025-10-28 22:00:30,468 - INFO - Detected List columns and converted into Json: ['app_ids_direct', 'app_ids_inferred', 'itasset_ids_direct', 'cluster_ids', 'itasset_ids_clustered', 'ss_ids']
+2025-10-28 22:00:30,791 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:31,487 - INFO - Database Connection established.
+2025-10-28 22:00:31,551 - INFO - Table created.
+2025-10-28 22:00:32,970 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:33,089 - INFO - range: 0
+2025-10-28 22:00:33,325 - INFO - range: 1000
+2025-10-28 22:00:33,498 - INFO - range: 2000
+2025-10-28 22:00:33,697 - INFO - range: 3000
+2025-10-28 22:00:34,006 - INFO - range: 4000
+2025-10-28 22:00:34,246 - INFO - range: 5000
+2025-10-28 22:00:34,479 - INFO - range: 6000
+2025-10-28 22:00:34,665 - INFO - range: 7000
+2025-10-28 22:00:34,832 - INFO - range: 8000
+2025-10-28 22:00:34,997 - INFO - range: 9000
+2025-10-28 22:00:35,040 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:35,225 - INFO - range: 10000
+2025-10-28 22:00:35,325 - INFO - Request failed: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /dpa-api/report/result/61d090b5-2155-47fe-92f0-25ffe8c31314 (Caused by ResponseError('too many 503 error responses'))
+2025-10-28 22:00:35,346 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:35,480 - INFO - range: 11000
+2025-10-28 22:00:35,755 - INFO - range: 12000
+2025-10-28 22:00:35,924 - INFO - range: 13000
+2025-10-28 22:00:36,234 - INFO - range: 14000
+2025-10-28 22:00:36,552 - INFO - range: 15000
+2025-10-28 22:00:37,063 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:37,147 - INFO - range: 16000
+2025-10-28 22:00:37,376 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:37,931 - INFO - range: 17000
+2025-10-28 22:00:38,585 - INFO - range: 18000
+2025-10-28 22:00:38,964 - INFO - range: 19000
+2025-10-28 22:00:39,139 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:39,256 - INFO - range: 20000
+2025-10-28 22:00:39,414 - INFO - range: 21000
+2025-10-28 22:00:39,664 - INFO - range: 22000
+2025-10-28 22:00:39,829 - INFO - range: 23000
+2025-10-28 22:00:40,000 - INFO - range: 24000
+2025-10-28 22:00:40,183 - INFO - range: 25000
+2025-10-28 22:00:40,365 - INFO - range: 26000
+2025-10-28 22:00:40,454 - INFO - Report successfully converted to DataFrame.
+2025-10-28 22:00:40,472 - INFO - Unfetched servers: ['rcav02.comp.pge.com']
+2025-10-28 22:00:40,474 - INFO - Unfetched reports in 1 try for URLs: [{'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/77494b47-1a9e-405e-99fb-c0c61bd27fa3'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f7c2553e-7c9f-45e6-8264-37361fc7de98'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/61d090b5-2155-47fe-92f0-25ffe8c31314'}]
+2025-10-28 22:00:40,477 - INFO - Inside get_dpa_report
+2025-10-28 22:00:40,558 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:40,661 - INFO - range: 27000
+2025-10-28 22:00:40,864 - INFO - range: 28000
+2025-10-28 22:00:41,046 - INFO - range: 29000
+2025-10-28 22:00:41,159 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:41,243 - INFO - range: 30000
+2025-10-28 22:00:41,429 - INFO - range: 31000
+2025-10-28 22:00:41,644 - INFO - range: 32000
+2025-10-28 22:00:41,846 - INFO - range: 33000
+2025-10-28 22:00:42,046 - INFO - range: 34000
+2025-10-28 22:00:42,222 - INFO - range: 35000
+2025-10-28 22:00:42,413 - INFO - range: 36000
+2025-10-28 22:00:42,579 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:42,598 - INFO - range: 37000
+2025-10-28 22:00:42,764 - INFO - range: 38000
+2025-10-28 22:00:42,932 - INFO - range: 39000
+2025-10-28 22:00:43,104 - INFO - range: 40000
+2025-10-28 22:00:43,255 - INFO - range: 41000
+2025-10-28 22:00:43,432 - INFO - range: 42000
+2025-10-28 22:00:43,643 - INFO - range: 43000
+2025-10-28 22:00:43,817 - INFO - range: 44000
+2025-10-28 22:00:44,013 - INFO - range: 45000
+2025-10-28 22:00:44,199 - INFO - range: 46000
+2025-10-28 22:00:45,032 - INFO - range: 47000
+2025-10-28 22:00:45,200 - INFO - range: 48000
+2025-10-28 22:00:45,364 - INFO - range: 49000
+2025-10-28 22:00:45,531 - INFO - range: 50000
+2025-10-28 22:00:45,703 - INFO - range: 51000
+2025-10-28 22:00:45,868 - INFO - range: 52000
+2025-10-28 22:00:46,131 - INFO - range: 53000
+2025-10-28 22:00:46,292 - INFO - range: 54000
+2025-10-28 22:00:46,452 - INFO - range: 55000
+2025-10-28 22:00:46,616 - INFO - range: 56000
+2025-10-28 22:00:46,770 - INFO - range: 57000
+2025-10-28 22:00:46,954 - INFO - range: 58000
+2025-10-28 22:00:47,125 - INFO - range: 59000
+2025-10-28 22:00:47,297 - INFO - range: 60000
+2025-10-28 22:00:47,471 - INFO - range: 61000
+2025-10-28 22:00:47,633 - INFO - range: 62000
+2025-10-28 22:00:47,791 - INFO - range: 63000
+2025-10-28 22:00:47,862 - INFO - Batch insert completed.
+2025-10-28 22:00:47,863 - INFO - Time taken to complete data loading: 16.387691736221313
+2025-10-28 22:00:47,868 - INFO -  Connection closed.
+2025-10-28 22:00:47,946 - INFO - Time Taken to fetch and load data for view_database_assets: 53.51065278053284
+2025-10-28 22:00:53,234 - INFO - Request failed: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /dpa-api/report/result/b65722a2-ec91-4957-b181-c818ba1652b1 (Caused by ResponseError('too many 503 error responses'))
+2025-10-28 22:00:53,250 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:54,971 - INFO - Request failed: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /dpa-api/report/result/61d090b5-2155-47fe-92f0-25ffe8c31314 (Caused by ResponseError('too many 503 error responses'))
+2025-10-28 22:00:55,264 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:56,038 - INFO - Report successfully converted to DataFrame.
+2025-10-28 22:00:56,076 - INFO - Unfetched servers: ['rcav02.comp.pge.com']
+2025-10-28 22:00:56,076 - INFO - Unfetched reports in 2 try for URLs: [{'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/77494b47-1a9e-405e-99fb-c0c61bd27fa3'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f7c2553e-7c9f-45e6-8264-37361fc7de98'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/61d090b5-2155-47fe-92f0-25ffe8c31314'}]
+2025-10-28 22:00:56,080 - INFO - Database Connection established.
+2025-10-28 22:00:56,118 - INFO - Table created.
+2025-10-28 22:00:56,189 - INFO - range: 0
+2025-10-28 22:00:56,354 - INFO - range: 1000
+2025-10-28 22:00:56,462 - INFO - range: 2000
+2025-10-28 22:00:56,549 - INFO - Batch insert completed.
+2025-10-28 22:00:56,549 - INFO - Time taken to complete data loading: 0.47284460067749023
+2025-10-28 22:00:56,551 - INFO -  Connection closed.
+2025-10-28 22:00:57,276 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:00:59,304 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:01,319 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:03,330 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:05,345 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:08,491 - INFO - Report successfully converted to DataFrame.
+2025-10-28 22:01:08,521 - INFO - Unfetched servers: ['rcppdm07-uiq.comp.pge.com', 'rcppdm04']
+2025-10-28 22:01:08,522 - INFO - Unfetched reports in 1 try for URLs: [{'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b65722a2-ec91-4957-b181-c818ba1652b1'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/6cfe9663-ab71-4f57-b64d-12a74a6f14ee'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/65adb24e-6ff0-4505-b47d-f9cf732b723b'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8e7d03ba-10d2-4e93-b6aa-41c3067713da'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/feeb60eb-8f77-4126-bbe6-e92cfdde6536'}]
+2025-10-28 22:01:08,524 - INFO - Inside get_dpa_report
+2025-10-28 22:01:18,934 - INFO - Request failed: HTTPSConnectionPool(host='delldpa.utility.pge.com', port=443): Max retries exceeded with url: /dpa-api/report/result/b65722a2-ec91-4957-b181-c818ba1652b1 (Caused by ResponseError('too many 503 error responses'))
+2025-10-28 22:01:18,945 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:20,956 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:22,987 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:24,998 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:01:28,127 - INFO - Report successfully converted to DataFrame.
+2025-10-28 22:01:28,209 - INFO - Unfetched servers: ['rcppdm07-uiq.comp.pge.com', 'rcppdm04']
+2025-10-28 22:01:28,210 - INFO - Unfetched reports in 2 try for URLs: [{'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/b65722a2-ec91-4957-b181-c818ba1652b1'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/6cfe9663-ab71-4f57-b64d-12a74a6f14ee'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/65adb24e-6ff0-4505-b47d-f9cf732b723b'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8e7d03ba-10d2-4e93-b6aa-41c3067713da'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/feeb60eb-8f77-4126-bbe6-e92cfdde6536'}]
+2025-10-28 22:01:28,216 - INFO - Database Connection established.
+2025-10-28 22:01:28,240 - INFO - Table created.
+2025-10-28 22:01:28,581 - INFO - range: 0
+2025-10-28 22:01:28,714 - INFO - range: 1000
+2025-10-28 22:01:28,798 - INFO - range: 2000
+2025-10-28 22:01:28,899 - INFO - range: 3000
+2025-10-28 22:01:28,995 - INFO - range: 4000
+2025-10-28 22:01:29,102 - INFO - range: 5000
+2025-10-28 22:01:29,190 - INFO - range: 6000
+2025-10-28 22:01:29,287 - INFO - range: 7000
+2025-10-28 22:01:29,363 - INFO - range: 8000
+2025-10-28 22:01:29,455 - INFO - range: 9000
+2025-10-28 22:01:29,547 - INFO - range: 10000
+2025-10-28 22:01:29,627 - INFO - range: 11000
+2025-10-28 22:01:29,712 - INFO - range: 12000
+2025-10-28 22:01:29,787 - INFO - range: 13000
+2025-10-28 22:01:29,884 - INFO - range: 14000
+2025-10-28 22:01:30,006 - INFO - range: 15000
+2025-10-28 22:01:30,124 - INFO - range: 16000
+2025-10-28 22:01:30,210 - INFO - range: 17000
+2025-10-28 22:01:30,304 - INFO - range: 18000
+2025-10-28 22:01:30,387 - INFO - range: 19000
+2025-10-28 22:01:30,462 - INFO - range: 20000
+2025-10-28 22:01:30,566 - INFO - range: 21000
+2025-10-28 22:01:30,658 - INFO - range: 22000
+2025-10-28 22:01:30,751 - INFO - range: 23000
+2025-10-28 22:01:30,839 - INFO - range: 24000
+2025-10-28 22:01:30,948 - INFO - range: 25000
+2025-10-28 22:01:31,039 - INFO - range: 26000
+2025-10-28 22:01:31,120 - INFO - range: 27000
+2025-10-28 22:01:31,243 - INFO - range: 28000
+2025-10-28 22:01:31,304 - INFO - Batch insert completed.
+2025-10-28 22:01:31,307 - INFO - Time taken to complete data loading: 3.0963096618652344
+2025-10-28 22:01:31,317 - INFO -  Connection closed.
+2025-10-28 22:02:46,530 - ERROR - Metrics fetch failed for ace6f62d-8b2b-4f6d-986a-f9c26fcef955: list index out of range
+2025-10-28 22:02:56,884 - ERROR - Metrics fetch failed for b633194a-a3de-4fa4-be04-3369bcb7b890: list index out of range
+2025-10-28 22:03:08,815 - ERROR - Metrics fetch failed for c0f93061-11c9-4125-ac03-89d47db39be4: list index out of range
+2025-10-28 22:03:27,517 - ERROR - Metrics fetch failed for d13bf4ef-959f-4f23-9ab9-f1cad9e6bd48: list index out of range
+2025-10-28 22:04:33,548 - ERROR - Metrics fetch failed for e67e9e2d-a49d-49c4-ad67-fd872005206c: list index out of range
+2025-10-28 22:05:23,175 - ERROR - Metrics fetch failed for effc7b80-e33c-4dbe-bf4a-6aae7a3ad243: 
+2025-10-28 22:05:23,202 - INFO - Elapsed time for fetching VirtualMachine : 305.61 seconds
+2025-10-28 22:05:23,209 - INFO - Start flattening the data for {resourceKind}
+2025-10-28 22:05:23,830 - INFO - Start Transforming VirtualMachine data
+2025-10-28 22:05:32,147 - INFO - VirtualMachine Data Saved as Excel File
+2025-10-28 22:05:32,147 - INFO - Transforming VirtualMachine Data Completed.
+2025-10-28 22:05:32,147 - INFO - Loading vmware data into database initialize.
+2025-10-28 22:05:32,202 - INFO - Connection established.
+2025-10-28 22:05:32,260 - INFO - Table created for VMware.
+2025-10-28 22:05:33,595 - INFO - Batch insert completed.
+2025-10-28 22:05:33,596 - INFO - Time taken to complete data loading: 1.4491562843322754
+2025-10-28 22:05:33,850 - INFO - All tasks submitted.
+2025-10-28 22:06:20,014 - INFO - ETL process started
+2025-10-28 22:06:20,014 - INFO - Token generated for dpa
+2025-10-28 22:06:20,014 - INFO - Initialize data fetching and loading into database for Avamar Server
+2025-10-28 22:06:20,211 - INFO - Successfully retrieved node_ids for ffav01.comp.pge.com
+2025-10-28 22:06:22,360 - INFO - Successfully retrieved node_ids for rcav01.comp.pge.com
+2025-10-28 22:06:24,540 - INFO - Successfully retrieved node_ids for fxav02.comp.pge.com
+2025-10-28 22:06:26,716 - INFO - Successfully retrieved node_ids for rcav02.comp.pge.com
+2025-10-28 22:06:28,863 - INFO - Successfully retrieved node_ids for fxav03
+2025-10-28 22:06:31,056 - INFO - Successfully retrieved node_ids for rcav03
+2025-10-28 22:06:33,071 - INFO - Generated node ids: [{'query_value': 'ffav01.comp.pge.com', 'node_ids': ['fda2ac82-0244-4bfe-939c-486d3e044a02']}, {'query_value': 'rcav01.comp.pge.com', 'node_ids': ['d29a1aae-8b68-486f-95d9-027bfbd3f3ee']}, {'query_value': 'fxav02.comp.pge.com', 'node_ids': ['28ee9ccf-a196-4463-a6fc-340235a638ca', '25946a9e-d9e1-44dd-8fc7-c53510f6c7fc', '0e5b2813-a931-48ea-af53-3580c4c22814']}, {'query_value': 'rcav02.comp.pge.com', 'node_ids': ['b062b724-2a68-4a56-b6f8-5da8a51a92f3', '8575b814-6839-4a4a-8294-17105d8002bd', '24771324-0817-4925-8922-f4dd8f6eac75']}, {'query_value': 'fxav03', 'node_ids': ['018cec3e-0fe4-44d8-8f68-e504c1127def']}, {'query_value': 'rcav03', 'node_ids': ['579ecc16-4c09-4800-97a7-717067f035e0']}]
+2025-10-28 22:06:33,071 - INFO - total node ids: 6
+2025-10-28 22:06:34,266 - INFO - All report urls: [{'query_value': 'ffav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/38e5481b-7a7c-45a9-8e88-454f5bcaf395'}, {'query_value': 'rcav01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/63d4ac31-1df2-465a-aa10-c6c8c3480dc4'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4ea20e35-18b4-47cb-a5ec-bdfbbd699d9e'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d0e52b7c-4376-46e9-ac0a-26ee1bfbebfa'}, {'query_value': 'fxav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8927940b-7cb3-449a-bde0-200802acf072'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4d341d2e-4928-4b50-bdeb-7119ca92cb70'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/324e7bc5-567e-4f15-96df-84dcc903f177'}, {'query_value': 'rcav02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/9720a2b0-4c7a-4ba0-ac6b-5a65dd3b6477'}, {'query_value': 'fxav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/9a259dda-640c-49f5-999c-ff58aff0d56f'}, {'query_value': 'rcav03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/a659a64b-4c85-4f1a-b765-ae8e0498d0e5'}]
+2025-10-28 22:06:34,268 - INFO - Inside get_dpa_report
+2025-10-28 22:06:34,325 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:36,344 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:38,370 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:40,380 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:42,405 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:44,429 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:46,439 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:48,453 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:50,477 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:52,512 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:06:55,574 - INFO - Report successfully converted to DataFrame.
+2025-10-28 22:06:55,605 - INFO - Unfetched servers: []
+2025-10-28 22:06:55,748 - INFO - Database Connection established.
+2025-10-28 22:06:55,784 - INFO - Table created.
+2025-10-28 22:06:55,819 - INFO - range: 0
+2025-10-28 22:06:55,963 - INFO - range: 1000
+2025-10-28 22:06:56,023 - INFO - Batch insert completed.
+2025-10-28 22:06:56,024 - INFO - Time taken to complete data loading: 0.4183616638183594
+2025-10-28 22:06:56,026 - INFO -  Connection closed.
+2025-10-28 22:06:56,029 - INFO - Initialize data fetching and loading into database for PPDM Server
+2025-10-28 22:06:56,202 - INFO - Successfully retrieved node_ids for ffppdm01.comp.pge.com
+2025-10-28 22:06:58,357 - INFO - Successfully retrieved node_ids for ffppdm02.comp.pge.com
+2025-10-28 22:07:00,518 - INFO - Successfully retrieved node_ids for ffppdm06.comp.pge.com
+2025-10-28 22:07:02,676 - INFO - Successfully retrieved node_ids for ffppdm07-uiq.comp.pge.com
+2025-10-28 22:07:04,825 - INFO - Successfully retrieved node_ids for rcppdm01.comp.pge.com
+2025-10-28 22:07:06,971 - INFO - Successfully retrieved node_ids for rcppdm02.comp.pge.com
+2025-10-28 22:07:09,145 - INFO - Successfully retrieved node_ids for rcppdm06.comp.pge.com
+2025-10-28 22:07:11,294 - INFO - Successfully retrieved node_ids for rcppdm07-uiq.comp.pge.com
+2025-10-28 22:07:13,472 - INFO - Successfully retrieved node_ids for rcppdm03
+2025-10-28 22:07:15,663 - INFO - Successfully retrieved node_ids for rcppdm04
+2025-10-28 22:07:17,675 - INFO - Generated node ids: [{'query_value': 'ffppdm01.comp.pge.com', 'node_ids': ['f2c67cae-387b-49e2-af1e-6bc80eb919d5']}, {'query_value': 'ffppdm02.comp.pge.com', 'node_ids': ['b3b0633b-00d2-4df4-a65f-ca9b31df6a55']}, {'query_value': 'ffppdm06.comp.pge.com', 'node_ids': ['37843c5d-7f7f-437e-b579-c75e2f97abb4']}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'node_ids': ['1282c6e7-ea92-43d0-b1b9-1476411156c7']}, {'query_value': 'rcppdm01.comp.pge.com', 'node_ids': ['eab7b577-e8f2-467a-8d75-6af70134a928']}, {'query_value': 'rcppdm02.comp.pge.com', 'node_ids': ['e4019e68-9b0d-4425-910a-0571e8623922']}, {'query_value': 'rcppdm06.comp.pge.com', 'node_ids': ['22350d59-eef2-4274-8b99-bd07d65dab9d']}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'node_ids': ['a89d11f0-6356-4304-a901-749c3b5fd190']}, {'query_value': 'rcppdm03', 'node_ids': ['8f3acd54-8684-41e3-b19c-ea92e28dc163', 'b1e8c322-b3db-4c7f-9dcb-f1591f98f4b1', '74e11ccc-b11c-4342-8f26-7a585343bea7']}, {'query_value': 'rcppdm04', 'node_ids': ['3c650a52-bcad-4d4c-b333-268b180698da', '444035e2-6418-4648-b9cd-4c2600723d2a', '5ab42d9d-3f59-44a2-914e-5577d545ebe6', 'c5fdc125-34bf-4392-b3fc-323d11a487db']}]
+2025-10-28 22:07:17,675 - INFO - total node ids: 10
+2025-10-28 22:07:19,737 - INFO - All report urls: [{'query_value': 'ffppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/8a18af73-80dc-4a72-98e9-50c661046628'}, {'query_value': 'ffppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/fa57cf85-7aeb-4cfb-902e-5bd7cf91201b'}, {'query_value': 'ffppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/7730c1eb-824a-47ee-bac1-0dafe60b1aca'}, {'query_value': 'ffppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/f14e8894-77e7-4084-85f4-e2fc3c449cd1'}, {'query_value': 'rcppdm01.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/4706ae54-5e2d-4623-9572-f3d8547cd15c'}, {'query_value': 'rcppdm02.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/39a01857-b9f9-45fe-ab10-a6c6e581cb38'}, {'query_value': 'rcppdm06.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/3183351c-bbe7-4b16-916e-90d256835afd'}, {'query_value': 'rcppdm07-uiq.comp.pge.com', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/7699c541-a245-4710-bcb2-b3811dae4353'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/177d1bdb-7a48-42f4-b8bb-56c0b2534e70'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/90a87ab9-41ff-4c3b-8eba-0b1c686ce0bd'}, {'query_value': 'rcppdm03', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/d0b13a11-9e51-4c74-a43c-f44fe24ed618'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ab84db83-7018-4d81-b0a0-a4bbed27f19d'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/696ed659-020c-4306-af02-4726d4dad6f5'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/e6b10fd7-0e17-49bd-9afd-84e0ca657ec9'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/15166db9-1d38-47c6-9c75-e3e31ed581e6'}]
+2025-10-28 22:07:19,739 - INFO - Inside get_dpa_report
+2025-10-28 22:07:19,794 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:31,918 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:33,944 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:35,980 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:38,005 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:40,062 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:42,089 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:44,127 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:46,146 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:48,168 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:50,179 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:52,202 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:54,207 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:56,222 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:07:58,233 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:08:01,363 - INFO - Report successfully converted to DataFrame.
+2025-10-28 22:08:01,390 - INFO - Unfetched servers: ['rcppdm04']
+2025-10-28 22:08:01,390 - INFO - Unfetched reports in 1 try for URLs: [{'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ab84db83-7018-4d81-b0a0-a4bbed27f19d'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/696ed659-020c-4306-af02-4726d4dad6f5'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/e6b10fd7-0e17-49bd-9afd-84e0ca657ec9'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/15166db9-1d38-47c6-9c75-e3e31ed581e6'}]
+2025-10-28 22:08:01,392 - INFO - Inside get_dpa_report
+2025-10-28 22:08:01,438 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:08:03,456 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:08:05,458 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:08:07,476 - INFO - Successfully retrieved the csv report.
+2025-10-28 22:08:10,600 - INFO - Report successfully converted to DataFrame.
+2025-10-28 22:08:10,720 - INFO - Unfetched servers: ['rcppdm04']
+2025-10-28 22:08:10,721 - INFO - Unfetched reports in 2 try for URLs: [{'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/ab84db83-7018-4d81-b0a0-a4bbed27f19d'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/696ed659-020c-4306-af02-4726d4dad6f5'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/e6b10fd7-0e17-49bd-9afd-84e0ca657ec9'}, {'query_value': 'rcppdm04', 'report_url': 'https://delldpa.utility.pge.com/dpa-api/report/result/15166db9-1d38-47c6-9c75-e3e31ed581e6'}]
+2025-10-28 22:08:10,724 - INFO - Database Connection established.
+2025-10-28 22:08:10,752 - INFO - Table created.
+2025-10-28 22:08:11,068 - INFO - range: 0
+2025-10-28 22:08:11,191 - INFO - range: 1000
+2025-10-28 22:08:11,272 - INFO - range: 2000
+2025-10-28 22:08:11,365 - INFO - range: 3000
+2025-10-28 22:08:11,451 - INFO - range: 4000
+2025-10-28 22:08:11,541 - INFO - range: 5000
+2025-10-28 22:08:11,625 - INFO - range: 6000
+2025-10-28 22:08:11,705 - INFO - range: 7000
+2025-10-28 22:08:11,792 - INFO - range: 8000
+2025-10-28 22:08:11,877 - INFO - range: 9000
+2025-10-28 22:08:11,954 - INFO - range: 10000
+2025-10-28 22:08:12,026 - INFO - range: 11000
+2025-10-28 22:08:12,106 - INFO - range: 12000
+2025-10-28 22:08:12,186 - INFO - range: 13000
+2025-10-28 22:08:12,268 - INFO - range: 14000
+2025-10-28 22:08:12,348 - INFO - range: 15000
+2025-10-28 22:08:12,428 - INFO - range: 16000
+2025-10-28 22:08:12,507 - INFO - range: 17000
+2025-10-28 22:08:12,638 - INFO - range: 18000
+2025-10-28 22:08:12,739 - INFO - range: 19000
+2025-10-28 22:08:12,819 - INFO - range: 20000
+2025-10-28 22:08:12,908 - INFO - range: 21000
+2025-10-28 22:08:12,993 - INFO - range: 22000
+2025-10-28 22:08:13,081 - INFO - range: 23000
+2025-10-28 22:08:13,167 - INFO - range: 24000
+2025-10-28 22:08:13,252 - INFO - range: 25000
+2025-10-28 22:08:13,333 - INFO - range: 26000
+2025-10-28 22:08:13,414 - INFO - range: 27000
+2025-10-28 22:08:13,500 - INFO - range: 28000
+2025-10-28 22:08:13,581 - INFO - range: 29000
+2025-10-28 22:08:13,596 - INFO - Batch insert completed.
+2025-10-28 22:08:13,597 - INFO - Time taken to complete data loading: 2.8759751319885254
+2025-10-28 22:08:13,608 - INFO -  Connection closed.
