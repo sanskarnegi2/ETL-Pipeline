@@ -241,7 +241,13 @@ ppdm_list = [
     "rcppdm04"
 ]
 
-
+# NAS shared resource filepath
+nas_file_paths = [
+        r"\\smb2.fxnas02.pge.com\techopsautomation-fs01\metadata\fxnas02_filesystems.csv",
+        r"\\smb.fxnas03.pge.com\techopsautomation-fs02\metadata\fxnas03_filesystems.csv",
+        r"\\smb2.rcnas02.pge.com\techopsautomation-fs03\metadata\rcnas02_filesystems.csv",
+        r"\\smb.rcnas03.pge.com\techopsautomation-fs04\metadata\rcnas03_filesystems.csv"
+    ]
 
 
 

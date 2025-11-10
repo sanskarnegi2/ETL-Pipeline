@@ -3,6 +3,7 @@ import numpy as np
 import time
 import logging
 import pandas as pd
+from src.utils import remove_duplicate_cols
 
 # setup loggers
 logger = logging.getLogger()
@@ -61,7 +62,7 @@ def load_amps_data_into_db(df_view, view_name, user, password, db_name, host, po
     try:
         # Connect to SQL Server
         conn = pyodbc.connect(
-            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host},{port};DATABASE={db_name};UID={user};PWD={password}"
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
         )
         cursor = conn.cursor()
         logger.info("Database Connection established.")
@@ -69,6 +70,9 @@ def load_amps_data_into_db(df_view, view_name, user, password, db_name, host, po
         # We are not passing create_table_query and insert_sql_query as arguments because the DataFrame contains too many columns.
         # Instead, we use a script that dynamically generates the CREATE TABLE and INSERT statements by inspecting the DataFrame structure.
 
+        # remove duplicate columns before creating table
+        remove_duplicate_cols(df_view)
+        
         # Generate CREATE TABLE statement
         table_name = view_name
         columns = df_view.columns

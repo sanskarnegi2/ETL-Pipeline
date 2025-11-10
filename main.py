@@ -10,15 +10,17 @@ from io import StringIO
 from dotenv import load_dotenv
 from pandas import json_normalize
 from src.utils import get_vrops_auth_token, get_amps_auth_token, convert_lists_to_json, get_dpa_token, create_session_with_retries
+from src.utils import remove_duplicate_cols, get_aiops_auth_token, get_ibm_auth_token
 from src.extract import get_vrops_identifiers, run_vrops_extraction, get_amps_view_names, fetch_amps_data
-from src.extract import get_node_id, get_report_url, get_dpa_report
-from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data
+from src.extract import get_node_id, get_report_url, get_dpa_report, fetch_nas_data, fetch_aiops_data, fetch_ibm_data
+from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data, transform_nas_data
+from src.transform import transform_aiops_data, transform_ibm_data
 from src.load import load_vmware_data_into_db, load_amps_data_into_db
 # Local application imports from config.py
 from config import vmware_metrics_names, esxi_metrics_names, vmware_properties_names, esxi_properties_names
 from config import  vmware_column_mapping, esxi_column_mapping, vmware_create_table_query, esxi_create_table_query
 from config import  vmware_insert_sql_query, esxi_insert_sql_query
-from config import avamar_list, ppdm_list
+from config import avamar_list, ppdm_list, nas_file_paths
 
 
 # Configure logging to write to a file
@@ -53,14 +55,24 @@ db_name = os.getenv("DB_NAME")
 db_host = os.getenv("DB_HOST")
 db_port = os.getenv("DB_PORT")
 
+# get AIOPS info
+aiops_client_id = os.getenv("AIOPS_CLIENT_ID")
+aiops_client_secret = os.getenv("AIOPS_CLIENT_SECRET")
+ibm_tenant_id = os.getenv("DELL_TENANT_ID")
+ibm_api_key = os.getenv("DELL_API_KEY")
+
+
 # URls
 vrops_host = 'https://vcf-mgt-vrops.utility.pge.com/'
 vrops_auth_url =  f'{vrops_host}/suite-api/api/auth/token/acquire'
 amps_login_url = "https://amps.cloud.pge.com/axe-platform/login"
 amps_portal_url = "https://amps.cloud.pge.com/axe-platform/portal"
+aiops_auth_url = 'https://apigtwb2c.us.dell.com/auth/oauth/v2/token'
+ibm_auth_url  = f"https://insights.ibm.com/restapi/v1/tenants/{ibm_tenant_id}/token"
 
 # local variables
-amps_view_list = ['view_applications', 'view_database_assets', 'view_it_assets']
+# amps_view_list = ['view_applications', 'view_database_managed_services', 'view_itassets_managed_services', 'view_middleware_managed_services']
+amps_view_list = ['view_itassets_managed_services']
 
 ## Using other variables from config.py
 
@@ -107,7 +119,7 @@ def load_amps_data(token, view_type, db_username, db_password, db_name, db_host,
     try:
         start_time = time.time() 
         # fetch amps data
-        all_data = fetch_amps_data(token, view_type, skip=0, take=2000)
+        all_data = fetch_amps_data(token, view_type, 0, 1000)
         time.sleep(1)
         
         if all_data:
@@ -130,7 +142,7 @@ def load_amps_data(token, view_type, db_username, db_password, db_name, db_host,
     except Exception as e:
         logger.info(f'Error while loading amps data for {view_type}: {e}')
 
-
+# Get and load the DPA data into database table
 def load_dpa_data(token, query_values: list, server='avamar_servers'):
     # create a list to store all reports
     all_reports = []
@@ -213,6 +225,52 @@ def load_dpa_data(token, query_values: list, server='avamar_servers'):
     # Step 5 load data into databae table
     load_amps_data_into_db(final_df, server, db_username, db_password, db_name, db_host, db_port)
     
+# Get and load the NAS data into database table
+def load_nas_data(username, password, file_paths, domain='PGE', table_name='nas_report'):
+    # fetch nas data (list of dataframes NAS) 
+    dataframes = fetch_nas_data(username, domain, password, file_paths)
+    # load master excel file as df to do Vlookup
+    master_df = pd.read_excel('data/raw/NAS/NAS Master sheet.xlsx')
+
+    nas_data_df = transform_nas_data(dataframes, master_df)
+
+    # before loading into db, save it as excel file
+    nas_data_df.to_excel('data/processed/nas_data.xlsx', index=False)
+
+
+    # load data into databae table
+    load_amps_data_into_db(nas_data_df, table_name, db_username, db_password, db_name, db_host, db_port)
+
+
+# Get and load the SAN data into database table
+def load_san_data(aiops_token, ibm_token, ibm_tenant_id, table_name='san_report'):
+    # fetch aiops data  
+    aiops_df = fetch_aiops_data(aiops_token)
+    # fetch ibm data  
+    ibm_df = fetch_ibm_data(ibm_token, ibm_tenant_id)
+    # open SAN Master excel file as dataframe
+    master_df = pd.read_excel('data/raw/SAN/SAN Master.xlsx')
+    # transform aiops_df
+    merged_aiops = transform_aiops_data(aiops_df, master_df)
+    # transform ibm_df
+    merged_ibm = transform_ibm_data(ibm_df, master_df)
+    # merge both the transformed reports 'merged_aiops_df' 'merged_ibm_df'
+    # Merge the two DataFrames on all shared columns
+    san_df = pd.merge(
+        merged_aiops,
+        merged_ibm,
+        on=['StorageGroupName', 'ServerName', 'SystemDisplayName', 'APP -ID', 'Application Name', 'Total Size (TB)', 'Used (TB)'],
+        how='outer'
+    )
+
+    # before loading into db, save it as excel file
+    san_df.to_excel('data/processed/san_data.xlsx', index=False)
+
+    # load data into databae table
+    load_amps_data_into_db(san_df, table_name, db_username, db_password, db_name, db_host, db_port)
+    
+
+
 
 
 
@@ -244,47 +302,20 @@ if __name__ == "__main__":
     load_dpa_data(dpa_token, avamar_list, 'avamar_servers')
     logger.info('Initialize data fetching and loading into database for PPDM Server')
     load_dpa_data(dpa_token, ppdm_list, 'ppdm_servers')
+
+    # load nas data
+    load_nas_data(username=svc_uname, password=svc_pwd, file_paths=nas_file_paths, domain='PGE', table_name='nas_report')
+    
+    # load san data
+    # get the token for AIOPS
+    aiops_token = get_aiops_auth_token(aiops_client_id, aiops_client_secret, aiops_auth_url)
+    # get the token of Dell
+    ibm_token = get_ibm_auth_token(ibm_api_key, ibm_auth_url)
+
+    logger.info('Initialize data fetching and loading into database for SAN storage')
+    load_san_data(aiops_token, ibm_token, ibm_tenant_id, 'san_report')
     
     
 
+    
 
-# from concurrent.futures import ThreadPoolExecutor
-# def run_all_data_loads():
-#     with ThreadPoolExecutor() as executor:
-#         # vROps: VMware & ESXi
-#         vrops_token_vm = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
-#         executor.submit(
-#             load_vmware_data,
-#             vrops_token_vm, vrops_host,
-#             vmware_metrics_names, vmware_properties_names,
-#             vmware_column_mapping,
-#             db_username, db_password, db_name, db_host, db_port
-#         )
-
-#         vrops_token_esxi = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
-#         executor.submit(
-#             load_esxi_data,
-#             vrops_token_esxi, vrops_host,
-#             esxi_metrics_names, esxi_properties_names,
-#             esxi_column_mapping,
-#             db_username, db_password, db_name, db_host, db_port
-#         )
-
-#         # AMPs views
-#         for view_type in amps_view_list:
-#             amps_token = get_amps_auth_token(svc_uname, svc_pwd, amps_login_url, amps_portal_url)
-#             executor.submit(
-#                 load_amps_data,
-#                 amps_token, view_type,
-#                 db_username, db_password, db_name, db_host, db_port
-#             )
-
-#         # DPA: Avamar & PPDM
-#         dpa_token = get_dpa_token(svc_uname, dell_pwd)
-#         executor.submit(load_dpa_data, dpa_token, avamar_list, 'avamar_servers')
-#         executor.submit(load_dpa_data, dpa_token, ppdm_list, 'ppdm_servers')
-
-# if __name__ == "__main__":
-#     logger.info("Starting parallel data loading tasks...")
-#     run_all_data_loads()
-#     logger.info("All tasks submitted.")

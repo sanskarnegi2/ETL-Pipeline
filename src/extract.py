@@ -5,12 +5,18 @@ import asyncio
 import aiohttp
 import time
 import xmltodict
+import pandas as pd
 from pandas import json_normalize
 from dotenv import load_dotenv
 import warnings
 import urllib3
 from requests.exceptions import RequestException
 from urllib3.exceptions import MaxRetryError
+import win32security
+import win32con
+import win32file
+import win32net
+import win32netcon
 
 # Suppress only InsecureRequestWarning
 warnings.simplefilter('ignore', urllib3.exceptions.InsecureRequestWarning)
@@ -181,10 +187,10 @@ def get_amps_view_names(token):
         print(f"Error: {response.status_code} - {response.text}")
 
 # Fetch AMPs Data
-def fetch_amps_data(token, view_type, skip=0, take=2000):
+def fetch_amps_data(token, view_type, skip=0, take=1000):
     try:
         skip = 0
-        take = 2000
+        take = take
         all_data = []
         base_url = 'https://amps.cloud.pge.com/axe-platform'
         
@@ -350,3 +356,98 @@ def get_dpa_report(token, session, report_urls):
     
     return xml_reports
 
+# Fetch NAS report
+def fetch_nas_data(username, domain, password, file_paths):
+
+    # we are accessing the files from shared resource network using service account
+    # Logon and impersonate
+    # Logon and impersonate
+    handle = win32security.LogonUser(
+        username,
+        domain,
+        password,
+        win32con.LOGON32_LOGON_NEW_CREDENTIALS,
+        win32con.LOGON32_PROVIDER_WINNT50
+    )
+
+    win32security.ImpersonateLoggedOnUser(handle)
+    # create an empty list to store dataframes
+    dataframes = [] 
+    for file_path in file_paths:
+        # Access UNC path directly
+        # file_path = r"\\smb2.fxnas02.pge.com\techopsautomation-fs01\metadata\fxnas02_filesystems.csv"
+        df = pd.read_csv(file_path)
+        dataframes.append(df)
+
+    # Revert impersonation
+    win32security.RevertToSelf()
+    handle.Close()
+    print(f'dataframe length: {len(dataframes)}')
+    # return dataframe
+    return dataframes
+
+# Fetch AIOPS data for SAN report
+def fetch_aiops_data(token):
+    logger.info('Data fetching for AIOPS(SAN) Initialized....')
+    # --- Configuration ---
+    offset = 0
+
+    # --- Headers ---
+    headers = {
+        'Authorization': token,
+    }
+    all_response = []
+    while True:
+        # fetching 500 entries at a time and increasing offset by 1 till getting the last offset
+        url = f'https://apigtwb2c.us.dell.com/aiops/public/rest/v1/storage-groups?select=name,total_size,allocated_size&limit=500&offset={offset}'
+        # --- Make GET Request ---
+        try:
+            response = requests.get(url, headers=headers, verify=False)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+                # if fails in any iteration, return the data till previous iteration
+                logger.info(f'Error fetching data for AIOPS iteration {offset}: {e}')
+                aiops_df = pd.DataFrame(all_response)
+                # return statment
+                return aiops_df
+
+        basic_info = response.json()
+        # --- Parse Response ---
+        result = basic_info.get('results', [])
+        all_response.extend(result)
+        
+        if basic_info.get('paging',[]).get('next', []):
+            offset += 1
+        else:
+            aiops_df = pd.DataFrame(all_response)
+            # return statment
+            return aiops_df
+        
+
+
+# Fetch DELL data for SAN report
+def fetch_ibm_data(token, ibm_tenant_id):
+    logger.info('Data fetching for IBM(SAN) Initialized....')
+    # request URL
+    url = f"https://insights.ibm.com/restapi/v1/tenants/{ibm_tenant_id}/hosts"
+    # Header
+    headers = {
+        "accept": "application/json",
+        "x-api-token": token
+    }
+
+    try:
+        # make request
+        response = requests.get(url, headers=headers, verify=False)
+        response.raise_for_status()
+        # parse response data
+        data = response.json().get('data')
+        ibm_df = json_normalize(data)
+        # return 
+        return ibm_df
+    except requests.exceptions.RequestException as e:    
+        logger.info(f'Error fetching data for IBM (SAN Report): {e}')
+        return None
+            
+   
+    

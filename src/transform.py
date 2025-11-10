@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import json
 import logging
+from src.utils import convert_into_tb
 
 # setup loggers
 logger = logging.getLogger()
@@ -118,5 +119,104 @@ def transform_esxi_data(flatten_esxi_data, esxi_column_mapping):
 
     # return dataframe
     return df_esxi
+
+
+# Transform NAS data
+def transform_nas_data(dataframes, master_df):
+    logger.info('Start Transforming NAS data')
+    
+    # concatenate all the dataframes
+    nas_df = pd.concat(dataframes)
+
+    # Convert the Units in TB, Apply the function row-wise
+    nas_df['Allocated'] = nas_df.apply(lambda row: convert_into_tb(row['Allocated Size'], row['Allocated Unit']), axis=1)
+    nas_df['Used'] = nas_df.apply(lambda row: convert_into_tb(row['Used Size'], row['Used Unit']), axis=1)
+
+    # rename columns for nas df
+    nas_df.rename(columns={'APP-IDs from Share Descriptions': 'APP-ID'}, inplace=True)
+
+    # select only required columns from the nas and master dataframe
+    nas_df = nas_df[['Path', 'Allocated', 'Used', 'APP-ID']]
+    master_df = master_df[['Path', 'APP-ID']]
+
+    # merge both dfs
+    # merging on 'Path' and also we have APP-ID in common, which we will merge below
+    new_df = pd.merge(nas_df, master_df, on=['Path'], how='left')
+
+    # Create a unified APP-ID column, as after merging we have two APP-ID
+    new_df['APP-ID'] = new_df['APP-ID_x'].combine_first(new_df['APP-ID_y'])
+
+    # Drop the old columns
+    new_df.drop(columns=['APP-ID_x', 'APP-ID_y'], inplace=True)
+
+    # Split the APP-ID column by space: Step 1, as some rows having multiple APP-Id in single cell
+    new_df['APP-ID'] = new_df['APP-ID'].str.split()
+    # Explode the list into separate rows: Step 2
+    new_df = new_df.explode('APP-ID').reset_index(drop=True)
+
+    # Save as Excel file
+    # Save the data as excel file
+    new_df.to_excel('data/processed/merged_nas_report.xlsx', index=False)
+    logger.info("NAS Data Saved as Excel File")
+    
+    logger.info("Transforming ESXi Host Data Completed.")
+
+    # return dataframe
+    return new_df
+
+
+# Transform AIOPS data
+def transform_aiops_data(aiops_df, master_df):
+    logger.info('Transforming AIOPS(SAN) data Initialized...')
+    # transform data
+    aiops_df['Total Size (TB)'] = (aiops_df['total_size']/(1024**4)).round(2)
+    aiops_df['Used (TB)'] = (aiops_df['allocated_size']/(1024**4)).round(2)
+    aiops_df.drop(columns=['id','allocated_size','total_size'], inplace=True)
+    # rename columns
+    aiops_df.rename(columns = {"name":"StorageGroupName"}, inplace= True)
+
+    # modify master_df
+    master_df.drop(columns=['TotalSize(TB)', 'Used(TB)'],inplace=True)
+    merged_aiops_df = pd.merge(aiops_df, master_df,on='StorageGroupName', how='left')
+    # save the excel file as well
+    merged_aiops_df.to_excel('data/processed/merged_aiops.xlsx', index=False)
+
+    logger.info("Transforming AIOPS(SAN) Data Completed.")
+
+    # return
+    return merged_aiops_df
+
+
+# Transform IBM data
+def transform_ibm_data(ibm_df, master_df):
+    logger.info('Transforming IBM(SAN) data Initialized...')
+    # select only required columns
+    ibm_df = ibm_df[['name', 'san_capacity_bytes', 'used_san_capacity_bytes']]
+    
+    # convert capacity into TB and store it in new columns  
+    ibm_df['Total Size (TB)'] = round(ibm_df['san_capacity_bytes'] / (1024**4), 2)
+    ibm_df['Used (TB)'] = round(ibm_df['used_san_capacity_bytes'] / (1024**4), 2)
+    # drop old bytes columns
+    ibm_df.drop(columns=['san_capacity_bytes','used_san_capacity_bytes'], inplace=True)
+
+    # rename columns
+    ibm_df.rename(columns={'name':'ServerName'}, inplace=True)
+    
+    # merge the ibm_df with the master_df to do vlookup on servername
+    merged_ibm = pd.merge(ibm_df, master_df,on='ServerName', how='left')
+    
+    # store transform file as excel
+    merged_ibm.to_excel('data/processed/merged_ibm.xlsx', index=False)
+    
+    logger.info("Transforming IBM(SAN) Data Completed.")
+
+    # return 
+    return merged_ibm
+
+
+
+
+
+
 
 
