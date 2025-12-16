@@ -54,3 +54,6 @@ etl/
 # our notebooks
 notebooks/
 new.py
+
+# batch file(schedular)
+run_script.bat

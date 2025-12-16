@@ -24,7 +24,8 @@ esxi_metrics_names = [
     "mem|host_usagePct",
     "mem|reservedCapacityPct",
     "mem|overhead_average",
-    "sys|uptime_latest"
+    "sys|uptime_latest",
+    "diskspace|total_usage"
   ]
 
 # --------------------------------------------------------------------------------
@@ -81,7 +82,8 @@ esxi_properties_names = ['config|name',
 'mem|reservedCapacityPct',
 'mem|overhead_average', 
 'cpu|cpuModel', 
-'sys|uptime_latest']
+'sys|uptime_latest',
+'diskspace|total_usage']
 
 # --------------------------------------------------------------------------------
 # Column Mapping Dictionaries (used to rename attributes to sheet headings)
@@ -139,7 +141,8 @@ esxi_column_mapping = {
     'mem|reservedCapacityPct': "Memory Reserved %",
     'mem|overhead_average': "Memory Overhead",
     'cpu|cpuModel': "CPU Model",
-    'sys|uptime_latest': "System|Uptime (Day(s))"
+    'sys|uptime_latest': "System|Uptime (Day(s))",
+    'diskspace|total_usage': "Disk Utilization | GB"
 }
 
 
@@ -206,7 +209,9 @@ CREATE TABLE dbo.ESXi (
     [Memory Reserved %] FLOAT,
     [Memory Overhead] FLOAT,
     [CPU Model] NVARCHAR(255),
-    [System|Uptime (Day(s))] FLOAT
+    [System|Uptime (Day(s))] FLOAT,
+    [SD_Name] NVARCHAR(255),
+    [Disk Utilization] FLOAT
 );
 """
 
@@ -217,7 +222,7 @@ INSERT INTO dbo.VMware VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 
 ## ESXi Insert Query
 esxi_insert_sql_query = """
-INSERT INTO dbo.ESXi VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+INSERT INTO dbo.ESXi VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 """
 
 ## Avamar Server List
@@ -249,7 +254,8 @@ nas_file_paths = [
         r"\\smb.rcnas03.pge.com\techopsautomation-fs04\metadata\rcnas03_filesystems.csv"
     ]
 
-
+# DDBOOST Server's Hostname
+ddboost_host = "pritinfappls365.comp.pge.com"
 
 
 

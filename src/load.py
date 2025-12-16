@@ -141,8 +141,84 @@ def load_amps_data_into_db(df_view, view_name, user, password, db_name, host, po
             pass
 
 
+# Run Custom Query database table
+def run_custom_query(query, user, password, db_name, host, port):
+    
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        logger.info("Database Connection established to run custom query.")
+    
+        # Run query
+        cursor.execute(query)
+        conn.commit()
 
+    
+        logger.info("Query completed.")
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        
+    
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            logger.info(" Connection closed.")
+        except:
+            pass
 
+# Query to create indexes
+# this will be used for creating the index for the columns as our most of the columns having Max length
+## and we can not create the index for a column with Max length
+def create_index(table, column, user, password, db_name, host, port):
+    
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        logger.info(f"Database Connection established to create index for {table}.{column}")
+    
+        # get the max lenght of column
+        len_query = f"""
+                SELECT MAX(LEN([{column}])) AS MaxLength
+                    FROM dbo.{table};
+                """
+        
+        cursor.execute(len_query)
+        max_len = cursor.fetchall()[0][0] if cursor.fetchall()[0][0] > 255 else 255
 
+        # Alter  column with change in its length
+        alter_query = f"""
+        ALTER TABLE dbo.{table}
+        ALTER COLUMN [{column}] VARCHAR({max_len});
+        """
+        cursor.execute(alter_query)
 
+        # create index query
+        create_index_query = f"""
+                CREATE INDEX IX_{table}_{column} ON EOSLdatastore.dbo.{table}([{column}]);
+        """
+        cursor.execute(create_index_query)
+        
+        conn.commit()
 
+    
+        logger.info("Query completed.")
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        
+    
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            logger.info(" Connection closed.")
+        except:
+            pass

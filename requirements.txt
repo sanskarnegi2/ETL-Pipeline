@@ -113,3 +113,4 @@ aiohttp
 mysql-connector-python
 SQLAlchemy
 pyodbc
+paramiko

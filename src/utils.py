@@ -205,7 +205,7 @@ def remove_duplicate_cols(df):
     # get original column names
     org_cols = df.columns
     # set column names in lower case
-    cols = [col.lower()for col in org_cols]
+    cols = [str(col).lower()for col in org_cols]
     df.columns = cols
     # get duplicate columns
     duplicates = df.columns[df.columns.duplicated()]

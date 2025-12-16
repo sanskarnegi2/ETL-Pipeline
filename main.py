@@ -11,16 +11,16 @@ from dotenv import load_dotenv
 from pandas import json_normalize
 from src.utils import get_vrops_auth_token, get_amps_auth_token, convert_lists_to_json, get_dpa_token, create_session_with_retries
 from src.utils import remove_duplicate_cols, get_aiops_auth_token, get_ibm_auth_token
-from src.extract import get_vrops_identifiers, run_vrops_extraction, get_amps_view_names, fetch_amps_data
+from src.extract import get_vrops_identifiers, run_vrops_extraction, get_amps_view_names, fetch_amps_data, fetch_ddboost_data
 from src.extract import get_node_id, get_report_url, get_dpa_report, fetch_nas_data, fetch_aiops_data, fetch_ibm_data
 from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data, transform_nas_data
-from src.transform import transform_aiops_data, transform_ibm_data
-from src.load import load_vmware_data_into_db, load_amps_data_into_db
+from src.transform import transform_aiops_data, transform_ibm_data, transform_amps_data
+from src.load import load_vmware_data_into_db, load_amps_data_into_db, run_custom_query, create_index
 # Local application imports from config.py
 from config import vmware_metrics_names, esxi_metrics_names, vmware_properties_names, esxi_properties_names
 from config import  vmware_column_mapping, esxi_column_mapping, vmware_create_table_query, esxi_create_table_query
 from config import  vmware_insert_sql_query, esxi_insert_sql_query
-from config import avamar_list, ppdm_list, nas_file_paths
+from config import avamar_list, ppdm_list, nas_file_paths, ddboost_host
 
 
 # Configure logging to write to a file
@@ -69,10 +69,14 @@ amps_login_url = "https://amps.cloud.pge.com/axe-platform/login"
 amps_portal_url = "https://amps.cloud.pge.com/axe-platform/portal"
 aiops_auth_url = 'https://apigtwb2c.us.dell.com/auth/oauth/v2/token'
 ibm_auth_url  = f"https://insights.ibm.com/restapi/v1/tenants/{ibm_tenant_id}/token"
+ddboost_script_path = "/tsm_ops/admin/eosl_ddboost_data_collect.sh"
+ddboost_script_output_path = "/tsm_ops/admin/eosl_ddboost_list.csv"
+eosl_asset_file_path = "data/raw/Component_Category_COMC_554__Windows.xlsx"
+storage_analysis_file_path = 'data/raw/ru_count_storage.xlsx'
 
 # local variables
-# amps_view_list = ['view_applications', 'view_database_managed_services', 'view_itassets_managed_services', 'view_middleware_managed_services']
-amps_view_list = ['view_itassets_managed_services']
+# amps_view_list = ['view_applications', 'view_database_assets', 'view_itassets', 'view_middleware_assets']
+amps_view_list = ['view_database_assets']
 
 ## Using other variables from config.py
 
@@ -84,6 +88,9 @@ def load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_prope
 
     # fetch metrics and properties for VMWARE (ids)
     vmware_data = asyncio.run(run_vrops_extraction(vrops_token, vmware_ids, vrops_host, vmware_metrics_names, 40, 'VirtualMachine'))
+
+    # Allow cleanup to finish
+    asyncio.sleep(1)
 
     # flatten the result(properties, metrics) into dictionary
     flatten_vmware_data = flatten_vrops_data(vmware_properties_names, vmware_data, 'VirtualMachine')
@@ -104,14 +111,20 @@ def load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_
     # fetch metrics and properties for VMWARE (ids)
     esxi_data = asyncio.run(run_vrops_extraction(vrops_token, esxi_ids, vrops_host, esxi_metrics_names, 40, 'HostSystem'))
 
+    # Allow cleanup to finish
+    asyncio.sleep(0.5)
+
     # flatten the result(properties, metrics) into dictionary
     flatten_esxi_data = flatten_vrops_data(esxi_properties_names, esxi_data, 'HostSystem')
 
     # transform and get vmware data as DataFrame
-    df_vmware = transform_esxi_data(flatten_esxi_data, esxi_column_mapping)
+    df_esxi = transform_esxi_data(flatten_esxi_data, esxi_column_mapping)
 
     # load vmware data into mysql server database
-    load_vmware_data_into_db(df_vmware, db_username, db_password, db_name, db_host, db_port, esxi_create_table_query, esxi_insert_sql_query)
+    load_vmware_data_into_db(df_esxi, db_username, db_password, db_name, db_host, db_port, esxi_create_table_query, esxi_insert_sql_query)
+
+    # create index on the SD Name column in table
+    create_index(table='ESXi', column='SD_Name', user=db_username, password=db_password, db_name=db_name, host=db_host, port=db_port)
 
 
 # Get and load the AMPs data into database table
@@ -129,6 +142,13 @@ def load_amps_data(token, view_type, db_username, db_password, db_name, db_host,
             # convert list type columns into json for databse compatibality
             df_view = convert_lists_to_json(df_view)
             time.sleep(1)
+
+            # Trasnsform AMPs data
+            df_view = transform_amps_data(df_view, view_type)
+
+            # save the data as excel file
+            # df_view.to_excel(f'data/processed/{view_type}.xlsx', index=False)
+
 
             # load data into database
             load_amps_data_into_db(df_view, view_type, db_username, db_password, db_name, db_host, db_port)
@@ -268,9 +288,47 @@ def load_san_data(aiops_token, ibm_token, ibm_tenant_id, table_name='san_report'
 
     # load data into databae table
     load_amps_data_into_db(san_df, table_name, db_username, db_password, db_name, db_host, db_port)
+
+    # create index on the SystemDisplayName column in table
+    create_index(table_name,'SystemDisplayName', db_username, db_password, db_name, db_host, db_port)
     
 
+def load_ddboost_data(hostname, port, username, password, script_path, output_path, table_name='ddboost_report'):
+    # fetch ddboost data
+    ddboost_df = fetch_ddboost_data(hostname, port, username, password, script_path, output_path)
+    # load into the database table
+    load_amps_data_into_db(ddboost_df, table_name, db_username, db_password, db_name, db_host, db_port)
 
+def load_eosl_aaset(file_path, db_username, db_password, db_name, db_host, db_port, table_name = 'EOSL_assets'):
+    try:
+        # Load all sheets into a dictionary of DataFrames
+        # all_sheets = pd.read_excel('data/raw/Component_Category_COMC_554__Windows.xlsx', sheet_name=None)
+        all_sheets = pd.read_excel(file_path, sheet_name=None)
+
+        # Concatenate all DataFrames into one
+        merged_df = pd.concat(all_sheets.values(), ignore_index=True)
+
+        # Transformation (creatin new column from existing one)
+        merged_df['Short_Version'] = merged_df['Version'].str.split(".").str[:2].str.join(".")
+
+        
+        # load into database
+        load_amps_data_into_db(merged_df, table_name, db_username, db_password, db_name, db_host, db_port)
+
+    except Exception as e:
+        logger.info('Something went wrong while reuploading the EOSL Assets file in Database')
+        logger.info(e)
+
+def load_storage(file_path, db_username, db_password, db_name, db_host, db_port, table_name = 'storage_analysis'):
+    try:
+        # load the sheet as dataframe
+        storage_df = pd.read_excel(file_path)
+
+        # load into database
+        load_amps_data_into_db(storage_df, table_name, db_username, db_password, db_name, db_host, db_port)
+    except Exception as e:
+        logger.info('Something went wrong while reuploading the storage analysis file in Database')
+        logger.info(e)
 
 
 
@@ -315,7 +373,16 @@ if __name__ == "__main__":
     logger.info('Initialize data fetching and loading into database for SAN storage')
     load_san_data(aiops_token, ibm_token, ibm_tenant_id, 'san_report')
     
+    # Load DDBoost Data
+    logger.info('Initialize data fetching and loading into database for DDBoost report')
+    load_ddboost_data(hostname = ddboost_host, port = 22, username = svc_uname, password = svc_pwd, script_path = ddboost_script_path, output_path = ddboost_script_output_path, table_name = 'ddboost_report')
     
+    # Load EOSL Assets
+    logger.info('Initialize data fetching and loading into database for EOSL Assests')
+    load_eosl_aaset(eosl_asset_file_path, db_username, db_password, db_name, db_host, db_port, 'EOSL_assets')
 
-    
+    # Load Storage Analysis
+    logger.info('Initialize data fetching and loading into database for Storage Analysis')
+    load_storage(storage_analysis_file_path, db_username, db_password, db_name, db_host, db_port, 'storage_analysis')
 
+   

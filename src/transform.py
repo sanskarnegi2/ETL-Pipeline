@@ -55,6 +55,9 @@ def transform_vmware_data(flatten_vmware_data, vmware_column_mapping):
     # total disk in GB converting into TB
     df_vmware['Total Disk Space'] = round(df_vmware['Total Disk Space'].astype(float) / 1024, 2)
 
+    # Disk Space/Utilization in GB converting into TB
+    df_vmware['Disk Utlization (TB)'] = round(df_vmware['Disk Utlization (TB)'].astype(float) / 1024, 2)
+
     # Calculate disk capacity remaining and convert into TB(from GB)
     df_vmware['Disk Capacity'] = df_vmware['Disk Capacity'] - df_vmware['Disk Utlization (TB)'] 
     df_vmware['Disk Capacity'] = round(df_vmware['Disk Capacity'] / 1024, 2) # convvert into tb
@@ -88,6 +91,7 @@ def transform_esxi_data(flatten_esxi_data, esxi_column_mapping):
     # preserve order
     df_esxi = df_esxi[esxi_column_mapping.values()]
 
+
     # transform Mgm IP column by having the last item from the ip list
     df_esxi['Mgm IP'] = df_esxi['Mgm IP'].str.split(',').str[-1]
     
@@ -108,6 +112,13 @@ def transform_esxi_data(flatten_esxi_data, esxi_column_mapping):
 
     # Convert System Uptime (sec) into Day(s)
     df_esxi['System|Uptime (Day(s))'] = (df_esxi['System|Uptime (Day(s))'] / (60*60*24)).round(2)
+
+    # get and store the sub domain name from the domain name in new column
+    df_esxi['SD_Name'] = df_esxi['Name'].str.split('.').str[0]
+
+    # Convert Disk Utilization  (GB) into (TB)
+    df_esxi['Disk Utilization'] = (df_esxi['Disk Utilization | GB'] / (1024)).round(2)
+    df_esxi.drop(columns=['Disk Utilization | GB'], inplace=True)
 
 
     # Save as Excel file
@@ -136,8 +147,8 @@ def transform_nas_data(dataframes, master_df):
     nas_df.rename(columns={'APP-IDs from Share Descriptions': 'APP-ID'}, inplace=True)
 
     # select only required columns from the nas and master dataframe
-    nas_df = nas_df[['Path', 'Allocated', 'Used', 'APP-ID']]
-    master_df = master_df[['Path', 'APP-ID']]
+    nas_df = nas_df[['Path', 'Allocated', 'Used', 'APP-ID', 'Clients', 'Cluster']]
+    master_df = master_df[['Path', 'APP-ID', 'Frame Name']]
 
     # merge both dfs
     # merging on 'Path' and also we have APP-ID in common, which we will merge below
@@ -154,12 +165,17 @@ def transform_nas_data(dataframes, master_df):
     # Explode the list into separate rows: Step 2
     new_df = new_df.explode('APP-ID').reset_index(drop=True)
 
+    # Step 1: Split the Clients column by space
+    new_df['Clients'] = new_df['Clients'].str.split()
+    # Step 2: Explode the list into separate rows
+    new_df = new_df.explode('Clients').reset_index(drop=True)
+
     # Save as Excel file
     # Save the data as excel file
     new_df.to_excel('data/processed/merged_nas_report.xlsx', index=False)
     logger.info("NAS Data Saved as Excel File")
     
-    logger.info("Transforming ESXi Host Data Completed.")
+    logger.info("Transforming NAS Data Completed.")
 
     # return dataframe
     return new_df
@@ -212,6 +228,29 @@ def transform_ibm_data(ibm_df, master_df):
 
     # return 
     return merged_ibm
+
+
+# Transform AMPs Data
+def transform_amps_data(df_view, view_type=None):
+    # for view type = view_middleware_assets
+    if view_type == 'view_middleware_assets':
+        # get the server name from the 'SS_Name' 
+        # because some SS_names are i.e= WildFly 12.0 identified as JBossPhysicalInventory on tsitinfapplx007.comp.pge.com,   Red Hat JBoss Application Server 7.1 on dcpp200q
+        df_view['SS_Name'] = df_view['SS_Name'].str.split(' ').str[-1]
+        df_view['SS_Name'] = df_view['SS_Name'].str.split('.').str[0]
+    
+    elif view_type == 'view_itassets':
+        # 1) Convert text to datetime (auto-detect formats; set dayfirst=True if your data is D/M/Y)
+        df_view["CS_Installation_Date"] = pd.to_datetime(df_view["CS_Installation_Date"], errors="coerce", dayfirst=True)
+
+        # 2) Add 5 years using DateOffset (handles leap-day sensibly: 2020-02-29 → 2025-02-28)
+        df_view["Assumed HW Expiration Date"] = df_view["CS_Installation_Date"] + pd.DateOffset(years=5)
+
+    elif view_type == 'view_database_assets':
+        df_view['DB_Version_Short'] = df_view['DB_Version_Number'].str.split(".").str[:2].str.join(".")
+
+    return df_view
+    
 
 
 

@@ -14,9 +14,9 @@ from requests.exceptions import RequestException
 from urllib3.exceptions import MaxRetryError
 import win32security
 import win32con
-import win32file
-import win32net
-import win32netcon
+import win32file, win32net, win32netcon
+import paramiko
+from io import StringIO
 
 # Suppress only InsecureRequestWarning
 warnings.simplefilter('ignore', urllib3.exceptions.InsecureRequestWarning)
@@ -449,5 +449,48 @@ def fetch_ibm_data(token, ibm_tenant_id):
         logger.info(f'Error fetching data for IBM (SAN Report): {e}')
         return None
             
-   
+
+def fetch_ddboost_data(hostname, port, username, password, script_path, output_path):
+    # Initialize script
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    try:
+        ssh.connect(hostname=hostname, port=port, username=username, password=password)
+        logger.info("Connected to DDBoost Server!")
+        
+        # Run the script
+        stdin, stdout, stderr = ssh.exec_command(script_path)
+        stdout.channel.recv_exit_status()  # wait until script finishes
+        
+        # Optional: small sleep if needed
+        time.sleep(1)
+        
+        # Now read the generated CSV
+        stdin, stdout, stderr = ssh.exec_command(f"cat {output_path}")
+        output = stdout.read().decode()
+        error = stderr.read().decode()
+        
+        # convert csv into pandas dataframe
+        # load csv as df, delimiter here in data is ;
+        df = pd.read_csv(StringIO(output), delimiter=';')
+        # Drop rows where all values match the column names (i.e. repeated headers)
+        df = df[~(df.astype(str) == df.columns).all(axis=1)].reset_index(drop=True)
+
+        # remove sub domain from the client (AS client_name)
+        df['ClientName'] = df['Client'].str.split('.').str[0]
+        
+        # return 
+        return df
+        
+    except paramiko.AuthenticationException:
+        print("Authentication failed.")
+    except paramiko.SSHException as e:
+        print(f"SSH error: {e}")
+    except Exception as e:
+        print(f"Connection failed: {e}")
+    finally:
+        ssh.close()
+        # pass
+ 
     
