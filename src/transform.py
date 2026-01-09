@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import json
 import logging
-from src.utils import convert_into_tb
+from src.utils import convert_into_tb, extract_version_tuple, send_failure_email
 
 # setup loggers
 logger = logging.getLogger()
@@ -41,6 +41,9 @@ def transform_vmware_data(flatten_vmware_data, vmware_column_mapping):
     
     # preserve order
     df_vmware = df_vmware[vmware_column_mapping.values()]
+
+    # clean the VM Name column by removing(-_)
+    df_vmware['VM Name'] = df_vmware['VM Name'].str.split(r'[_-]').str[0]
 
     # apply transformation on vSphere
     df_vmware['Vsphere Tags'] = df_vmware['Vsphere'].apply(transform_vsphere_string)
@@ -90,7 +93,6 @@ def transform_esxi_data(flatten_esxi_data, esxi_column_mapping):
     
     # preserve order
     df_esxi = df_esxi[esxi_column_mapping.values()]
-
 
     # transform Mgm IP column by having the last item from the ip list
     df_esxi['Mgm IP'] = df_esxi['Mgm IP'].str.split(',').str[-1]
@@ -193,7 +195,7 @@ def transform_aiops_data(aiops_df, master_df):
 
     # modify master_df
     master_df.drop(columns=['TotalSize(TB)', 'Used(TB)'],inplace=True)
-    merged_aiops_df = pd.merge(aiops_df, master_df,on='StorageGroupName', how='left')
+    merged_aiops_df = pd.merge(master_df, aiops_df,on='StorageGroupName', how='left')
     # save the excel file as well
     merged_aiops_df.to_excel('data/processed/merged_aiops.xlsx', index=False)
 
@@ -219,7 +221,7 @@ def transform_ibm_data(ibm_df, master_df):
     ibm_df.rename(columns={'name':'ServerName'}, inplace=True)
     
     # merge the ibm_df with the master_df to do vlookup on servername
-    merged_ibm = pd.merge(ibm_df, master_df,on='ServerName', how='left')
+    merged_ibm = pd.merge(master_df, ibm_df, on='ServerName', how='left')
     
     # store transform file as excel
     merged_ibm.to_excel('data/processed/merged_ibm.xlsx', index=False)
@@ -238,6 +240,36 @@ def transform_amps_data(df_view, view_type=None):
         # because some SS_names are i.e= WildFly 12.0 identified as JBossPhysicalInventory on tsitinfapplx007.comp.pge.com,   Red Hat JBoss Application Server 7.1 on dcpp200q
         df_view['SS_Name'] = df_view['SS_Name'].str.split(' ').str[-1]
         df_view['SS_Name'] = df_view['SS_Name'].str.split('.').str[0]
+        
+        # drop entries where app_id is null
+        df_view = df_view[df_view['App_Asset_ID_'].notna()]
+
+        pge_middleware_list = [
+            "PGE_Middleware for API Management",
+            "PGE_Middleware for ETL (Extract, Transform, Load)",
+            "PGE_Middleware Web Services",
+            "PGE_Message-Oriented Middleware (MOM)",
+            "PGE_Middleware for Security",
+            "PGE_Middleware for Business Process Automation",
+            "PGE_Middleware for Enterprise Applications",
+            "PGE_Middleware for Real-Time Analytics",
+            "PGE_Middleware Tomcat Application Server"
+        ]
+        # select only thoe entries where SS_System_Role match the pge_middleware_list
+        df_view = df_view[df_view['SS_System_Role'].isin(pge_middleware_list)]
+
+        # Add a parsed version column to your dataframe
+        df_view['parsed_version'] = df_view['SS_Version_Number'].apply(extract_version_tuple)
+
+        # For each SS_Name, keep only the row with the latest version
+        df_view = df_view.loc[df_view.groupby('SS_Name')['parsed_version'].idxmax()]
+        
+        df_view['SS_Version_Short'] = df_view['SS_Version_Number'].str.split(".").str[:2].str.join(".")
+        
+        df_view.drop(columns={'parsed_version'}, inplace=True)
+
+
+
     
     elif view_type == 'view_itassets':
         # 1) Convert text to datetime (auto-detect formats; set dayfirst=True if your data is D/M/Y)
@@ -248,6 +280,10 @@ def transform_amps_data(df_view, view_type=None):
 
     elif view_type == 'view_database_assets':
         df_view['DB_Version_Short'] = df_view['DB_Version_Number'].str.split(".").str[:2].str.join(".")
+        
+        # Exclude some of the default dbs from the list
+        exclude_dbs = ['master' ,'tempdb' ,'model' ,'msdb' ,'DBA']
+        df_view = df_view[~df_view['DB_Short_Description'].isin(exclude_dbs)]
 
     return df_view
     

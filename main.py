@@ -10,12 +10,13 @@ from io import StringIO
 from dotenv import load_dotenv
 from pandas import json_normalize
 from src.utils import get_vrops_auth_token, get_amps_auth_token, convert_lists_to_json, get_dpa_token, create_session_with_retries
-from src.utils import remove_duplicate_cols, get_aiops_auth_token, get_ibm_auth_token
+from src.utils import remove_duplicate_cols, get_aiops_auth_token, get_ibm_auth_token, send_failure_email
 from src.extract import get_vrops_identifiers, run_vrops_extraction, get_amps_view_names, fetch_amps_data, fetch_ddboost_data
 from src.extract import get_node_id, get_report_url, get_dpa_report, fetch_nas_data, fetch_aiops_data, fetch_ibm_data
 from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data, transform_nas_data
 from src.transform import transform_aiops_data, transform_ibm_data, transform_amps_data
 from src.load import load_vmware_data_into_db, load_amps_data_into_db, run_custom_query, create_index
+from src.load import create_base_master_table, create_filtered_nas_report_table, create_filtered_view_database_table, create_master_eosl_table
 # Local application imports from config.py
 from config import vmware_metrics_names, esxi_metrics_names, vmware_properties_names, esxi_properties_names
 from config import  vmware_column_mapping, esxi_column_mapping, vmware_create_table_query, esxi_create_table_query
@@ -71,12 +72,12 @@ aiops_auth_url = 'https://apigtwb2c.us.dell.com/auth/oauth/v2/token'
 ibm_auth_url  = f"https://insights.ibm.com/restapi/v1/tenants/{ibm_tenant_id}/token"
 ddboost_script_path = "/tsm_ops/admin/eosl_ddboost_data_collect.sh"
 ddboost_script_output_path = "/tsm_ops/admin/eosl_ddboost_list.csv"
-eosl_asset_file_path = "data/raw/Component_Category_COMC_554__Windows.xlsx"
+eosl_asset_file_path = "data/raw/Component_Category_COMC_554__WindowsNew.xlsx"
 storage_analysis_file_path = 'data/raw/ru_count_storage.xlsx'
 
 # local variables
-# amps_view_list = ['view_applications', 'view_database_assets', 'view_itassets', 'view_middleware_assets']
-amps_view_list = ['view_database_assets']
+amps_view_list = ['view_applications', 'view_database_assets', 'view_itassets', 'view_middleware_assets']
+# amps_view_list = ['view_middleware_assets', 'view_itassets']
 
 ## Using other variables from config.py
 
@@ -101,6 +102,9 @@ def load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_prope
     # load vmware data into mysql server database
     load_vmware_data_into_db(df_vmware, db_username, db_password, db_name, db_host, db_port, vmware_create_table_query, vmware_insert_sql_query)
 
+    # creating indexes on Disk Utlization (TB), VM Name columns for VMware 
+    create_index('VMware','Disk Utlization (TB)',db_username, db_password, db_name, db_host, db_port)
+    create_index('VMware','VM Name',db_username, db_password, db_name, db_host, db_port)
 
 
 # Get and load the ESXi Host data into database table
@@ -123,9 +127,10 @@ def load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_
     # load vmware data into mysql server database
     load_vmware_data_into_db(df_esxi, db_username, db_password, db_name, db_host, db_port, esxi_create_table_query, esxi_insert_sql_query)
 
-    # create index on the SD Name column in table
+    # creating indexes on Disk Utilization, Disk Utlization columns for ESXi 
     create_index(table='ESXi', column='SD_Name', user=db_username, password=db_password, db_name=db_name, host=db_host, port=db_port)
-
+    create_index('ESXi','Disk Utilization',db_username, db_password, db_name, db_host, db_port)
+    
 
 # Get and load the AMPs data into database table
 def load_amps_data(token, view_type, db_username, db_password, db_name, db_host, db_port):
@@ -152,7 +157,21 @@ def load_amps_data(token, view_type, db_username, db_password, db_name, db_host,
 
             # load data into database
             load_amps_data_into_db(df_view, view_type, db_username, db_password, db_name, db_host, db_port)
-            
+            if view_type == 'view_itassets':
+                # creating indexes on CS_AssetLifeCycleStatusName for view_it_assets table
+                create_index('view_itassets', 'CS_AssetLifeCycleStatusName',db_username, db_password, db_name, db_host, db_port)
+        
+            if view_type == 'view_database_assets':
+                # creating indexes on DB_HostName, DB_Model, DB_version_number, DB_Short_Description columns for view_database_assets 
+                create_index('view_database_assets','DB_HostName',db_username, db_password, db_name, db_host, db_port)
+                create_index('view_database_assets','DB_Model',db_username, db_password, db_name, db_host, db_port)
+                create_index('view_database_assets','DB_version_number',db_username, db_password, db_name, db_host, db_port)
+                create_index('view_database_assets','DB_Short_Description',db_username, db_password, db_name, db_host, db_port)
+
+            # creating indexes on SS_Name for view_middleware_assets table
+            # create_index('view_middleware_assets', 'SS_Name',db_username, db_password, db_name, db_host, db_port)
+
+
             # end_time
             end_time = time.time() - start_time
             logger.info(f'Time Taken to fetch and load data for {view_type}: {end_time}')
@@ -244,6 +263,9 @@ def load_dpa_data(token, query_values: list, server='avamar_servers'):
     
     # Step 5 load data into databae table
     load_amps_data_into_db(final_df, server, db_username, db_password, db_name, db_host, db_port)
+
+    # creating indexes on Client for avamar_servers table
+    create_index('avamar_servers', 'Client',db_username, db_password, db_name, db_host, db_port)
     
 # Get and load the NAS data into database table
 def load_nas_data(username, password, file_paths, domain='PGE', table_name='nas_report'):
@@ -260,6 +282,10 @@ def load_nas_data(username, password, file_paths, domain='PGE', table_name='nas_
 
     # load data into databae table
     load_amps_data_into_db(nas_data_df, table_name, db_username, db_password, db_name, db_host, db_port)
+
+    # creating indexes on APP-ID columns
+    create_index('nas_report','APP-ID',db_username, db_password, db_name, db_host, db_port)
+
 
 
 # Get and load the SAN data into database table
@@ -289,8 +315,9 @@ def load_san_data(aiops_token, ibm_token, ibm_tenant_id, table_name='san_report'
     # load data into databae table
     load_amps_data_into_db(san_df, table_name, db_username, db_password, db_name, db_host, db_port)
 
-    # create index on the SystemDisplayName column in table
+    # creating indexes on SystemDisplayName, Used (TB) columns for san_report 
     create_index(table_name,'SystemDisplayName', db_username, db_password, db_name, db_host, db_port)
+    create_index(table_name,'Used (TB)', db_username, db_password, db_name, db_host, db_port)
     
 
 def load_ddboost_data(hostname, port, username, password, script_path, output_path, table_name='ddboost_report'):
@@ -298,6 +325,10 @@ def load_ddboost_data(hostname, port, username, password, script_path, output_pa
     ddboost_df = fetch_ddboost_data(hostname, port, username, password, script_path, output_path)
     # load into the database table
     load_amps_data_into_db(ddboost_df, table_name, db_username, db_password, db_name, db_host, db_port)
+    
+    # creating indexes on ClientName 
+    create_index(table_name,'ClientName', db_username, db_password, db_name, db_host, db_port)
+    
 
 def load_eosl_aaset(file_path, db_username, db_password, db_name, db_host, db_port, table_name = 'EOSL_assets'):
     try:
@@ -308,12 +339,41 @@ def load_eosl_aaset(file_path, db_username, db_password, db_name, db_host, db_po
         # Concatenate all DataFrames into one
         merged_df = pd.concat(all_sheets.values(), ignore_index=True)
 
+        
+        # Optional: strip whitespace
+        merged_df['Version'] = merged_df['Version'].astype(str).str.strip()
+
+        merged_df['Corrected Name'] = merged_df['Corrected Name'].astype(str).str.strip()
+        
         # Transformation (creatin new column from existing one)
         merged_df['Short_Version'] = merged_df['Version'].str.split(".").str[:2].str.join(".")
 
-        
+        # For midleware for duplicate short version only take the one with latest date
+        merged_df["Start Date"] = pd.to_datetime(merged_df["Start Date"])
+        merged_df["End Date"] = pd.to_datetime(merged_df["End Date"])
+
+        # 1. Split the dataframe
+        df_target = merged_df[merged_df['Type'].isin(['MW APP Server', 'MW Web Server'])]
+        df_other  = merged_df[~merged_df['Type'].isin(['MW APP Server', 'MW Web Server'])]
+
+        # 2. Apply latest Start Date rule only to the target types
+        df_target_latest = df_target.loc[
+            df_target.groupby("Short_Version")["Start Date"].idxmax()
+        ]
+
+        # 3. Combine back together
+        merged_df_final = pd.concat([df_target_latest, df_other], ignore_index=True)
+
         # load into database
-        load_amps_data_into_db(merged_df, table_name, db_username, db_password, db_name, db_host, db_port)
+        load_amps_data_into_db(merged_df_final, table_name, db_username, db_password, db_name, db_host, db_port)
+
+        # creating indexes on Corrected Name, Short_Version, Model, Version, Type columns
+        create_index('EOSL_assets','Corrected Name',db_username, db_password, db_name, db_host, db_port)
+        create_index('EOSL_assets','Short_Version',db_username, db_password, db_name, db_host, db_port)
+        create_index('EOSL_assets','Model',db_username, db_password, db_name, db_host, db_port)
+        create_index('EOSL_assets','Version',db_username, db_password, db_name, db_host, db_port)
+        create_index('EOSL_assets','Type',db_username, db_password, db_name, db_host, db_port)
+
 
     except Exception as e:
         logger.info('Something went wrong while reuploading the EOSL Assets file in Database')
@@ -326,9 +386,43 @@ def load_storage(file_path, db_username, db_password, db_name, db_host, db_port,
 
         # load into database
         load_amps_data_into_db(storage_df, table_name, db_username, db_password, db_name, db_host, db_port)
+        # creating index on System Name
+        create_index(table_name,'System Name',db_username, db_password, db_name, db_host, db_port)
+
+
     except Exception as e:
         logger.info('Something went wrong while reuploading the storage analysis file in Database')
         logger.info(e)
+
+def load_master_table(db_username, db_password, db_name, db_host, db_port):
+    try:
+        # create base_master table
+        create_base_master_table(db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on Application Ids, Capability List, Operating System
+        create_index('master_eosl_base','Application Ids',db_username, db_password, db_name, db_host, db_port)
+        create_index('master_eosl_base','Capability List',db_username, db_password, db_name, db_host, db_port)
+        create_index('master_eosl_base','Operating System',db_username, db_password, db_name, db_host, db_port)
+        
+        # create filtered_nas_report_table
+        create_filtered_nas_report_table(db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on APP-ID, Cluster
+        create_index('nas_report_filter','APP-ID',db_username, db_password, db_name, db_host, db_port)
+        create_index('nas_report_filter','Cluster',db_username, db_password, db_name, db_host, db_port)
+        
+        # create filtered_view_database_table
+        create_filtered_view_database_table(db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on DB_HostName
+        # create_index('view_database_assets_filter','DB_HostName',db_username, db_password, db_name, db_host, db_port)
+
+        # create master table
+        create_master_eosl_table(db_username, db_password, db_name, db_host, db_port)
+        
+
+    except Exception as exception:
+        logger.info('Something went wrong while loading master table')
+        logger.info(exception)
+        send_failure_email('load_master_table', 'Something went wrong while loading master table')
+
 
 
 
@@ -384,5 +478,7 @@ if __name__ == "__main__":
     # Load Storage Analysis
     logger.info('Initialize data fetching and loading into database for Storage Analysis')
     load_storage(storage_analysis_file_path, db_username, db_password, db_name, db_host, db_port, 'storage_analysis')
-
-   
+    
+    # Load master table
+    logger.info('Initialize loading data into master table')
+    load_master_table(db_username, db_password, db_name, db_host, db_port)

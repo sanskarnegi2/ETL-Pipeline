@@ -17,6 +17,7 @@ import win32con
 import win32file, win32net, win32netcon
 import paramiko
 from io import StringIO
+from src.utils import send_failure_email
 
 # Suppress only InsecureRequestWarning
 warnings.simplefilter('ignore', urllib3.exceptions.InsecureRequestWarning)
@@ -79,75 +80,83 @@ def get_vrops_identifiers(token, vrops_host, resourceKind='VirtualMachine'):
 
     except Exception as exc:
          logger.info(f'Something went wrong while getting vrops identifiers: {exc}')
+         send_failure_email('get_vrops_identifiers', 'Something went wrong while getting vrops identifiers', e)
     
 
 # Fetch Metrics and properties for the
 async def run_vrops_extraction(token, identifiers, vrops_host, desired_metrics, max_concurrent=40, resourceKind='VirtualMachine'):
-    start_time = time.time()
+    try:
 
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': token,
-        'Accept': 'application/json'
-    }
+        start_time = time.time()
 
-
-    ### Example desired_metrics
-    # desired_metrics = [
-    #     'mem|consumed_average',
-    #     'cpu|usage_average',
-    #     'guestfilesystem|usage_total',
-    #     'guestfilesystem|capacity_total'
-    # ]
-
-    async def fetch_metrics(session, vm_id):
-        url = f'{vrops_host}/suite-api/api/resources/{vm_id}/stats/latest?_no_links=true'
-        try:
-            async with session.get(url, headers=headers, ssl=False) as response:
-                response.raise_for_status()
-                metrics = await response.json()
-                des_metrics = [
-                    {'name': st['statKey']['key'], 'value': st['data'][0]}
-                    for st in (metrics.get('values', [{}])[0].get('stat-list', {}).get('stat', []))
-                    if st['statKey']['key'] in desired_metrics   # desired_metrics -> list of metrics 
-                ]
-                return des_metrics
-        except Exception as e:
-            logger.error(f"Metrics fetch failed for {vm_id}: {e}")
-            return []
-
-    async def fetch_properties(session, vm_id):
-        url = f'{vrops_host}/suite-api/api/resources/{vm_id}/properties?_no_links=true'
-        try:
-            async with session.get(url, headers=headers, ssl=False) as response:
-                response.raise_for_status()
-                properties = (await response.json()).get('property', [])
-                return properties
-        except Exception as e:
-            logger.error(f"Properties fetch failed for {vm_id}: {e}")
-            return None
-
-    async def fetch_vm_data(session, vm_id):
-        metrics_task = fetch_metrics(session, vm_id)
-        properties_task = fetch_properties(session, vm_id)
-        metrics, properties = await asyncio.gather(metrics_task, properties_task)
-        return {
-            'vm_id': vm_id,
-            'data': (properties or []) + (metrics or [])
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+            'Accept': 'application/json'
         }
 
-    async def main():
-        connector = aiohttp.TCPConnector(limit=max_concurrent)
-        async with aiohttp.ClientSession(connector=connector) as session:
-            logger.info(f'Fetching Metrics and properties for {resourceKind}')
-            tasks = [fetch_vm_data(session, vm_id) for vm_id in identifiers]
-            results = await asyncio.gather(*tasks)
-            return [r for r in results if r is not None]
 
-    results = await main()
-    elapsed = time.time() - start_time
-    logger.info(f"Elapsed time for fetching {resourceKind} : {elapsed:.2f} seconds")
-    return results
+        ### Example desired_metrics
+        # desired_metrics = [
+        #     'mem|consumed_average',
+        #     'cpu|usage_average',
+        #     'guestfilesystem|usage_total',
+        #     'guestfilesystem|capacity_total'
+        # ]
+
+        async def fetch_metrics(session, vm_id):
+            url = f'{vrops_host}/suite-api/api/resources/{vm_id}/stats/latest?_no_links=true'
+            try:
+                async with session.get(url, headers=headers, ssl=False) as response:
+                    response.raise_for_status()
+                    metrics = await response.json()
+                    des_metrics = [
+                        {'name': st['statKey']['key'], 'value': st['data'][0]}
+                        for st in (metrics.get('values', [{}])[0].get('stat-list', {}).get('stat', []))
+                        if st['statKey']['key'] in desired_metrics   # desired_metrics -> list of metrics 
+                    ]
+                    return des_metrics
+            except Exception as e:
+                logger.error(f"Metrics fetch failed for {vm_id}: {e}")
+                return []
+
+        async def fetch_properties(session, vm_id):
+            url = f'{vrops_host}/suite-api/api/resources/{vm_id}/properties?_no_links=true'
+            try:
+                async with session.get(url, headers=headers, ssl=False) as response:
+                    response.raise_for_status()
+                    properties = (await response.json()).get('property', [])
+                    return properties
+            except Exception as e:
+                logger.error(f"Properties fetch failed for {vm_id}: {e}")
+                return None
+
+        async def fetch_vm_data(session, vm_id):
+            metrics_task = fetch_metrics(session, vm_id)
+            properties_task = fetch_properties(session, vm_id)
+            metrics, properties = await asyncio.gather(metrics_task, properties_task)
+            return {
+                'vm_id': vm_id,
+                'data': (properties or []) + (metrics or [])
+            }
+
+        async def main():
+            connector = aiohttp.TCPConnector(limit=max_concurrent)
+            async with aiohttp.ClientSession(connector=connector) as session:
+                logger.info(f'Fetching Metrics and properties for {resourceKind}')
+                tasks = [fetch_vm_data(session, vm_id) for vm_id in identifiers]
+                results = await asyncio.gather(*tasks)
+                return [r for r in results if r is not None]
+
+        results = await main()
+        elapsed = time.time() - start_time
+        logger.info(f"Elapsed time for fetching {resourceKind} : {elapsed:.2f} seconds")
+        return results
+    
+    except Exception as exc:
+        logger.info("Something went wrong while extracting VROPS data")
+        send_failure_email('run_vrops_extraction', 'Something went wrong while extracting VROPS data', exc)
+        
 
     # # Convert each VM's property list into dictionary
     # # Flatten the data
@@ -230,6 +239,7 @@ def fetch_amps_data(token, view_type, skip=0, take=1000):
             skip += take
     except Exception as exception:
         logger.info("Something went wrong")
+        send_failure_email('fetch_amps_data', 'Something went wrong while fetching AMPS data', e)
 
 # Fetch DPA Data
 ## get node_ids
@@ -260,12 +270,15 @@ def get_node_id(token, session, query_value):
         else:
             logger.info(f"Request failed with status code: {response.status_code}")
             logger.info(f"Response content: {response.text}")
-    except MaxRetryError:
+    except MaxRetryError as me:
         logger.info("Max retries exceeded. Server returned too many 500 errors: get node_id")
+        send_failure_email('get_node_id', 'Max retries exceeded. Server returned too many 500 errors: get node_id', me)
     except RequestException as e:
         logger.info(f"Request failed - get node_id: {str(e)}")    
+        send_failure_email('get_node_id', 'Request failed - get node_id', e)
     except Exception as e:
         logger.info(f"Error occurred while fetching node ID for {query_value}: {e}")
+        send_failure_email('get_node_id', f'Error occurred while fetching node ID for {query_value}', e)
         # logger.exception(f"Error occurred while fetching node ID for {query_value}: {e}")
     
     return None
@@ -314,12 +327,15 @@ def get_report_url(token, session, node_ids):
                     logger.info(f"Request failed with status code {response.status_code}")
                     logger.debug(response.text)
             
-            except MaxRetryError:
+            except MaxRetryError as me:
                 logger.info("Max retries exceeded. Server returned too many 500 errors: get report url")
+                send_failure_email('get_report_url', 'Max retries exceeded. Server returned too many 500 errors: get_report_url', me)
             except RequestException as e:
                 logger.info(f"Request failed - get report url: {str(e)}")
+                send_failure_email('get_report_url', 'Request failed - get_report_url', e)
             except Exception as e:
                 logger.info(f"Error during report_url request: {e}")
+                send_failure_email('get_node_id', 'Error during report_url request', e)
     
     return report_urls
 
@@ -345,46 +361,54 @@ def get_dpa_report(token, session, report_urls):
                 logger.info(f"Request failed with status code: {response.status_code}")
                 logger.debug(response.text)
         
-        except MaxRetryError:
+        except MaxRetryError as me:
             logger.info("Max retries exceeded. Server returned too many 500 errors.")
+            send_failure_email('get_dpa_report', 'Max retries exceeded. Server returned too many 500 errors: get_dpa_report', me)
         except RequestException as e:
             logger.info(f"Request failed: {str(e)}")
+            send_failure_email('get_dpa_report', 'Request failed - get_dpa_report', e)
+
     
         except Exception as e:
             logger.info(f"Error occurred while fetching report: {e}")
-            # logger.exception(f"Error occurred while fetching report: {e}")
+            send_failure_email('get_dpa_report', f'Error occurred while fetching dpa reprot', e)
     
     return xml_reports
 
 # Fetch NAS report
 def fetch_nas_data(username, domain, password, file_paths):
 
-    # we are accessing the files from shared resource network using service account
-    # Logon and impersonate
-    # Logon and impersonate
-    handle = win32security.LogonUser(
-        username,
-        domain,
-        password,
-        win32con.LOGON32_LOGON_NEW_CREDENTIALS,
-        win32con.LOGON32_PROVIDER_WINNT50
-    )
+    try:
+        # we are accessing the files from shared resource network using service account
+        # Logon and impersonate
+        # Logon and impersonate
+        handle = win32security.LogonUser(
+            username,
+            domain,
+            password,
+            win32con.LOGON32_LOGON_NEW_CREDENTIALS,
+            win32con.LOGON32_PROVIDER_WINNT50
+        )
 
-    win32security.ImpersonateLoggedOnUser(handle)
-    # create an empty list to store dataframes
-    dataframes = [] 
-    for file_path in file_paths:
-        # Access UNC path directly
-        # file_path = r"\\smb2.fxnas02.pge.com\techopsautomation-fs01\metadata\fxnas02_filesystems.csv"
-        df = pd.read_csv(file_path)
-        dataframes.append(df)
+        win32security.ImpersonateLoggedOnUser(handle)
+        # create an empty list to store dataframes
+        dataframes = [] 
+        for file_path in file_paths:
+            # Access UNC path directly
+            # file_path = r"\\smb2.fxnas02.pge.com\techopsautomation-fs01\metadata\fxnas02_filesystems.csv"
+            df = pd.read_csv(file_path)
+            dataframes.append(df)
 
-    # Revert impersonation
-    win32security.RevertToSelf()
-    handle.Close()
-    print(f'dataframe length: {len(dataframes)}')
-    # return dataframe
-    return dataframes
+        # Revert impersonation
+        win32security.RevertToSelf()
+        handle.Close()
+        print(f'dataframe length: {len(dataframes)}')
+        # return dataframe
+        return dataframes
+    
+    except Exception as exc:
+        logger.info('Something went wrong while fetching NAS Report')
+        send_failure_email('fetch_nas_data', 'Something went wrong while fetching NAS Report', exc)
 
 # Fetch AIOPS data for SAN report
 def fetch_aiops_data(token):
@@ -407,6 +431,7 @@ def fetch_aiops_data(token):
         except requests.exceptions.RequestException as e:
                 # if fails in any iteration, return the data till previous iteration
                 logger.info(f'Error fetching data for AIOPS iteration {offset}: {e}')
+                send_failure_email('fetch_aiops_data', 'Error fetching data for AIOPS iteration', e)
                 aiops_df = pd.DataFrame(all_response)
                 # return statment
                 return aiops_df
