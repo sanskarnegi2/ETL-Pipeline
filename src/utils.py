@@ -8,13 +8,23 @@ from pandas import json_normalize
 from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+import re
+import pandas as pd
+import smtplib
+from email.mime.text import MIMEText
+from datetime import datetime
+from dotenv import load_dotenv
 
 
 # logging setup
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-
+# Load Envirnoment Variables
+load_dotenv()
+sender = os.getenv('SENDER')
+recipients = os.getenv('RECIPIENTS')
+smtp_server = os.getenv('SMTP_SERVER')
 
 # get vrops tokem
 def get_vrops_auth_token(username, password, auth_url):
@@ -238,3 +248,68 @@ def convert_into_tb(value, unit='T'):
     # Convert bytes to TB
     tb_value = bytes_value / (1024 ** 4)
     return round(tb_value,2)
+
+
+# Create a function to parse version strings
+def extract_version_tuple(v):
+    if pd.isna(v):
+        return (0,)   # no version found
+    
+    v = str(v)  #  convert everything to string
+    
+    match = re.search(r'\d+\.\d+(?:\.\d+)*', v)
+    if not match:
+        return (0,)
+    
+    version_str = match.group(0)
+    version_parts = tuple(int(x) for x in version_str.split('.'))
+    
+    hf = re.search(r'HF(\d+)', v)
+    hotfix = int(hf.group(1)) if hf else 0
+    
+    return version_parts + (hotfix,)
+
+def normalize_column(column):
+    # Remove parentheses but keep what's inside
+    column = re.sub(r"[()]", "", column)
+    # Split on any sequence of non-alphanumeric characters
+    parts = re.split(r"[^A-Za-z0-9]+", column)
+    # Filter out empty strings and join with underscores
+    return "_".join(filter(None, parts))
+
+
+
+
+
+def send_failure_email(function_name, error_message, details=None):
+    
+    # Subject
+    subject = f"[EOSL Script Failure] Error in {function_name}"
+
+    # Body
+    body = f"""
+            Hello Team,
+
+            The EOSL automation script encountered an error.
+
+            Function: {function_name}
+            Error: {error_message}
+
+            Details:
+            {details if details else 'No additional details provided.'}
+
+            Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+
+            Please investigate.
+
+            Regards,
+            Automation Bot
+            """
+    
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = ", ".join(recipients)
+
+    with smtplib.SMTP(smtp_server) as server:
+        server.sendmail(sender, recipients, msg.as_string())
