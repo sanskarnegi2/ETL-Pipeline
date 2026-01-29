@@ -472,6 +472,7 @@ def fetch_ibm_data(token, ibm_tenant_id):
         return ibm_df
     except requests.exceptions.RequestException as e:    
         logger.info(f'Error fetching data for IBM (SAN Report): {e}')
+        send_failure_email('fetch_ibm_data', 'Something went wrong while fetching data for IBM (SAN Report)', e)
         return None
             
 
@@ -509,11 +510,14 @@ def fetch_ddboost_data(hostname, port, username, password, script_path, output_p
         return df
         
     except paramiko.AuthenticationException:
-        print("Authentication failed.")
+        logger.info("Authentication failed.")
+        send_failure_email('fetch_ddboost_data', 'Something went wrong while fetching data for ddboost.', 'Authentication failed')
     except paramiko.SSHException as e:
-        print(f"SSH error: {e}")
+        logger.info(f"SSH error: {e}")
+        send_failure_email('fetch_ddboost_data', 'Something went wrong while fetching data for ddboost', f"SSH error: {e}")
     except Exception as e:
-        print(f"Connection failed: {e}")
+        logger.info(f"Connection failed: {e}")
+        send_failure_email('fetch_ddboost_data', 'Something went wrong while fetching data for ddboost', f"SSH error: {e}")
     finally:
         ssh.close()
         # pass

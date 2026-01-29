@@ -12,6 +12,7 @@ import re
 import pandas as pd
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -277,7 +278,12 @@ def normalize_column(column):
     # Filter out empty strings and join with underscores
     return "_".join(filter(None, parts))
 
-
+# function to transform column data from - ['OI-23343'] -> 'OI-23343'
+def mod_list_col(df, col_name):
+    df[col_name] = df[col_name].str.strip("[]'").str.replace("'", "")
+    df[col_name] = df[col_name].str.split(',\s*')
+    df = df.explode(col_name)
+    return df
 
 
 
@@ -309,7 +315,52 @@ def send_failure_email(function_name, error_message, details=None):
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = sender
-    msg['To'] = ", ".join(recipients)
+    msg['To'] = recipients
 
     with smtplib.SMTP(smtp_server) as server:
-        server.sendmail(sender, recipients, msg.as_string())
+        # pass
+        server.sendmail(sender, [recipients], msg.as_string())
+
+
+def send_success_email():
+    
+    # Subject
+    subject = 'EOSL Script Execution Finished'
+
+    # Body
+    body = f"""
+            <html>
+            <body style="font-family: Arial, sans-serif; font-size: 14px;">
+                <p>Hello Team,</p>
+
+                <p>
+                The <b>EOSL automation script</b> has completed its execution.
+                </p>
+
+                <p>
+                <b>Timestamp:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+                </p>
+
+                <p>Regards,<br>
+                <b>Automation Bot</b>
+                </p>
+            </body>
+            </html>
+            """
+
+    
+    msg = MIMEMultipart("alternative")
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = recipients
+
+    print(f'address:{recipients}')
+
+    # Attach HTML body 
+    msg.attach(MIMEText(body, "html"))
+
+    with smtplib.SMTP(smtp_server) as server:
+        pass
+        # server.sendmail(sender, [recipients], msg.as_string())
+    
+    logger.info('Succes Mail Sent.')

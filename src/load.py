@@ -45,6 +45,7 @@ def load_vmware_data_into_db(df_vmware, user, password, db_name, host, port, cre
 
     except Exception as e:
         logger.error("Error while loading data for VirtualMachine into database table:", e)
+        send_failure_email('load_vmware_data_into_db', 'Something went wrong while loading VMware data into the database.', e)
 
     finally:
         end_time = time.time() -start_time
@@ -129,6 +130,7 @@ def load_amps_data_into_db(df_view, view_name, user, password, db_name, host, po
     
     except Exception as e:
         logger.info("Error:", e)
+        send_failure_email('load_amps_data_into_db', 'Something went wrong while loading AMPs data into the database.', e)
         
     
     finally:
@@ -162,6 +164,7 @@ def run_custom_query(query, user, password, db_name, host, port):
     
     except Exception as e:
         logger.info("Error:", e)
+        send_failure_email('run_custom_query', 'Something went wrong while running custom query.', e)
         
     
     finally:
@@ -226,6 +229,99 @@ def create_index(table, column, user, password, db_name, host, port):
             pass
 
 
+def create_managed_eosl_base_table(user, password, db_name, host, port):
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        cursor.fast_executemany = True
+        print("Connection established to create the managed_eosl_base table.")
+
+        
+        query = """
+                
+                IF OBJECT_ID('dbo.managed_eosl_base', 'U') IS NOT NULL
+                    DROP TABLE dbo.managed_eosl_base;
+                
+                SELECT 
+                    App_Id_Direct AS [Application Ids],
+                    App_Name AS [Application Names],
+                    CS_Primary_CapabilityCategory AS [Capability List],
+                    _id AS [CI Name],
+                    App_CLIENT_OWNER AS [Client Owner],
+                    CS_Create_Date AS [Create Date], 
+                    CS_Disposal_Date AS [Disposal Date],
+                    CS_Installation_Date AS [Installation Date],
+                    [Assumed HW Expiration Date],
+                    App_IT_DIRECTOR AS [IT Director],
+                    App_IT_LEAD AS [IT Lead],
+                    App_IT_SME AS [IT SME],
+                    App_IT_SME_BU AS [IT SME Backup],
+                    App_MANAGED_BY AS [Managed By],
+                    CS_Modified_Date AS [Modified Date],
+                    CS_NERCType AS [NERC Type],
+                    CS_OperatingSystem AS [Operating System],
+                    CS_OSVendor AS [OS Vendor],
+                    CS_OSVersion AS [OS Version],
+                    CS_Part_Number AS [Part Number],
+                    CS_Domain AS [PGE Domain],
+                    CS_Primary_Capability AS [Primary Capability],
+                    CS_Primary_CapabilityName AS [Primary Capability Name],
+                    CS_Item AS [Product Category - Tier 3],
+                    CS_Model_Number AS [Product Name],
+                    CS_Site AS [Site+],
+                    CS_AssetLifeCycleStatusName AS [Status],
+                    CS_System_Environment AS [System Environment],
+                    CS_Tag_Number AS [Tag Number],
+                    App_BIA_TIER as [BIA Tier],
+                    [ss_ids],
+                    [db_ids]
+                INTO dbo.managed_eosl_base
+                FROM EOSLdatastore.dbo.view_itassets_managed_services
+                """
+        
+        
+        cursor.execute(query)        
+
+        alter_query = f"""
+        ALTER TABLE dbo.managed_eosl_base
+        ALTER COLUMN [CI Name] VARCHAR(255);
+        """
+        cursor.execute(alter_query)
+
+        # create Correct CI name column(that remove the domain from name) and add index to it, as we will use it for lookup
+        correct_col_query = """
+                ALTER TABLE EOSLdatastore.dbo.managed_eosl_base
+                ADD [CIName_Correct] AS (
+                    CASE 
+                        WHEN CHARINDEX('.', [CI Name]) > 0 
+                            THEN LEFT([CI Name], CHARINDEX('.', [CI Name]) - 1)
+                        ELSE [CI Name]
+                    END
+                ) PERSISTED;
+                CREATE INDEX IX_managed_eosl_base_CIName_Correct ON EOSLdatastore.dbo.managed_eosl_base([CIName_Correct]);
+
+        """
+        cursor.execute(correct_col_query)
+        
+        conn.commit()
+        
+    except Exception as e:
+        print("Error:", e)
+        send_failure_email('create_managed_eosl_base_table', 'Something went wrong while loading base managed assets table data into the database.', e)
+        
+
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            print(" Connection closed.")
+        except:
+            pass
+
+
 
 def create_base_master_table(user, password, db_name, host, port):
     try:
@@ -237,6 +333,7 @@ def create_base_master_table(user, password, db_name, host, port):
         cursor.fast_executemany = True
         print("Connection established to create the master_eosl_base table.")
 
+        
         query = """
                 
                 IF OBJECT_ID('dbo.master_eosl_base', 'U') IS NOT NULL
@@ -265,6 +362,7 @@ def create_base_master_table(user, password, db_name, host, port):
                     CS_Part_Number AS [Part Number],
                     CS_Domain AS [PGE Domain],
                     CS_Primary_Capability AS [Primary Capability],
+                    CS_Primary_CapabilityName AS [Primary Capability Name],
                     CS_Item AS [Product Category - Tier 3],
                     CS_Model_Number AS [Product Name],
                     CS_Site AS [Site+],
@@ -281,19 +379,35 @@ def create_base_master_table(user, password, db_name, host, port):
         
         cursor.execute(query)
 
-        # get the max lenght of column CI Name
-        len_query = """
-            SELECT MAX(LEN([CI Name])) AS MaxLength
-                FROM dbo.master_eosl;
-                """
-        
-        cursor.execute(len_query)
-        max_len_ci_name = cursor.fetchall()[0][0]
+        create_col_query = """
+                        ALTER TABLE dbo.master_eosl_base
+                        ADD ss_ids NVARCHAR(255),
+                            db_ids NVARCHAR(255);
+                    """
+        cursor.execute(create_col_query)
 
-        # Alter Application Ids column
+
+        ########### currently not using this
+        # # get the max lenght of column CI Name
+        # len_query = """
+        #     SELECT MAX(LEN([CI Name])) AS MaxLength
+        #         FROM dbo.master_eosl;
+        #         """
+        
+        # cursor.execute(len_query)
+        # max_len_ci_name = cursor.fetchall()[0][0] + 10
+        # print('max_length:',max_len_ci_name)
+
+        # alter_query = f"""
+        # ALTER TABLE dbo.master_eosl_base
+        # ALTER COLUMN [CI Name] VARCHAR(255);
+        # """
+        ###########
+        
+
         alter_query = f"""
         ALTER TABLE dbo.master_eosl_base
-        ALTER COLUMN [CI Name] VARCHAR({max_len_ci_name});
+        ALTER COLUMN [CI Name] VARCHAR(255);
         """
         cursor.execute(alter_query)
 
@@ -316,7 +430,8 @@ def create_base_master_table(user, password, db_name, host, port):
         
     except Exception as e:
         print("Error:", e)
-        send_failure_email('load_master_table', 'Something went wrong while loading master table', e)
+        send_failure_email('create_base_master_table', 'Something went wrong while loading base master table data into the database.', e)
+        
 
     finally:
         try:
@@ -326,6 +441,103 @@ def create_base_master_table(user, password, db_name, host, port):
         except:
             pass
 
+def merge_base_master_n_managed(user, password, db_name, host, port):
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        cursor.fast_executemany = True
+        print("Connection established to merge base master and base managed table.")
+
+        
+        merge_query = """
+                INSERT INTO dbo.master_eosl_base (
+                [Application Ids],
+                [Application Names],
+                [Capability List],
+                [CI Name],
+                [Client Owner],
+                [Create Date],
+                [Disposal Date],
+                [Installation Date],
+                [Assumed HW Expiration Date],
+                [IT Director],
+                [IT Lead],
+                [IT SME],
+                [IT SME Backup],
+                [Managed By],
+                [Modified Date],
+                [NERC Type],
+                [Operating System],
+                [OS Vendor],
+                [OS Version],
+                [Part Number],
+                [PGE Domain],
+                [Primary Capability],
+                [Primary Capability Name],
+                [Product Category - Tier 3],
+                [Product Name],
+                [Site+],
+                [Status],
+                [System Environment],
+                [Tag Number],
+                [BIA Tier],
+                [ss_ids],
+                [db_ids]
+            )
+            SELECT 
+                [Application Ids],
+                [Application Names],
+                [Capability List],
+                [CI Name],
+                [Client Owner],
+                [Create Date],
+                [Disposal Date],
+                [Installation Date],
+                [Assumed HW Expiration Date],
+                [IT Director],
+                [IT Lead],
+                [IT SME],
+                [IT SME Backup],
+                [Managed By],
+                [Modified Date],
+                [NERC Type],
+                [Operating System],
+                [OS Vendor],
+                [OS Version],
+                [Part Number],
+                [PGE Domain],
+                [Primary Capability],
+                [Primary Capability Name],
+                [Product Category - Tier 3],
+                [Product Name],
+                [Site+],
+                [Status],
+                [System Environment],
+                [Tag Number],
+                [BIA Tier],
+                [ss_ids],
+                [db_ids]
+            FROM dbo.managed_eosl_base;
+                """
+
+        
+        cursor.execute(merge_query)
+
+        conn.commit()
+    except Exception as e:
+        print("Error:", e)
+        send_failure_email('create_merge_base_master_n_managed', 'Something went wrong while merging base master and base managed table.', e)
+        
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            print(" Connection closed.")
+        except:
+            pass
 
 def create_filtered_nas_report_table(user, password, db_name, host, port):
     try:
@@ -372,7 +584,8 @@ def create_filtered_nas_report_table(user, password, db_name, host, port):
         conn.commit()
     except Exception as e:
         print("Error:", e)
-
+        send_failure_email('create_filtered_nas_report_table', 'Something went wrong while loading filtered nas report table into the database.', e)
+        
     finally:
         try:
             cursor.close()
@@ -424,7 +637,8 @@ def create_filtered_view_database_table(user, password, db_name, host, port):
                 MAX(DB_Model) AS DB_Model,
                 MAX(DB_version_number) AS DB_version_number,
                 MAX(DB_Version_Short) AS DB_Version_Short,
-                STRING_AGG(DB_Short_Description, ', ') AS DB_Short_Description
+                STRING_AGG(CAST(DB_Short_Description AS NVARCHAR(MAX)), ', ') AS DB_Short_Description
+                -- STRING_AGG(DB_Short_Description, ', ') AS DB_Short_Description (commented)
             FROM EOSLdatastore.dbo.view_database_assets
             GROUP BY DB_HostName
         ) d
@@ -439,6 +653,7 @@ def create_filtered_view_database_table(user, password, db_name, host, port):
 
     except Exception as e:
         print("Error:", e)
+        send_failure_email('create_filtered_view_database_table', 'Something went wrong while loading filtered_view_database_assets table into the database.', e)
 
     finally:
         try:
@@ -447,6 +662,70 @@ def create_filtered_view_database_table(user, password, db_name, host, port):
             print(" Connection closed.")
         except:
             pass
+
+
+def create_filtered_view_database_managed_services_table(user, password, db_name, host, port):
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        cursor.fast_executemany = True
+        print("Connection established to create view_database_managed_services_filter table.")
+
+        
+        create_query = """
+                DROP TABLE IF EXISTS dbo.view_database_managed_services_filter;
+                
+                CREATE TABLE dbo.view_database_managed_services_filter (
+                    [DB_Instance_Id] nvarchar(max) NULL,
+                    [DB_Model] nvarchar(max) NULL,
+                    [DB_Short_Description] nvarchar(max) NULL,
+                    [DB_version_number] nvarchar(255) NULL,
+                    [DB_Version_Short] nvarchar(255) NULL
+                );
+                """
+
+        
+        cursor.execute(create_query)
+
+        insert_query = """
+        INSERT INTO dbo.view_database_managed_services_filter (
+            [DB_Instance_Id],
+            [DB_Model],
+            [DB_Short_Description],
+            [DB_version_number],
+            [DB_Version_Short]
+        )
+        SELECT 
+            d.[DB_Instance_Id],
+            d.[DB_Model],
+            d.[DB_Short_Description],
+            d.[DB_version_number],
+            d.[DB_Version_Short]
+        FROM EOSLdatastore.dbo.master_eosl_base m
+        JOIN dbo.view_database_managed_services d
+            ON m.[db_ids] = d.[DB_Instance_Id];
+        """
+
+        cursor.execute(insert_query)
+        conn.commit()
+
+        
+
+    except Exception as e:
+        print("Error:", e)
+        send_failure_email('create_filtered_view_database_table', 'Something went wrong while loading filtered_view_database_assets table into the database.', e)
+
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            print(" Connection closed.")
+        except:
+            pass
+
 
 def create_master_eosl_table(user, password, db_name, host, port):
     try:
@@ -494,6 +773,7 @@ def create_master_eosl_table(user, password, db_name, host, port):
         [Part Number] [nvarchar](max) NULL,
         [PGE Domain] [nvarchar](max) NULL,
         [Primary Capability] [nvarchar](max) NULL,
+        [Primary Capability Name] [nvarchar](max) NULL,
         [Product Category - Tier 3] [nvarchar](max) NULL,
         [Product Name] [nvarchar](max) NULL,
         [Site+] [nvarchar](max) NULL,
@@ -559,6 +839,7 @@ def create_master_eosl_table(user, password, db_name, host, port):
         m.[Part Number],
         m.[PGE Domain],
         m.[Primary Capability],
+        m.[Primary Capability Name],
         m.[Product Category - Tier 3],
         m.[Product Name],
         m.[Site+],
@@ -592,15 +873,16 @@ def create_master_eosl_table(user, password, db_name, host, port):
         n.[Allocated] AS [NAS Allocated Storage space in TB],
         n.[Used] AS [NAS Used Storage space in TB],
         dd.[System] AS [DDBoost backup Datadomain],
-        d.[DB_Model] AS [DB Type],
-        d.[DB_Short_Description] AS [Database],
-        d.[DB_version_number] AS [DB version],
-        a.[Proxy] AS [Avamar Backup Datadomain],
-        mw.[SS_Model] AS [MW Instance Name],
-        mw.[SS_Version_Number] AS [MW Version],
+        COALESCE(d.[DB_Model], dm.[DB_Model]) AS [DB Type],
+        COALESCE(d.[DB_Short_Description], dm.[DB_Short_Description]) AS [Database],
+        COALESCE(d.[DB_version_number], dm.[DB_version_number]) AS [DB version],
+        COALESCE(a.[Media Server], p.[Media Server]) AS [Avamar Backup Datadomain],
+        COALESCE(mw.[SS_Model], mwm.[SS_Model]) AS [MW Instance Name],
+        COALESCE(mw.[SS_Version_Number], mwm.[SS_Version_Number]) AS [MW Version],
         ea.[End Date] AS [OS Expiry Date],
-        ea2.[End Date] AS [DB EOSL],
-        ea3.[End Date] AS [MW EOSL]
+        COALESCE(ea2.[End Date], ea2b.[End Date]) AS [DB EOSL],
+        COALESCE(ea3.[End Date], ea3b.[End Date]) AS [MW EOSL]
+        
         
 
     FROM EOSLdatastore.dbo.master_eosl_base m
@@ -609,7 +891,7 @@ def create_master_eosl_table(user, password, db_name, host, port):
     LEFT JOIN EOSLdatastore.dbo.ESXi e 
         ON m.[CIName_Correct] = e.[SD_Name]
     LEFT JOIN EOSLdatastore.dbo.san_report s
-        ON m.[CIName_Correct] = s.[SystemDisplayName]
+        ON m.[CIName_Correct] = s.[ServerName]
     LEFT JOIN EOSLdatastore.dbo.nas_report_filter n
         ON m.[Application Ids] = n.[APP-ID]
     LEFT JOIN EOSLdatastore.dbo.ddboost_report dd
@@ -620,18 +902,30 @@ def create_master_eosl_table(user, password, db_name, host, port):
         ON n.[Cluster] = sa2.[System Name]
     LEFT JOIN EOSLdatastore.dbo.view_database_assets_filter d
         ON m.[CIName_Correct] = d.[DB_HostName]
+    LEFT JOIN EOSLdatastore.dbo.view_database_managed_services dm
+        ON m.[db_ids] = dm.[DB_Instance_Id]
     LEFT JOIN EOSLdatastore.dbo.avamar_servers a
         ON m.[CIName_Correct] = a.[Client]
+    LEFT JOIN EOSLdatastore.dbo.ppdm_servers p
+        ON m.[CIName_Correct] = p.[Client]
     LEFT JOIN EOSLdatastore.dbo.view_middleware_assets mw 
         ON m.[CIName_Correct] = mw.[SS_Name]
+    LEFT JOIN EOSLdatastore.dbo.view_middleware_managed_services mwm 
+        ON m.[ss_ids] = mwm.[SS_Instance_Id]
     LEFT JOIN EOSLdatastore.dbo.EOSL_assets ea
         ON m.[Operating System] LIKE '%' + ea.[Corrected Name] + '%'   
     LEFT JOIN EOSLdatastore.dbo.EOSL_assets ea2
         ON ea2.[Short_Version] = d.[DB_Version_Short]
         AND ea2.[Model] = d.[DB_Model]
+    LEFT JOIN EOSLdatastore.dbo.EOSL_assets ea2b
+        ON ea2b.[Short_Version] = dm.[DB_Version_Short]
+        AND ea2b.[Model] = dm.[DB_Model]
     LEFT JOIN EOSLdatastore.dbo.EOSL_assets ea3
         ON mw.[SS_Version_Number] LIKE ea3.[Version] + '%'
-        AND ea3.[Type] IN ('MW Web Server', 'MW APP Server');
+        AND ea3.[Type] IN ('MW Web Server', 'MW APP Server')
+    LEFT JOIN EOSLdatastore.dbo.EOSL_assets ea3b
+        ON mwm.[SS_Version_Number] LIKE ea3b.[Version] + '%'
+        AND ea3b.[Type] IN ('MW Web Server', 'MW APP Server');
         """
         cursor.execute(insert_query)
         
@@ -639,6 +933,7 @@ def create_master_eosl_table(user, password, db_name, host, port):
 
     except Exception as e:
         print("Error:", e)
+        send_failure_email('create_master_eosl_table', 'Something went wrong while loading master eosl table into the database.', e)
 
     finally:
         try:

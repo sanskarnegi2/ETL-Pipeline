@@ -459,3 +459,115 @@ ddboost_host = "pritinfappls365.comp.pge.com"
 # esxi_insert_sql_query = """
 #     INSERT INTO dbo.ESXi VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 #     """
+
+
+
+
+# Alternate query to create base master table
+# create_query = """
+        #         DROP TABLE IF EXISTS dbo.master_eosl_base;
+                
+        #         CREATE TABLE dbo.master_eosl_base (
+        #             [Application Ids]               VARCHAR(MAX),
+        #             [Application Names]             VARCHAR(MAX),
+        #             [Capability List]               VARCHAR(MAX),
+        #             [CI Name]                       VARCHAR(MAX),   
+        #             [Client Owner]                  VARCHAR(MAX),
+        #             [Create Date]                   DATETIME,
+        #             [Disposal Date]                 DATETIME,
+        #             [Installation Date]             DATETIME,
+        #             [Assumed HW Expiration Date]    DATETIME,
+        #             [IT Director]                   VARCHAR(MAX),
+        #             [IT Lead]                       VARCHAR(MAX),
+        #             [IT SME]                        VARCHAR(MAX),
+        #             [IT SME Backup]                 VARCHAR(MAX),
+        #             [Managed By]                    VARCHAR(MAX),
+        #             [Modified Date]                 DATETIME,
+        #             [NERC Type]                     VARCHAR(MAX),
+        #             [Operating System]              VARCHAR(MAX),
+        #             [OS Vendor]                     VARCHAR(MAX),
+        #             [OS Version]                    VARCHAR(MAX),
+        #             [Part Number]                   VARCHAR(MAX),
+        #             [PGE Domain]                    VARCHAR(MAX),
+        #             [Primary Capability]            VARCHAR(MAX),
+        #             [Product Category - Tier 3]     VARCHAR(MAX),
+        #             [Product Name]                  VARCHAR(MAX),
+        #             [Site+]                         VARCHAR(MAX),
+        #             [Status]                        VARCHAR(MAX),
+        #             [System Environment]            VARCHAR(MAX),
+        #             [Tag Number]                    VARCHAR(MAX),
+        #             [BIA Tier]                      VARCHAR(MAX)
+        #         );
+
+        #         """
+        
+        # cursor.execute(create_query)
+
+        # insert_query = """
+        # INSERT INTO dbo.master_eosl_base (
+        #             [Application Ids],
+        #             [Application Names],
+        #             [Capability List],
+        #             [CI Name],
+        #             [Client Owner],
+        #             [Create Date],
+        #             [Disposal Date],
+        #             [Installation Date],
+        #             [Assumed HW Expiration Date],
+        #             [IT Director],
+        #             [IT Lead],
+        #             [IT SME],
+        #             [IT SME Backup],
+        #             [Managed By],
+        #             [Modified Date],
+        #             [NERC Type],
+        #             [Operating System],
+        #             [OS Vendor],
+        #             [OS Version],
+        #             [Part Number],
+        #             [PGE Domain],
+        #             [Primary Capability],
+        #             [Product Category - Tier 3],
+        #             [Product Name],
+        #             [Site+],
+        #             [Status],
+        #             [System Environment],
+        #             [Tag Number],
+        #             [BIA Tier]
+        #         )
+        #         SELECT 
+        #             App_Id_Direct,
+        #             App_Name,
+        #             CS_Primary_CapabilityCategory,
+        #             CS_Name,
+        #             App_CLIENT_OWNER,
+        #             CS_Create_Date,
+        #             CS_Disposal_Date,
+        #             CS_Installation_Date,
+        #             [Assumed HW Expiration Date],
+        #             App_IT_DIRECTOR,
+        #             App_IT_LEAD,
+        #             App_IT_SME,
+        #             App_IT_SME_BU,
+        #             App_MANAGED_BY,
+        #             CS_Modified_Date,
+        #             CS_NERCType,
+        #             CS_OperatingSystem,
+        #             CS_OSVendor,
+        #             CS_OSVersion,
+        #             CS_Part_Number,
+        #             CS_Domain,
+        #             CS_Primary_Capability,
+        #             CS_Item,
+        #             CS_Model_Number,
+        #             CS_Site,
+        #             CS_AssetLifeCycleStatusName,
+        #             CS_System_Environment,
+        #             CS_Tag_Number,
+        #             App_BIA_TIER
+        #         FROM dbo.view_itassets
+        #         WHERE [CS_AssetLifeCycleStatusName] IN ('Deployed', 'Missing', 'Down');
+
+        # """
+
+        # cursor.execute(insert_query)
