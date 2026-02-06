@@ -2,6 +2,7 @@ import os
 import requests
 import logging
 import asyncio
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 import aiohttp
 import time
 import xmltodict
@@ -494,7 +495,7 @@ def fetch_ddboost_data(hostname, port, username, password, script_path, output_p
         
         # Now read the generated CSV
         stdin, stdout, stderr = ssh.exec_command(f"cat {output_path}")
-        output = stdout.read().decode()
+        output = stdout.read().decode("latin-1")
         error = stderr.read().decode()
         
         # convert csv into pandas dataframe

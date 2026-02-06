@@ -15,7 +15,7 @@ from src.extract import get_vrops_identifiers, run_vrops_extraction, get_amps_vi
 from src.extract import get_node_id, get_report_url, get_dpa_report, fetch_nas_data, fetch_aiops_data, fetch_ibm_data
 from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data, transform_nas_data
 from src.transform import transform_aiops_data, transform_ibm_data, transform_amps_data, transform_avamar_ppdm_data
-from src.load import load_vmware_data_into_db, load_amps_data_into_db, run_custom_query, create_index
+from src.load import load_vmware_data_into_db, load_amps_data_into_db, run_custom_query, create_index, load_data_into_db
 from src.load import create_base_master_table, create_filtered_nas_report_table, create_filtered_view_database_table, create_master_eosl_table, create_filtered_view_database_managed_services_table
 from src.load import create_managed_eosl_base_table, merge_base_master_n_managed
 # Local application imports from config.py
@@ -272,7 +272,7 @@ def load_dpa_data(token, query_values: list, server='avamar_servers'):
     load_amps_data_into_db(final_df, server, db_username, db_password, db_name, db_host, db_port)
 
     # creating indexes on Client for avamar_servers table
-    create_index('avamar_servers', 'Client',db_username, db_password, db_name, db_host, db_port)
+    create_index(server, 'Client',db_username, db_password, db_name, db_host, db_port)
     
 # Get and load the NAS data into database table
 def load_nas_data(username, password, file_paths, domain='PGE', table_name='nas_report'):
@@ -456,36 +456,36 @@ def load_master_table(db_username, db_password, db_name, db_host, db_port):
 
 
 if __name__ == "__main__":
-    # # # get the token for vROps
-    # vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
+    # get the token for vROps
+    vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
     
-    # logger.info('Initialize data fetching and loading into database for VirtualMachine')
-    # load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_properties_names, vmware_column_mapping, db_username, db_password, db_name, db_host, db_port)
+    logger.info('Initialize data fetching and loading into database for VirtualMachine')
+    load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_properties_names, vmware_column_mapping, db_username, db_password, db_name, db_host, db_port)
     
-    # # get the token for vROps (We Twice fetched the token, as we dont know the expiry of token)
-    # vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
+    # get the token for vROps (We Twice fetched the token, as we dont know the expiry of token)
+    vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
 
-    # logger.info('Initialize data fetching and loading into database for ESXi Host')
-    # load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_names, esxi_column_mapping, db_username, db_password, db_name, db_host, db_port)
+    logger.info('Initialize data fetching and loading into database for ESXi Host')
+    load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_names, esxi_column_mapping, db_username, db_password, db_name, db_host, db_port)
 
-    # # Fetch & Load data for desired view_types of AMPs, i.e. view_list = ['view_applications', 'view_database_assets', 'view_it_assets']
-    # for view_type in amps_view_list:
-    #     # get token for AMPs
-    #     amps_token = get_amps_auth_token(svc_uname, svc_pwd, amps_login_url, amps_portal_url)
+    # Fetch & Load data for desired view_types of AMPs, i.e. view_list = ['view_applications', 'view_database_assets', 'view_it_assets']
+    for view_type in amps_view_list:
+        # get token for AMPs
+        amps_token = get_amps_auth_token(svc_uname, svc_pwd, amps_login_url, amps_portal_url)
 
-    #     logger.info(f'Initialize data fetching and loading into database for AMPs: {view_type}')
-    #     load_amps_data(amps_token, view_type, db_username, db_password, db_name, db_host, db_port)
+        logger.info(f'Initialize data fetching and loading into database for AMPs: {view_type}')
+        load_amps_data(amps_token, view_type, db_username, db_password, db_name, db_host, db_port)
     
-    # ## Fetch & Load data for DPA
-    # # get dpa-token
-    # dpa_token = get_dpa_token(svc_uname, dell_pwd)
-    # logger.info('Initialize data fetching and loading into database for Avamar Server')
-    # load_dpa_data(dpa_token, avamar_list, 'avamar_servers')
-    # logger.info('Initialize data fetching and loading into database for PPDM Server')
-    # load_dpa_data(dpa_token, ppdm_list, 'ppdm_servers')
+    ## Fetch & Load data for DPA
+    # get dpa-token
+    dpa_token = get_dpa_token(svc_uname, dell_pwd)
+    logger.info('Initialize data fetching and loading into database for Avamar Server')
+    load_dpa_data(dpa_token, avamar_list, 'avamar_servers')
+    logger.info('Initialize data fetching and loading into database for PPDM Server')
+    load_dpa_data(dpa_token, ppdm_list, 'ppdm_servers')
 
-    # # load nas data
-    # load_nas_data(username=svc_uname, password=svc_pwd, file_paths=nas_file_paths, domain='PGE', table_name='nas_report')
+    # load nas data
+    load_nas_data(username=svc_uname, password=svc_pwd, file_paths=nas_file_paths, domain='PGE', table_name='nas_report')
     
     # load san data
     # get the token for AIOPS
