@@ -81,7 +81,7 @@ def get_vrops_identifiers(token, vrops_host, resourceKind='VirtualMachine'):
 
     except Exception as exc:
          logger.info(f'Something went wrong while getting vrops identifiers: {exc}')
-         send_failure_email('get_vrops_identifiers', 'Something went wrong while getting vrops identifiers', e)
+         send_failure_email('get_vrops_identifiers', 'Something went wrong while getting vrops identifiers', exc)
     
 
 # Fetch Metrics and properties for the
@@ -285,7 +285,7 @@ def get_node_id(token, session, query_value):
     return None
 
 ## get report url
-def get_report_url(token, session, node_ids):
+def get_report_url(token, session, node_ids, report_name = 'Backup All Jobs'):
     # create a list to store report urls
     report_urls = []
     url = "https://delldpa.utility.pge.com/dpa-api/report"
@@ -300,7 +300,7 @@ def get_report_url(token, session, node_ids):
             xml_body = f"""
             <runReportParameters>
                 <report>
-                    <name>Backup All Jobs</name>
+                    <name>{report_name}</name>
                 </report>
                 <nodes>
                     <node>
@@ -475,7 +475,73 @@ def fetch_ibm_data(token, ibm_tenant_id):
         logger.info(f'Error fetching data for IBM (SAN Report): {e}')
         send_failure_email('fetch_ibm_data', 'Something went wrong while fetching data for IBM (SAN Report)', e)
         return None
-            
+
+
+# Fetch AIOPS data for SAN report
+def fetch_aiops_storage_data(token):
+    logger.info('Data fetching for AIOPS(Storage) Initialized....')
+    # --- Configuration ---
+    offset = 0
+
+    # --- Headers ---
+    headers = {
+        'Authorization': token,
+    }
+    all_response = []
+    while True:
+        # fetching 500 entries at a time and increasing offset by 1 till getting the last offset
+        url = f'https://apigtwb2c.us.dell.com/aiops/public/rest/v1/storage-systems?&limit=500&offset={offset}'
+        # --- Make GET Request ---
+        try:
+            response = requests.get(url, headers=headers, verify=False)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+                # if fails in any iteration, return the data till previous iteration
+                logger.info(f'Error fetching data for AIOPS(Storage) iteration {offset}: {e}')
+                send_failure_email('fetch_aiops_storage_data', 'Error fetching data for AIOPS(Storage) iteration', e)
+                aiops_df = pd.DataFrame(all_response)
+                # return statment
+                return aiops_df
+
+        basic_info = response.json()
+        # --- Parse Response ---
+        result = basic_info.get('results', [])
+        all_response.extend(result)
+        
+        if basic_info.get('paging',[]).get('next', []):
+            offset += 1
+        else:
+            aiops_df = pd.DataFrame(all_response)
+            # return statment
+            return aiops_df
+
+
+# Fetch IBM Storage data 
+def fetch_ibm_storage_data(token, ibm_tenant_id):
+    logger.info('Data fetching for IBM(Storage) Initialized....')
+    # request URL
+    url = f"https://insights.ibm.com/restapi/v1/tenants/{ibm_tenant_id}/storage-systems"
+    # Header
+    headers = {
+        "accept": "application/json",
+        "x-api-token": token
+    }
+
+    try:
+        # make request
+        response = requests.get(url, headers=headers, verify=False)
+        response.raise_for_status()
+        # parse response data
+        data = response.json().get('data')
+        ibm_df = json_normalize(data)
+        # return 
+        return ibm_df
+    except requests.exceptions.RequestException as e:    
+        logger.info(f'Error fetching data for IBM (Storage): {e}')
+        send_failure_email('fetch_ibm_storage_data', 'Something went wrong while fetching data for IBM (Storage)', e)
+        return None
+
+
 
 def fetch_ddboost_data(hostname, port, username, password, script_path, output_path):
     # Initialize script

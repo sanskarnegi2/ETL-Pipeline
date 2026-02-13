@@ -246,6 +246,18 @@ ppdm_list = [
     "rcppdm04"
 ]
 
+dpa_storage_host_list = ['ffdd06',
+'fxdd07.comp.pge.com',
+'fxdd08',
+'fxdd09.comp.pge.com',
+'fxdd11.comp.pge.com',
+'rcdd06',
+'rcdd07.comp.pge.com',
+'rcdd08',
+'rcdd09.comp.pge.com',
+'rcdd11.comp.pge.com']
+
+
 # NAS shared resource filepath
 nas_file_paths = [
         r"\\smb2.fxnas02.pge.com\techopsautomation-fs01\metadata\fxnas02_filesystems.csv",

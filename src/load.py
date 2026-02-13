@@ -264,6 +264,49 @@ def run_custom_query(query, user, password, db_name, host, port):
         except:
             pass
 
+
+# Function to fetch table data from datbase 
+def fetch_table_data(query, user, password, db_name, host, port):
+    
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        logger.info("Database Connection established to fetch table data.")
+    
+        # Run SELECT query
+        #"SELECT * FROM dbo.master_eosl"
+        cursor.execute(query)
+        
+        # Fetch all rows
+        rows = cursor.fetchall()
+        
+        # Extract column names
+        columns = [column[0] for column in cursor.description]
+        
+        # Create DataFrame
+        table_df = pd.DataFrame.from_records(rows, columns=columns)
+
+        logger.info("Query completed.")
+
+        return table_df
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        send_failure_email('run_custom_query', 'Something went wrong while running custom query.', e)
+        
+    
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            logger.info(" Connection closed.")
+        except:
+            pass
+
+
 # Query to create indexes
 # this will be used for creating the index for the columns as our most of the columns having Max length
 ## and we can not create the index for a column with Max length
@@ -294,6 +337,75 @@ def create_index(table, column, user, password, db_name, host, port):
         """
         cursor.execute(alter_query)
 
+        # create index query
+        create_index_query = f"""
+                CREATE INDEX IX_{table}_{normalize_column(column)} ON EOSLdatastore.dbo.{table}([{column}]);
+        """
+        cursor.execute(create_index_query)
+        
+        conn.commit()
+
+    
+        logger.info("Query completed.")
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        
+    
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            logger.info(" Connection closed.")
+        except:
+            pass
+
+
+# alter column length
+def alter_col_len(table, column, user, password, db_name, host, port, len=255):
+    
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        logger.info(f"Database Connection established to alter columne length {table}.{column}")
+
+        # Alter  column with change in its length
+        alter_query = f"""
+        ALTER TABLE dbo.{table}
+        ALTER COLUMN [{column}] VARCHAR({len});
+        """
+        cursor.execute(alter_query)
+        conn.commit()
+
+    
+        logger.info("Query completed.")
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        
+    
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            logger.info(" Connection closed.")
+        except:
+            pass
+
+
+def create_index_wo_cgl(table, column, user, password, db_name, host, port): # create index without changing the length of column to be indexed
+    
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        logger.info(f"Database Connection established to create index for {table}.{column}")
+    
         # create index query
         create_index_query = f"""
                 CREATE INDEX IX_{table}_{normalize_column(column)} ON EOSLdatastore.dbo.{table}([{column}]);

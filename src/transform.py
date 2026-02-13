@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import logging
 from src.utils import convert_into_tb, extract_version_tuple, send_failure_email, mod_list_col
+from src.load import fetch_table_data, load_data_into_db, run_custom_query, create_index, create_index_wo_cgl, alter_col_len
 
 # setup loggers
 logger = logging.getLogger()
@@ -256,6 +257,72 @@ def transform_ibm_data(ibm_df, master_df):
         send_failure_email('transform_ibm_data', 'Something went wrong while transforming ibm data')
 
 
+# Transform AIOPS data
+def transform_aiops_storage_data(aiops_df):
+    try:
+        logger.info('Transforming AIOPS(Storage) data Initialized...')
+        # transform data
+        # Aplly filter on system type
+        aiops_df = aiops_df[~aiops_df['system_type'].isin(['POWERSTORE','POWERVAULT'])]
+
+        # Select only required columns
+        aiops_df = aiops_df[['name', 'model', 'serial_number', 'configured_size', 'used_size', 'free_size', 'contract_expiration_date_timestamp']]
+
+        # Convert all the size column into PB
+        # define 1PB 
+        PB = 1024**5
+        aiops_df = aiops_df.assign(
+            configured_size = aiops_df['configured_size'] / PB,
+            used_size = aiops_df['used_size'] / PB,
+            free_size = aiops_df['free_size'] / PB
+        )# dividing every columns data with PB
+
+        # rename the columns
+        aiops_df = aiops_df.rename(columns={'name':'System Name', 'model':'Model', 'serial_number':'Serial Number',
+                                        'configured_size':'Capacity', 'used_size':'Allocated', 'free_size':'Free',
+                                        'contract_expiration_date_timestamp':'Dell\'s Planned year to remediate'})
+        
+
+        logger.info("Transforming AIOPS(Storage) Data Completed.")
+
+        # return
+        return aiops_df
+    except Exception as e:
+        logger.info(f'Something went wrong while transforming aiops storage data:{e}')
+        send_failure_email('transform_aiops_storage_data', 'Something went wrong while transforming aiops storage data')
+
+
+# Transform IBM data
+def transform_ibm_storage_data(ibm_df):
+    try:
+        logger.info('Transforming IBM(Storage) data Initialized...')
+        # Convert all the size column into GiB
+        # define 1GiB 
+        GIB = 1024**3
+        PB = 1024**5
+        ibm_df = ibm_df.assign(
+            physical_capacity = ibm_df['physical_capacity'] / PB,
+            used_capacity_bytes = ibm_df['used_capacity_bytes'] / PB,
+            available_capacity_bytes = ibm_df['available_capacity_bytes'] / PB
+        )# dividing every columns data with PB
+
+        # Select only required columns
+        ibm_df = ibm_df[['name', 'model', 'enclosure_node_serial_number', 'physical_capacity', 'used_capacity_bytes', 'available_capacity_bytes']]
+        
+        # rename the columns
+        ibm_df = ibm_df.rename(columns={'name':'Name', 'model':'Model', 'enclosure_node_serial_number':'Serial Number',
+                                'physical_capacity':'Usable Capacity', 'used_capacity_bytes':'Used Capacity',
+                                'available_capacity_bytes':'Availabe Capacity','contract_expiration_date_timestamp':'Dell\'s Planned year to remediate'})
+
+
+        logger.info("Transforming IBM(Storage) Data Completed.")
+
+        # return 
+        return ibm_df
+    except Exception as e:
+        logger.info(f'Something went wrong while transforming ibm(Storage) data:{e}')
+        send_failure_email('transform_ibm_storage_data', 'Something went wrong while transforming ibm(Storage) data')
+
 # Transform AMPs Data
 def transform_amps_data(df_view, view_type=None):
     try:
@@ -375,7 +442,120 @@ def transform_avamar_ppdm_data(df, server_type = 'avamar'):
         send_failure_email('transform_avamar_ppdm_data', f'Something went wrong while transforming {server_type} data')
 
 
+def merge_storage_data(aiops_df, ibm_df):
+
+    # rename the columns in ibm_df as both dataframe should have same column names
+    ibm_df = ibm_df.rename(columns={'Name':'System Name', 'Usable Capacity':'Capacity', 'Used Capacity':'Allocated', 'Availabe Capacity':'Free'})
+
+    # concatenate both the dataframe
+    df = pd.concat([aiops_df, ibm_df], ignore_index=True)
+
+    return df
 
 
+def transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_port):
+
+    # Fetch CI Name, Serial Number, and Host from the master table
+    logger.info('Fetching data from master table')
+    query = 'SELECT [CI Name],[Serial Number],[Host] From EOSLdatastore.dbo.master_eosl;'
+    table_df = fetch_table_data(query, db_username, db_password, db_name, db_host, db_port)
+
+    # Identify IBM frame records based on the CI Name pattern (e.g., 9043-MRX-78FB9CX-P27B08-Kittle)
+    pattern = r"^\d{4}-[A-Z]{3}-"
+    df_filtered = table_df[table_df['CI Name'].str.match(pattern, na=False)]
+
+    # Extract the set of serial numbers that belong to IBM frames
+    valid_serials =  set(df_filtered['Serial Number'])
+    
+    # Extract the set of IBM frame names from CI Name
+    valid_frames = set(df_filtered['CI Name'])
+    
+    # Map IBM frame serial numbers to their corresponding frame names
+    frames = {}
+    for frame in valid_frames:
+        s_num = frame.split('-')[2]
+        frames[s_num] = frame
+
+    # Flag rows where the CI entry represents an IBM frame
+    table_df['is_ibm_frame'] = table_df['Serial Number'].isin(valid_serials)
+
+    # Map each serial number to its IBM frame name
+    table_df['ibm_frame'] = table_df['Serial Number'].map(frames)
+
+    # Flag rows where the CI entry represents a host
+    table_df['is_host'] = table_df['Host'].notna()
+
+    # Determine the HW Asset value: 
+    # - If it's a host, use Host
+    #  # - If it's an IBM frame, use the IBM frame name
+    #  # - Otherwise, default to CI Name
+    table_df['HW Asset'] = np.select(
+        [
+            table_df['is_host'] == True,
+            table_df['is_ibm_frame'] == True
+        ],
+        [
+            table_df['Host'],
+            table_df['ibm_frame']
+        ],
+        default = table_df['CI Name']
+    )
+
+    # Create a temporary table in db to join with master table
+    logger.info('Creating Temporary HW Asset table....')
+    load_data_into_db(table_df, 'Temp_HW_Asset', db_username, db_password, db_name, db_host, db_port)
+    # Create Index on CI Name
+    ## Alter  column with change in its length
+    alter_col_len('Temp_HW_Asset', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
+    create_index_wo_cgl('Temp_HW_Asset', 'CI Name', db_username, db_password, db_name, db_host, db_port)
+
+    alter_col_len('master_eosl', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
+    create_index_wo_cgl('master_eosl', 'CI Name', db_username, db_password, db_name, db_host, db_port)
+
+    # Add the new columns to the master table (columns from Temp_HW_Asset)
+    add_col_query = """
+        ALTER TABLE EOSLdatastore.dbo.master_eosl
+        ADD [is_host] FLOAT,
+            [ibm_frame] VARCHAR(MAX),
+            [is_ibm_frame] FLOAT,
+            [HW Asset] VARCHAR(MAX)
+            ;
+        """
+    ## run query to add new column to our master table
+    logger.info('Adding new columns to the master table...')
+    run_custom_query(add_col_query, db_username, db_password, db_name, db_host, db_port)
+
+    # Now Join the data from Temp HW Asset table to master table
+    join_query = """
+                UPDATE m
+                SET 
+                    m.[is_host] = t.[is_host],
+                    m.[ibm_frame] = t.[ibm_frame],
+                    m.[is_ibm_frame] = t.[is_ibm_frame],
+                    m.[HW Asset] = t.[HW Asset]
+
+                FROM EOSLdatastore.dbo.master_eosl m
+                JOIN EOSLdatastore.dbo.Temp_HW_Asset t
+                    ON m.[CI Name] = t.[CI Name];
+
+                """
+    
+    ## run query to join data to our master table
+    logger.info("Putting data from Temp HW Assets to the master table's new columns...")
+    run_custom_query(join_query, db_username, db_password, db_name, db_host, db_port)
+
+    # # Now drop the temporary table - Temp_HW_Asset
+    # drop_query = "DROP TABLE EOSLdatastore.dbo.Temp_HW_Asset;"
+    # ## run query to drop temp table
+    # logger.info("Droping Temp HW Assets table...")
+    # run_custom_query(drop_query, db_username, db_password, db_name, db_host, db_port)
+
+
+    
+
+
+    
+
+    
 
 
