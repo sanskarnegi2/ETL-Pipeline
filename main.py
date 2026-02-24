@@ -15,9 +15,9 @@ from src.extract import get_vrops_identifiers, run_vrops_extraction, get_amps_vi
 from src.extract import get_node_id, get_report_url, get_dpa_report, fetch_nas_data, fetch_aiops_data, fetch_ibm_data, fetch_aiops_storage_data, fetch_ibm_storage_data
 from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data, transform_nas_data, transform_aiops_storage_data, transform_ibm_storage_data
 from src.transform import transform_aiops_data, transform_ibm_data, transform_amps_data, transform_avamar_ppdm_data, merge_storage_data, transform_n_load_master_eols
-from src.load import load_vmware_data_into_db, load_amps_data_into_db, run_custom_query, create_index, create_index_wo_cgl, load_data_into_db
+from src.load import load_vmware_data_into_db, load_amps_data_into_db, run_custom_query, create_index, load_data_into_db
 from src.load import create_base_master_table, create_filtered_nas_report_table, create_filtered_view_database_table, create_master_eosl_table, create_filtered_view_database_managed_services_table
-from src.load import create_managed_eosl_base_table, merge_base_master_n_managed
+from src.load import create_managed_eosl_base_table, merge_base_master_n_managed, alter_col_len, create_index_wo_cgl, create_index_w_len
 # Local application imports from config.py
 from config import vmware_metrics_names, esxi_metrics_names, vmware_properties_names, esxi_properties_names
 from config import  vmware_column_mapping, esxi_column_mapping, vmware_create_table_query, esxi_create_table_query
@@ -76,6 +76,7 @@ ddboost_script_output_path = "/tsm_ops/admin/eosl_ddboost_list.csv"
 eosl_asset_file_path = "data/raw/Component_Category_COMC_554__WindowsNew.xlsx"
 storage_analysis_file_path = 'data/raw/ru_count_storage.xlsx'
 itdir_vp_file_path = 'data/raw/IT_DIr_VP_Map.xlsx'
+dpa_eosl_file_path = 'data/raw/dpa_eosl_path.xlsx'
 
 # local variables
 # amps_view_list = ['view_applications', 'view_database_assets', 'view_itassets', 'view_middleware_assets']
@@ -108,8 +109,9 @@ def load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_prope
     load_vmware_data_into_db(df_vmware, db_username, db_password, db_name, db_host, db_port, vmware_create_table_query, vmware_insert_sql_query)
 
     # creating indexes on Disk Utlization (TB), VM Name columns for VMware 
-    create_index('VMware','Disk Utlization (TB)',db_username, db_password, db_name, db_host, db_port)
-    create_index('VMware','VM Name',db_username, db_password, db_name, db_host, db_port)
+    create_index_w_len('VMware','Disk Utlization (TB)', db_username, db_password, db_name, db_host, db_port, 255)
+    create_index_w_len('VMware','VM Name', db_username, db_password, db_name, db_host, db_port, 255)
+
 
 
 # Get and load the ESXi Host data into database table
@@ -133,7 +135,7 @@ def load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_
     load_vmware_data_into_db(df_esxi, db_username, db_password, db_name, db_host, db_port, esxi_create_table_query, esxi_insert_sql_query)
 
     # creating indexes on Disk Utilization, Disk Utlization columns for ESXi 
-    create_index(table='ESXi', column='SD_Name', user=db_username, password=db_password, db_name=db_name, host=db_host, port=db_port)
+    create_index_w_len('ESXi','SD_Name', db_username, db_password, db_name, db_host, db_port, 255)
     create_index('ESXi','Disk Utilization',db_username, db_password, db_name, db_host, db_port)
     
 
@@ -173,9 +175,19 @@ def load_amps_data(token, view_type, db_username, db_password, db_name, db_host,
                 create_index('view_database_assets','DB_version_number',db_username, db_password, db_name, db_host, db_port)
                 create_index('view_database_assets','DB_Short_Description',db_username, db_password, db_name, db_host, db_port)
 
-            # creating indexes on SS_Name for view_middleware_assets table
-            # create_index('view_middleware_assets', 'SS_Name',db_username, db_password, db_name, db_host, db_port)
+            if view_type == 'view_database_managed_services':
+                # creating indexes on DB_Instance_Ids for view_database_managed_services 
+                create_index_w_len('view_database_managed_services','DB_Instance_Id',db_username, db_password, db_name, db_host, db_port, 100)
 
+            if view_type == 'view_middleware_managed_services':
+                # creating indexes on SS_Instance_Id for view_middleware_managed_services 
+                create_index_w_len('view_middleware_managed_services','SS_Instance_Id',db_username, db_password, db_name, db_host, db_port, 100)
+
+            
+            if view_type == 'view_middleware_assets':
+                # creating indexes on SS_Name for view_middleware_assets 
+                create_index_w_len('view_middleware_assets','SS_Name',db_username, db_password, db_name, db_host, db_port, 255)
+            
 
             # end_time
             end_time = time.time() - start_time
@@ -267,16 +279,15 @@ def load_dpa_data(token, query_values: list, report_name, server_col = 'Server',
             logger.info(f"Failed to parse report CSV: {e}")
             return None
     
-    if server in ['avamar_servers','ppdm_servers']:
-        # Transoform avamar_ppdm_data
-        final_df = transform_avamar_ppdm_data(final_df, server_type=server)
+    # Transoform avamar_ppdm_data
+    final_df = transform_avamar_ppdm_data(final_df, server_type=server)
 
     # Step 5 load data into databae table
     load_amps_data_into_db(final_df, server, db_username, db_password, db_name, db_host, db_port)
 
     if server in ['avamar_servers','ppdm_servers']:
         # creating indexes on Client for avamar_servers table
-        create_index(server, 'Client',db_username, db_password, db_name, db_host, db_port)
+        create_index_w_len(server, 'Client',db_username, db_password, db_name, db_host, db_port, 255)
     
 # Get and load the NAS data into database table
 def load_nas_data(username, password, file_paths, domain='PGE', table_name='nas_report'):
@@ -295,7 +306,7 @@ def load_nas_data(username, password, file_paths, domain='PGE', table_name='nas_
     load_amps_data_into_db(nas_data_df, table_name, db_username, db_password, db_name, db_host, db_port)
 
     # creating indexes on APP-ID columns
-    create_index('nas_report','APP-ID',db_username, db_password, db_name, db_host, db_port)
+    create_index_w_len('nas_report','APP-ID',db_username, db_password, db_name, db_host, db_port, 512)
 
 
 
@@ -327,8 +338,9 @@ def load_san_data(aiops_token, ibm_token, ibm_tenant_id, table_name='san_report'
         # load data into databae table
         load_data_into_db(san_df, table_name, db_username, db_password, db_name, db_host, db_port)
 
-        # creating indexes on SystemDisplayName, Used (TB) columns for san_report 
-        create_index(table_name,'SystemDisplayName', db_username, db_password, db_name, db_host, db_port)
+        # creating indexes on ServerName SystemDisplayName, Used (TB) columns for san_report
+        create_index_w_len(table_name,'ServerName', db_username, db_password, db_name, db_host, db_port, 255)
+        create_index_w_len(table_name,'SystemDisplayName', db_username, db_password, db_name, db_host, db_port, 50)
         create_index(table_name,'Used (TB)', db_username, db_password, db_name, db_host, db_port)
     except Exception as exc:
         logger.info(f'Something went wrong while SAN report ETL, {exc}')
@@ -364,8 +376,7 @@ def load_ddboost_data(hostname, port, username, password, script_path, output_pa
     load_amps_data_into_db(ddboost_df, table_name, db_username, db_password, db_name, db_host, db_port)
     
     # creating indexes on ClientName 
-    create_index(table_name,'ClientName', db_username, db_password, db_name, db_host, db_port)
-    
+    create_index_w_len(table_name,'ClientName',db_username, db_password, db_name, db_host, db_port, 255)
 
 def load_eosl_aaset(file_path, db_username, db_password, db_name, db_host, db_port, table_name = 'EOSL_assets'):
     try:
@@ -407,8 +418,8 @@ def load_eosl_aaset(file_path, db_username, db_password, db_name, db_host, db_po
 
         # creating indexes on Corrected Name, Short_Version, Model, Version, Type columns
         create_index('EOSL_assets','Corrected Name',db_username, db_password, db_name, db_host, db_port)
-        create_index('EOSL_assets','Short_Version',db_username, db_password, db_name, db_host, db_port)
-        create_index('EOSL_assets','Model',db_username, db_password, db_name, db_host, db_port)
+        create_index_w_len('EOSL_assets','Short_Version',db_username, db_password, db_name, db_host, db_port, 10)
+        create_index_w_len('EOSL_assets','Model',db_username, db_password, db_name, db_host, db_port, 50)
         create_index('EOSL_assets','Version',db_username, db_password, db_name, db_host, db_port)
         create_index('EOSL_assets','Type',db_username, db_password, db_name, db_host, db_port)
 
@@ -425,7 +436,7 @@ def load_storage(file_path, db_username, db_password, db_name, db_host, db_port,
         # load into database
         load_amps_data_into_db(storage_df, table_name, db_username, db_password, db_name, db_host, db_port)
         # creating index on System Name
-        create_index(table_name,'System Name',db_username, db_password, db_name, db_host, db_port)
+        create_index_w_len(table_name,'System Name',db_username, db_password, db_name, db_host, db_port, 50)
 
 
     except Exception as e:
@@ -449,43 +460,46 @@ def load_itd_file(file_path, db_username, db_password, db_name, db_host, db_port
 
 def load_master_table(db_username, db_password, db_name, db_host, db_port):
     try:
-        # # create base managed table
-        # create_managed_eosl_base_table(db_username, db_password, db_name, db_host, db_port)
-        # # create base_master table
-        # create_base_master_table(db_username, db_password, db_name, db_host, db_port)
-        # ## creating indexes on Application Ids, Capability List, Operating System
-        # create_index('master_eosl_base','Application Ids',db_username, db_password, db_name, db_host, db_port)
-        # create_index('master_eosl_base','Capability List',db_username, db_password, db_name, db_host, db_port)
-        # create_index('master_eosl_base','Operating System',db_username, db_password, db_name, db_host, db_port)
+        # create base managed table
+        create_managed_eosl_base_table(db_username, db_password, db_name, db_host, db_port)
+        # create base_master table
+        create_base_master_table(db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on Application Ids, Capability List, Operating System
+        create_index_w_len('master_eosl_base','Application Ids',db_username, db_password, db_name, db_host, db_port, 512)
+        create_index_w_len('master_eosl_base','Capability List',db_username, db_password, db_name, db_host, db_port,255)
+        create_index_w_len('master_eosl_base','Operating System',db_username, db_password, db_name, db_host, db_port, 255)
+       
         
-        # # merge base master and base managed table
-        # merge_base_master_n_managed(db_username, db_password, db_name, db_host, db_port)
-        # # Creating index on db_ids and ss_ids
-        # create_index('master_eosl_base','db_ids',db_username, db_password, db_name, db_host, db_port)
-        # create_index('master_eosl_base','ss_ids',db_username, db_password, db_name, db_host, db_port)
+        # merge base master and base managed table
+        merge_base_master_n_managed(db_username, db_password, db_name, db_host, db_port)
+        # Creating index on db_ids and ss_ids
+        create_index_w_len('master_eosl_base','db_ids',db_username, db_password, db_name, db_host, db_port, 100)
+        create_index_w_len('master_eosl_base','ss_ids',db_username, db_password, db_name, db_host, db_port, 100)
 
+        # create filtered_nas_report_table
+        create_filtered_nas_report_table(db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on APP-ID, Cluster
+        create_index_w_len('nas_report_filter','APP-ID',db_username, db_password, db_name, db_host, db_port, 512)
+        create_index_w_len('nas_report_filter','Cluster',db_username, db_password, db_name, db_host, db_port, 50)
 
-        # # create filtered_nas_report_table
-        # create_filtered_nas_report_table(db_username, db_password, db_name, db_host, db_port)
-        # ## creating indexes on APP-ID, Cluster
-        # create_index('nas_report_filter','APP-ID',db_username, db_password, db_name, db_host, db_port)
-        # create_index('nas_report_filter','Cluster',db_username, db_password, db_name, db_host, db_port)
         
-        # # create filtered_view_database_table
-        # create_filtered_view_database_table(db_username, db_password, db_name, db_host, db_port)
-        # ## creating indexes on DB_HostName
-        # create_index('view_database_assets_filter','DB_HostName',db_username, db_password, db_name, db_host, db_port)
+        # create filtered_view_database_table
+        create_filtered_view_database_table(db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on DB_HostName
+        create_index_w_len('view_database_assets_filter','DB_HostName',db_username, db_password, db_name, db_host, db_port, 255)
+        create_index_w_len('view_database_assets_filter','DB_Version_Short',db_username, db_password, db_name, db_host, db_port, 10)
+        create_index_w_len('view_database_assets_filter','DB_Model',db_username, db_password, db_name, db_host, db_port, 50)
 
-        # # create filtered_view_database_managed_services
-        # create_filtered_view_database_managed_services_table(db_username, db_password, db_name, db_host, db_port)
-        # ## creating indexes on DB_Instance_Id
-        # create_index('view_database_managed_services','DB_Instance_Id',db_username, db_password, db_name, db_host, db_port)
+        # create filtered_view_database_managed_services
+        create_filtered_view_database_managed_services_table(db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on DB_Instance_Id
+        create_index_w_len('view_database_managed_services','DB_Instance_Id',db_username, db_password, db_name, db_host, db_port, 255)
         
-        # ## creating indexes on SS_Instance_Id
-        # create_index('view_middleware_managed_services','SS_Instance_Id',db_username, db_password, db_name, db_host, db_port)
+        ## creating indexes on SS_Instance_Id
+        create_index_w_len('view_middleware_managed_services','SS_Instance_Id',db_username, db_password, db_name, db_host, db_port, 255)
         
-        # # create master table
-        # create_master_eosl_table(db_username, db_password, db_name, db_host, db_port)
+        # create master table
+        create_master_eosl_table(db_username, db_password, db_name, db_host, db_port)
 
         # Adding HW Asset to the master table (Modifying the master table)
         transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_port) 
@@ -500,66 +514,66 @@ def load_master_table(db_username, db_password, db_name, db_host, db_port):
 
 
 if __name__ == "__main__":
-    # # get the token for vROps
-    # vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
+    # get the token for vROps
+    vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
     
-    # logger.info('Initialize data fetching and loading into database for VirtualMachine')
-    # load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_properties_names, vmware_column_mapping, db_username, db_password, db_name, db_host, db_port)
+    logger.info('Initialize data fetching and loading into database for VirtualMachine')
+    load_vmware_data(vrops_token, vrops_host, vmware_metrics_names, vmware_properties_names, vmware_column_mapping, db_username, db_password, db_name, db_host, db_port)
     
-    # # get the token for vROps (We Twice fetched the token, as we dont know the expiry of token)
-    # vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
+    # get the token for vROps (We Twice fetched the token, as we dont know the expiry of token)
+    vrops_token = get_vrops_auth_token(vrops_uname, svc_pwd, vrops_auth_url)
 
-    # logger.info('Initialize data fetching and loading into database for ESXi Host')
-    # load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_names, esxi_column_mapping, db_username, db_password, db_name, db_host, db_port)
+    logger.info('Initialize data fetching and loading into database for ESXi Host')
+    load_esxi_data(vrops_token, vrops_host, esxi_metrics_names, esxi_properties_names, esxi_column_mapping, db_username, db_password, db_name, db_host, db_port)
 
-    # # Fetch & Load data for desired view_types of AMPs, i.e. view_list = ['view_applications', 'view_database_assets', 'view_it_assets']
-    # for view_type in amps_view_list:
-    #     # get token for AMPs
-    #     amps_token = get_amps_auth_token(svc_uname, svc_pwd, amps_login_url, amps_portal_url)
+    # Fetch & Load data for desired view_types of AMPs, i.e. view_list = ['view_applications', 'view_database_assets', 'view_it_assets']
+    for view_type in amps_view_list:
+        # get token for AMPs
+        amps_token = get_amps_auth_token(svc_uname, svc_pwd, amps_login_url, amps_portal_url)
 
-    #     logger.info(f'Initialize data fetching and loading into database for AMPs: {view_type}')
-    #     load_amps_data(amps_token, view_type, db_username, db_password, db_name, db_host, db_port)
+        logger.info(f'Initialize data fetching and loading into database for AMPs: {view_type}')
+        load_amps_data(amps_token, view_type, db_username, db_password, db_name, db_host, db_port)
     
-    # ## Fetch & Load data for DPA
-    # # get dpa-token
-    # dpa_token = get_dpa_token(svc_uname, dell_pwd)
-    # logger.info('Initialize data fetching and loading into database for Avamar Server')
-    # load_dpa_data(dpa_token, avamar_list, 'Backup All Jobs', 'Server','avamar_servers')
-    # logger.info('Initialize data fetching and loading into database for PPDM Server')
-    # load_dpa_data(dpa_token, ppdm_list, 'Backup All Jobs', 'Server', 'ppdm_servers')
-    # logger.info('Initialize data fetching and loading into database for DPA Storage')
-    # load_dpa_data(dpa_token, dpa_storage_host_list, 'Data Domain Capacity Utilization', 'Hostname', 'dpa_storage')
+    ## Fetch & Load data for DPA
+    # get dpa-token
+    dpa_token = get_dpa_token(svc_uname, dell_pwd)
+    logger.info('Initialize data fetching and loading into database for Avamar Server')
+    load_dpa_data(dpa_token, avamar_list, 'Backup All Jobs', 'Server','avamar_servers')
+    logger.info('Initialize data fetching and loading into database for PPDM Server')
+    load_dpa_data(dpa_token, ppdm_list, 'Backup All Jobs', 'Server', 'ppdm_servers')
+    logger.info('Initialize data fetching and loading into database for DPA Storage')
+    load_dpa_data(dpa_token, dpa_storage_host_list, 'Data Domain Capacity Utilization', 'Hostname', 'dpa_storage')
 
-    # # load nas data
-    # load_nas_data(username=svc_uname, password=svc_pwd, file_paths=nas_file_paths, domain='PGE', table_name='nas_report')
+    # load nas data
+    load_nas_data(username=svc_uname, password=svc_pwd, file_paths=nas_file_paths, domain='PGE', table_name='nas_report')
     
-    # # load san data
-    # # get the token for AIOPS
-    # aiops_token = get_aiops_auth_token(aiops_client_id, aiops_client_secret, aiops_auth_url)
-    # # get the token of Dell
-    # ibm_token = get_ibm_auth_token(ibm_api_key, ibm_auth_url)
+    # load san data
+    # get the token for AIOPS
+    aiops_token = get_aiops_auth_token(aiops_client_id, aiops_client_secret, aiops_auth_url)
+    # get the token of Dell
+    ibm_token = get_ibm_auth_token(ibm_api_key, ibm_auth_url)
 
-    # logger.info('Initialize data fetching and loading into database for SAN storage')
-    # load_san_data(aiops_token, ibm_token, ibm_tenant_id, 'san_report')
+    logger.info('Initialize data fetching and loading into database for SAN storage')
+    load_san_data(aiops_token, ibm_token, ibm_tenant_id, 'san_report')
 
-    # logger.info('Initialize data fetching and loading into database for storage')
-    # load_storage_data(aiops_token, ibm_token, ibm_tenant_id)
+    logger.info('Initialize data fetching and loading into database for storage')
+    load_storage_data(aiops_token, ibm_token, ibm_tenant_id)
 
-    # # Load DDBoost Data
-    # logger.info('Initialize data fetching and loading into database for DDBoost report')
-    # load_ddboost_data(hostname = ddboost_host, port = 22, username = svc_uname, password = svc_pwd, script_path = ddboost_script_path, output_path = ddboost_script_output_path, table_name = 'ddboost_report')
+    # Load DDBoost Data
+    logger.info('Initialize data fetching and loading into database for DDBoost report')
+    load_ddboost_data(hostname = ddboost_host, port = 22, username = svc_uname, password = svc_pwd, script_path = ddboost_script_path, output_path = ddboost_script_output_path, table_name = 'ddboost_report')
     
-    # # Load EOSL Assets
-    # logger.info('Initialize data fetching and loading into database for EOSL Assests')
-    # load_eosl_aaset(eosl_asset_file_path, db_username, db_password, db_name, db_host, db_port, 'EOSL_assets')
+    # Load EOSL Assets
+    logger.info('Initialize data fetching and loading into database for EOSL Assests')
+    load_eosl_aaset(eosl_asset_file_path, db_username, db_password, db_name, db_host, db_port, 'EOSL_assets')
 
-    # # Load Storage Analysis
-    # logger.info('Initialize data fetching and loading into database for Storage Analysis')
-    # load_storage(storage_analysis_file_path, db_username, db_password, db_name, db_host, db_port, 'storage_analysis')
+    # Load Storage Analysis
+    logger.info('Initialize data fetching and loading into database for Storage Analysis')
+    load_storage(storage_analysis_file_path, db_username, db_password, db_name, db_host, db_port, 'storage_analysis')
 
-    # # Load Storage Analysis
-    # logger.info('Initialize data fetching and loading into database for ITDir_VP_Mapping')
-    # load_itd_file(itdir_vp_file_path, db_username, db_password, db_name, db_host, db_port, 'itd_vp_map')
+    # Load Storage Analysis
+    logger.info('Initialize data fetching and loading into database for ITDir_VP_Mapping')
+    load_itd_file(itdir_vp_file_path, db_username, db_password, db_name, db_host, db_port, 'itd_vp_map')
 
     
     # Load master table

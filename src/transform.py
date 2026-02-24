@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import logging
 from src.utils import convert_into_tb, extract_version_tuple, send_failure_email, mod_list_col
-from src.load import fetch_table_data, load_data_into_db, run_custom_query, create_index, create_index_wo_cgl, alter_col_len
+from src.load import fetch_table_data, load_data_into_db, run_custom_query, create_index, create_index_wo_cgl, alter_col_len, create_index_w_len
 
 # setup loggers
 logger = logging.getLogger()
@@ -426,11 +426,33 @@ def transform_amps_data(df_view, view_type=None):
     
 
 # Transform avamar & ppdm data
-def transform_avamar_ppdm_data(df, server_type = 'avamar'):
+def transform_avamar_ppdm_data(df, server_type = 'avamar_server'):
     try:
-        logger.info(f'Transforming {server_type} data Initialized...')
-        # remove all the extra text from clent other than servernames
-        df['Client'] = df['Client'].str.extract(r'^([A-Za-z0-9]+)')
+        if server_type in ['avamar_servers','ppdm_servers']:
+            logger.info(f'Transforming {server_type} data Initialized...')
+            # remove all the extra text from clent other than servernames
+            df['Client'] = df['Client'].str.extract(r'^([A-Za-z0-9]+)')
+        
+        elif server_type == 'dpa_storage':
+            # load eosl data to have the eosl dates for our server
+            eosl_df = pd.read_excel('data/raw/dpa_eosl.xlsx')
+
+            # create the separate column s_name that store all the datadomain without their domain in both dataframe
+            eosl_df['s_name'] = eosl_df['System Name'].str.split('.').str[0]
+            df['s_name'] = df['Hostname'].str.split('.').str[0]
+
+            # merge both dataframe on eosl servers to have eosl dates
+            df = pd.merge(
+                            df,
+                            eosl_df.loc[:, ["s_name", "Dell's Planned year to remediate"]],
+                            on='s_name',
+                            how = 'left'
+                        )
+
+            # Now drop the s_name column
+            df.drop(columns=['s_name'], inplace=True)
+            # rename the eosl column name
+            df.rename(columns={"Dell's Planned year to remediate":"dpa_eosl"}, inplace=True)
 
         
         logger.info(f"Transforming {server_type} Data Completed.")
@@ -506,11 +528,9 @@ def transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_
     load_data_into_db(table_df, 'Temp_HW_Asset', db_username, db_password, db_name, db_host, db_port)
     # Create Index on CI Name
     ## Alter  column with change in its length
-    alter_col_len('Temp_HW_Asset', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
-    create_index_wo_cgl('Temp_HW_Asset', 'CI Name', db_username, db_password, db_name, db_host, db_port)
-
-    alter_col_len('master_eosl', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
-    create_index_wo_cgl('master_eosl', 'CI Name', db_username, db_password, db_name, db_host, db_port)
+    create_index_w_len('Temp_HW_Asset', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
+    
+    create_index_w_len('master_eosl', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
 
     # Add the new columns to the master table (columns from Temp_HW_Asset)
     add_col_query = """

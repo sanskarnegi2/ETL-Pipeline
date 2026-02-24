@@ -428,6 +428,47 @@ def create_index_wo_cgl(table, column, user, password, db_name, host, port): # c
             logger.info(" Connection closed.")
         except:
             pass
+    
+# Create index with altering the len of column
+def create_index_w_len(table, column, user, password, db_name, host, port, length=255): #
+    
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        logger.info(f"Database Connection established to create index for {table}.{column}")
+    
+        # Alter  column with change in its length
+        alter_query = f"""
+        ALTER TABLE dbo.{table}
+        ALTER COLUMN [{column}] VARCHAR({length});
+        """
+        cursor.execute(alter_query)
+
+        # create index query
+        create_index_query = f"""
+                CREATE INDEX IX_{table}_{normalize_column(column)} ON EOSLdatastore.dbo.{table}([{column}]);
+        """
+        cursor.execute(create_index_query)
+        
+        conn.commit()
+
+    
+        logger.info("Query completed.")
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        
+    
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            logger.info(" Connection closed.")
+        except:
+            pass
 
 
 def create_managed_eosl_base_table(user, password, db_name, host, port):
@@ -488,7 +529,7 @@ def create_managed_eosl_base_table(user, password, db_name, host, port):
 
         alter_query = f"""
         ALTER TABLE dbo.managed_eosl_base
-        ALTER COLUMN [CI Name] VARCHAR(255);
+        ALTER COLUMN [CIName_Correct] VARCHAR(255);
         """
         cursor.execute(alter_query)
 
@@ -497,9 +538,9 @@ def create_managed_eosl_base_table(user, password, db_name, host, port):
                 ALTER TABLE EOSLdatastore.dbo.managed_eosl_base
                 ADD [CIName_Correct] AS (
                     CASE 
-                        WHEN CHARINDEX('.', [CI Name]) > 0 
-                            THEN LEFT([CI Name], CHARINDEX('.', [CI Name]) - 1)
-                        ELSE [CI Name]
+                        WHEN CHARINDEX('.', [CIName_Correct]) > 0 
+                            THEN LEFT([CIName_Correct], CHARINDEX('.', [CIName_Correct]) - 1)
+                        ELSE [CIName_Correct]
                     END
                 ) PERSISTED;
                 CREATE INDEX IX_managed_eosl_base_CIName_Correct ON EOSLdatastore.dbo.managed_eosl_base([CIName_Correct]);
@@ -609,7 +650,7 @@ def create_base_master_table(user, password, db_name, host, port):
 
         alter_query = f"""
         ALTER TABLE dbo.master_eosl_base
-        ALTER COLUMN [CI Name] VARCHAR(255);
+        ALTER COLUMN [CIName_Correct] VARCHAR(255);
         """
         cursor.execute(alter_query)
 
@@ -618,9 +659,9 @@ def create_base_master_table(user, password, db_name, host, port):
                 ALTER TABLE EOSLdatastore.dbo.master_eosl_base
                 ADD [CIName_Correct] AS (
                     CASE 
-                        WHEN CHARINDEX('.', [CI Name]) > 0 
-                            THEN LEFT([CI Name], CHARINDEX('.', [CI Name]) - 1)
-                        ELSE [CI Name]
+                        WHEN CHARINDEX('.', [CIName_Correct]) > 0 
+                            THEN LEFT([CIName_Correct], CHARINDEX('.', [CIName_Correct]) - 1)
+                        ELSE [CIName_Correct]
                     END
                 ) PERSISTED;
                 CREATE INDEX IX_master_eosl_base_CIName_Correct ON EOSLdatastore.dbo.master_eosl_base([CIName_Correct]);
@@ -958,16 +999,16 @@ def create_master_eosl_table(user, password, db_name, host, port):
         [Capability List] [nvarchar](max) NULL,
         [CI Name] [nvarchar](max) NULL,
         [Client Owner] [nvarchar](max) NULL,
-        [Create Date] [nvarchar](max) NULL,
-        [Disposal Date] [nvarchar](max) NULL,
-        [Installation Date] [nvarchar](max) NULL,
-        [Assumed HW Expiration Date] [nvarchar](max) NULL,
+        [Create Date] [date] NULL,
+        [Disposal Date] [date] NULL,
+        [Installation Date] [date] NULL,
+        [Assumed HW Expiration Date] [date] NULL,
         [IT Director] [nvarchar](max) NULL,
         [IT Lead] [nvarchar](max) NULL,
         [IT SME] [nvarchar](max) NULL,
         [IT SME Backup] [nvarchar](max) NULL,
         [Managed By] [nvarchar](max) NULL,
-        [Modified Date] [nvarchar](max) NULL,
+        [Modified Date] [date] NULL,
         [NERC Type] [float] NULL,
         [Operating System] [nvarchar](max) NULL,
         [OS Vendor] [nvarchar](max) NULL,
@@ -995,8 +1036,8 @@ def create_master_eosl_table(user, password, db_name, host, port):
         [Vcenter] [nvarchar](max) NULL,
         [SAN Storage Frames] [nvarchar](max) NULL,
         [NAS Storage Frames] [nvarchar](max) NULL,
-        [SAN Model Expiry] [datetime] NULL,
-        [NAS Frame Expiry] [datetime] NULL,
+        [SAN Model Expiry] [date] NULL,
+        [NAS Frame Expiry] [date] NULL,
         [SAN Model Name] [nvarchar](max) NULL,
         [NAS Model Name] [nvarchar](max) NULL,
         [NAS Allocated Storage space in TB] [float] NULL,
@@ -1008,9 +1049,9 @@ def create_master_eosl_table(user, password, db_name, host, port):
         [Avamar Backup Datadomain] [nvarchar](max) NULL,
         [MW Instance Name] [nvarchar](max) NULL,
         [MW Version] [nvarchar](max) NULL,
-        [OS Expiry Date] [datetime] NULL,
-        [DB EOSL] [datetime] NULL,
-        [MW EOSL] [datetime] NULL
+        [OS Expiry Date] [date] NULL,
+        [DB EOSL] [date] NULL,
+        [MW EOSL] [date] NULL
     );
 
                 """
