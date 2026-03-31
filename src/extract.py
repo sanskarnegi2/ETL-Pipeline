@@ -18,7 +18,9 @@ import win32con
 import win32file, win32net, win32netcon
 import paramiko
 from io import StringIO
-from src.utils import send_failure_email
+from src.utils import send_failure_email, create_session_with_retries
+from src.load import fetch_table_data, load_ddboost_clients_into_db
+
 
 # Suppress only InsecureRequestWarning
 warnings.simplefilter('ignore', urllib3.exceptions.InsecureRequestWarning)
@@ -203,6 +205,7 @@ def fetch_amps_data(token, view_type, skip=0, take=1000):
         take = take
         all_data = []
         base_url = 'https://amps.cloud.pge.com/axe-platform'
+        session = create_session_with_retries()  # Create a session with retries for better error handling
         
         # fetch data using pagination (skip, take)
         while True:
@@ -219,7 +222,7 @@ def fetch_amps_data(token, view_type, skip=0, take=1000):
             
             try:
                 # --- Make GET Request ---
-                response = requests.post(url, headers=headers, verify=False)
+                response = session.post(url, headers=headers, verify=False)
                 response.raise_for_status()
             except requests.exceptions.RequestException as e:
                 logger.error(f'Error fetching data for {view_type}: {e}')
@@ -238,9 +241,9 @@ def fetch_amps_data(token, view_type, skip=0, take=1000):
             
             # increment skip -> skip += 2000
             skip += take
-    except Exception as exception:
+    except Exception as exc:
         logger.info("Something went wrong")
-        send_failure_email('fetch_amps_data', 'Something went wrong while fetching AMPS data', e)
+        send_failure_email('fetch_amps_data', 'Something went wrong while fetching AMPS data', exc)
 
 # Fetch DPA Data
 ## get node_ids
@@ -543,7 +546,7 @@ def fetch_ibm_storage_data(token, ibm_tenant_id):
 
 
 
-def fetch_ddboost_data(hostname, port, username, password, script_path, output_path):
+def fetch_ddboost_data(hostname, port, username, password, script_path, output_path, db_username, db_password, db_name, db_host, db_port):
     # Initialize script
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -572,7 +575,24 @@ def fetch_ddboost_data(hostname, port, username, password, script_path, output_p
 
         # remove sub domain from the client (AS client_name)
         df['ClientName'] = df['Client'].str.split('.').str[0]
-        
+
+        ######
+        ## check if there is any new client in the new data which is not in existing clients table, if yes then add those clients into clients table
+        # get the existing clients from the database 
+        query = "SELECT * FROM [dbo].[ddboost_clients];"
+        existing_clients = fetch_table_data(query, db_username, db_password, db_name, db_host, db_port)
+
+        # check if new client is there in the new data which is not in existing clients table, if yes then add those clients into clients table
+        new_clients = df[~df['Client'].isin(existing_clients['Client'])]
+        if new_clients.shape[0] > 0:
+            logger.info(f"New clients found: {new_clients['Client'].tolist()}. Adding them into clients table.")
+            new_clients = pd.DataFrame({"Client":new_clients['Client'].unique()})
+            new_clients.loc[:, 'created_at'] = pd.Timestamp.utcnow()
+            
+            # load new clients into database
+            load_ddboost_clients_into_db(new_clients, db_username, db_password, db_name, db_host, db_port)
+        ######
+
         # return 
         return df
         

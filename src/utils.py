@@ -202,7 +202,9 @@ def create_session_with_retries():
         total=5,
         backoff_factor=3,
         status_forcelist=[429, 500, 502, 503, 504],
-        allowed_methods=["GET"]
+        allowed_methods=None, # Retry on all HTTP methods (GET, POST, etc.)
+        raise_on_status=False, # Don't raise exceptions for HTTP error status codes, allow retries instead
+        respect_retry_after_header=True # Honors server-provided retry timing
     )
     
     adapter = HTTPAdapter(max_retries=retry_strategy)
@@ -311,15 +313,15 @@ def send_failure_email(function_name, error_message, details=None):
             Regards,
             Automation Bot
             """
-    
+    recipient_list = [r.strip() for r in recipients.split(",")]
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = sender
-    msg['To'] = recipients
+    msg['To'] = ", ".join(recipient_list)
 
     with smtplib.SMTP(smtp_server) as server:
-        # pass
-        server.sendmail(sender, [recipients], msg.as_string())
+        pass
+        # server.sendmail(sender, recipient_list, msg.as_string())
 
 
 def send_success_email():
@@ -348,19 +350,19 @@ def send_success_email():
             </html>
             """
 
-    
+    recipient_list = [r.strip() for r in recipients.split(",")]
     msg = MIMEMultipart("alternative")
     msg['Subject'] = subject
     msg['From'] = sender
-    msg['To'] = recipients
+    msg['To'] = ", ".join(recipient_list)
 
-    print(f'address:{recipients}')
+    print(f'address:{recipient_list}')
 
     # Attach HTML body 
     msg.attach(MIMEText(body, "html"))
 
     with smtplib.SMTP(smtp_server) as server:
-        pass
-        # server.sendmail(sender, [recipients], msg.as_string())
+        # pass
+        server.sendmail(sender, recipient_list, msg.as_string())
     
-    logger.info('Succes Mail Sent.')
+    logger.info('Success Mail Sent.')

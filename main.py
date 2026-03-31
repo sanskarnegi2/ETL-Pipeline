@@ -13,11 +13,12 @@ from src.utils import get_vrops_auth_token, get_amps_auth_token, convert_lists_t
 from src.utils import remove_duplicate_cols, get_aiops_auth_token, get_ibm_auth_token, send_failure_email, send_success_email
 from src.extract import get_vrops_identifiers, run_vrops_extraction, get_amps_view_names, fetch_amps_data, fetch_ddboost_data
 from src.extract import get_node_id, get_report_url, get_dpa_report, fetch_nas_data, fetch_aiops_data, fetch_ibm_data, fetch_aiops_storage_data, fetch_ibm_storage_data
-from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data, transform_nas_data, transform_aiops_storage_data, transform_ibm_storage_data
-from src.transform import transform_aiops_data, transform_ibm_data, transform_amps_data, transform_avamar_ppdm_data, merge_storage_data, transform_n_load_master_eols
+from src.transform import flatten_vrops_data, transform_vmware_data, transform_esxi_data, transform_nas_data, transform_aiops_storage_data, transform_ibm_storage_data, normalize_multi_value_columns
+from src.transform import transform_aiops_data, transform_ibm_data, transform_amps_data, transform_avamar_ppdm_data, merge_storage_data, transform_n_load_master_eols, merge_dpa_data
 from src.load import load_vmware_data_into_db, load_amps_data_into_db, run_custom_query, create_index, load_data_into_db
 from src.load import create_base_master_table, create_filtered_nas_report_table, create_filtered_view_database_table, create_master_eosl_table, create_filtered_view_database_managed_services_table
-from src.load import create_managed_eosl_base_table, merge_base_master_n_managed, alter_col_len, create_index_wo_cgl, create_index_w_len
+from src.load import create_managed_eosl_base_table, merge_base_master_n_managed, alter_col_len, create_index_wo_cgl, create_index_w_len, load_nas_report_into_vital
+from src.load import load_ddboost_client
 # Local application imports from config.py
 from config import vmware_metrics_names, esxi_metrics_names, vmware_properties_names, esxi_properties_names
 from config import  vmware_column_mapping, esxi_column_mapping, vmware_create_table_query, esxi_create_table_query
@@ -50,6 +51,7 @@ vrops_uname = os.getenv("VOPS_UNAME")
 svc_pwd = os.getenv("SVC_PWD")
 svc_uname = os.getenv("SVC_UNAME")
 dell_pwd = os.getenv("DELL_PWD")
+
 # get DB info
 db_username = os.getenv("SVC_UNAME")
 db_password = os.getenv("SVC_PWD")
@@ -57,12 +59,25 @@ db_name = os.getenv("DB_NAME")
 db_host = os.getenv("DB_HOST")
 db_port = os.getenv("DB_PORT")
 
+# get Vital DB info
+## QA
+vital_db_name = os.getenv("VITAL_DB_NAME")
+vital_db_host = os.getenv("VITAL_DB_HOST")
+vital_db_port = os.getenv("VITAL_DB_PORT")
+vital_db_username = os.getenv("VITAL_SVC_UNAME")
+vital_db_password = os.getenv("VITAL_SVC_PWD")
+# Production
+vital_db_name_prod = os.getenv("VITAL_DB_NAME_PROD")
+vital_db_host_prod = os.getenv("VITAL_DB_HOST_PROD")
+vital_db_port_prod = os.getenv("VITAL_DB_PORT_PROD")
+vital_db_username_prod = os.getenv("VITAL_SVC_UNAME_PROD")
+vital_db_password_prod = os.getenv("VITAL_SVC_PWD_PROD")
+
 # get AIOPS info
 aiops_client_id = os.getenv("AIOPS_CLIENT_ID")
 aiops_client_secret = os.getenv("AIOPS_CLIENT_SECRET")
-ibm_tenant_id = os.getenv("DELL_TENANT_ID")
-ibm_api_key = os.getenv("DELL_API_KEY")
-
+ibm_tenant_id = os.getenv("IBM_TENANT_ID")
+ibm_api_key = os.getenv("IBM_API_KEY")
 
 # URls
 vrops_host = 'https://vcf-mgt-vrops.utility.pge.com/'
@@ -199,7 +214,7 @@ def load_amps_data(token, view_type, db_username, db_password, db_name, db_host,
         logger.info(f'Error while loading amps data for {view_type}: {e}')
 
 # Get and load the DPA data into database table
-def load_dpa_data(token, query_values: list, report_name, server_col = 'Server',server='avamar_servers'):
+def load_dpa_data(token, query_values: list, report_name, server_col = 'Server',server='avamar_servers_udn'):
     print(report_name)
     # create a list to store all reports
     all_reports = []
@@ -285,7 +300,7 @@ def load_dpa_data(token, query_values: list, report_name, server_col = 'Server',
     # Step 5 load data into databae table
     load_amps_data_into_db(final_df, server, db_username, db_password, db_name, db_host, db_port)
 
-    if server in ['avamar_servers','ppdm_servers']:
+    if server in ['avamar_servers_udn','ppdm_servers_udn']:
         # creating indexes on Client for avamar_servers table
         create_index_w_len(server, 'Client',db_username, db_password, db_name, db_host, db_port, 255)
     
@@ -332,6 +347,10 @@ def load_san_data(aiops_token, ibm_token, ibm_tenant_id, table_name='san_report'
             how='outer'
         )
 
+        # drop the entried where Totla Size(TB) and Used (TB) both are null because that means there is no data for that row from both sources
+        san_df = san_df.dropna(subset=['Total Size (TB)', 'Used (TB)'], how='all')
+
+
         # before loading into db, save it as excel file
         san_df.to_excel('data/processed/san_data.xlsx', index=False)
 
@@ -369,9 +388,9 @@ def load_storage_data(aiops_token, ibm_token, ibm_tenant_id):
 
 
 
-def load_ddboost_data(hostname, port, username, password, script_path, output_path, table_name='ddboost_report'):
+def load_ddboost_data(hostname, port, username, password, script_path, output_path, db_username, db_password, db_name, db_host, db_port, table_name='ddboost_report'):
     # fetch ddboost data
-    ddboost_df = fetch_ddboost_data(hostname, port, username, password, script_path, output_path)
+    ddboost_df = fetch_ddboost_data(hostname, port, username, password, script_path, output_path, db_username, db_password, db_name, db_host, db_port)
     # load into the database table
     load_amps_data_into_db(ddboost_df, table_name, db_username, db_password, db_name, db_host, db_port)
     
@@ -492,23 +511,24 @@ def load_master_table(db_username, db_password, db_name, db_host, db_port):
 
         # create filtered_view_database_managed_services
         create_filtered_view_database_managed_services_table(db_username, db_password, db_name, db_host, db_port)
-        ## creating indexes on DB_Instance_Id
-        create_index_w_len('view_database_managed_services','DB_Instance_Id',db_username, db_password, db_name, db_host, db_port, 255)
-        
-        ## creating indexes on SS_Instance_Id
-        create_index_w_len('view_middleware_managed_services','SS_Instance_Id',db_username, db_password, db_name, db_host, db_port, 255)
         
         # create master table
         create_master_eosl_table(db_username, db_password, db_name, db_host, db_port)
 
         # Adding HW Asset to the master table (Modifying the master table)
-        transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_port) 
-        
+        transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_port)
+
+        # Columns that contain semicolon-delimited multi‑value fields
+        # This changes will only reflect on Vital's database
+        master_df = normalize_multi_value_columns(db_username, db_password, db_name, db_host, db_port)
+
+        # return master_df to load into Vital's database
+        return master_df        
 
     except Exception as exception:
         logger.info('Something went wrong while loading master table')
         logger.info(exception)
-        send_failure_email('load_master_table', 'Something went wrong while loading master table')
+        send_failure_email('load_master_table', 'Something went wrong while loading master table', str(exception))
 
 
 
@@ -538,15 +558,24 @@ if __name__ == "__main__":
     # get dpa-token
     dpa_token = get_dpa_token(svc_uname, dell_pwd)
     logger.info('Initialize data fetching and loading into database for Avamar Server')
-    load_dpa_data(dpa_token, avamar_list, 'Backup All Jobs', 'Server','avamar_servers')
+    load_dpa_data(dpa_token, avamar_list, 'Backup All Jobs', 'Server','avamar_servers_udn')
     logger.info('Initialize data fetching and loading into database for PPDM Server')
-    load_dpa_data(dpa_token, ppdm_list, 'Backup All Jobs', 'Server', 'ppdm_servers')
+    load_dpa_data(dpa_token, ppdm_list, 'Backup All Jobs', 'Server', 'ppdm_servers_udn')
+    # merge dpa data (odn + udn) (there is separate script on odn server to fetch the odn report and load into database, after that we will merge both data and update the server column if having same server with different type(odn, udn))
+    merge_dpa_data(db_username, db_password, db_name, db_host, db_port, 'ppdm')
+    merge_dpa_data(db_username, db_password, db_name, db_host, db_port, 'avamar')
+
     logger.info('Initialize data fetching and loading into database for DPA Storage')
     load_dpa_data(dpa_token, dpa_storage_host_list, 'Data Domain Capacity Utilization', 'Hostname', 'dpa_storage')
 
     # load nas data
     load_nas_data(username=svc_uname, password=svc_pwd, file_paths=nas_file_paths, domain='PGE', table_name='nas_report')
-    
+    # # load the same nas table into Vital's database (QA)
+    # load_nas_report_into_vital(db_username, db_password, db_name, db_host, db_port, vital_db_username, vital_db_password, vital_db_name, vital_db_host, vital_db_port, 'nas_report', 'vital QA')
+    # # load the same nas table into Vital's database (Production)
+    # load_nas_report_into_vital(db_username, db_password, db_name, db_host, db_port, vital_db_username_prod, vital_db_password_prod, vital_db_name_prod, vital_db_host_prod, vital_db_port_prod, 'nas_report', 'vital Production')
+
+
     # load san data
     # get the token for AIOPS
     aiops_token = get_aiops_auth_token(aiops_client_id, aiops_client_secret, aiops_auth_url)
@@ -561,7 +590,7 @@ if __name__ == "__main__":
 
     # Load DDBoost Data
     logger.info('Initialize data fetching and loading into database for DDBoost report')
-    load_ddboost_data(hostname = ddboost_host, port = 22, username = svc_uname, password = svc_pwd, script_path = ddboost_script_path, output_path = ddboost_script_output_path, table_name = 'ddboost_report')
+    load_ddboost_data(ddboost_host, 22, svc_uname, svc_pwd, ddboost_script_path, ddboost_script_output_path, db_username, db_password, db_name, db_host, db_port, table_name = 'ddboost_report')
     
     # Load EOSL Assets
     logger.info('Initialize data fetching and loading into database for EOSL Assests')
@@ -578,7 +607,13 @@ if __name__ == "__main__":
     
     # Load master table
     logger.info('Initialize loading data into master table')
-    load_master_table(db_username, db_password, db_name, db_host, db_port)
+    master_df = load_master_table(db_username, db_password, db_name, db_host, db_port)
+
+    # Also load this table on another database on Vital
+    # QA
+    load_data_into_db(master_df, 'master_eosl', vital_db_username, vital_db_password, vital_db_name, vital_db_host, vital_db_port)
+    # Production
+    load_data_into_db(master_df, 'master_eosl', vital_db_username_prod, vital_db_password_prod, vital_db_name_prod, vital_db_host_prod, vital_db_port_prod)
 
     # Send script execution mail
     send_success_email()

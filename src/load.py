@@ -5,10 +5,35 @@ import logging
 import pandas as pd
 import re
 from src.utils import remove_duplicate_cols, send_failure_email, normalize_column
+from sqlalchemy import create_engine
 
 # setup loggers
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+def get_sql_server_connection(user, password, db_name, host, port=None, driver='ODBC Driver 17 for SQL Server', timeout=60, retries=3, retry_delay=5):
+    server = f"{host},{port}" if port else host
+    conn_str = (
+        f"DRIVER={{{driver}}};"
+        f"SERVER={server};"
+        f"DATABASE={db_name};"
+        f"UID={user};"
+        f"PWD={password};"
+        f"Connection Timeout={timeout};"
+        f"LoginTimeout={timeout};"
+    )
+    last_exception = None
+    for attempt in range(1, retries + 1):
+        try:
+            logger.info(f"Connecting to SQL Server {server} (attempt {attempt}/{retries})")
+            return pyodbc.connect(conn_str)
+        except Exception as exc:
+            last_exception = exc
+            logger.warning(f"SQL Server connection attempt {attempt} failed: {exc}")
+            if attempt < retries:
+                time.sleep(retry_delay)
+    raise last_exception
 
 
 # Load VMware data into database table
@@ -63,9 +88,7 @@ def load_amps_data_into_db(df_view, view_name, user, password, db_name, host, po
     start_time = time.time()
     try:
         # Connect to SQL Server
-        conn = pyodbc.connect(
-            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
-        )
+        conn = get_sql_server_connection(user, password, db_name, host, port)
         cursor = conn.cursor()
         logger.info("Database Connection established.")
     
@@ -149,9 +172,7 @@ def load_data_into_db(df_view, view_name, user, password, db_name, host, port):
     start_time = time.time()
     try:
         # Connect to SQL Server
-        conn = pyodbc.connect(
-            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
-        )
+        conn = get_sql_server_connection(user, password, db_name, host, port)
         cursor = conn.cursor()
         logger.info("Database Connection established.")
     
@@ -263,6 +284,34 @@ def run_custom_query(query, user, password, db_name, host, port):
             logger.info(" Connection closed.")
         except:
             pass
+
+# load new DDBoost clients into database table
+def load_ddboost_clients_into_db(df_clients, user, password, db_name, host, port):
+    try:
+        
+        # create sqlalchemy engine
+        engine = create_engine(
+            f"mssql+pyodbc://{user}:{password}@{host}/{db_name}?driver=ODBC+Driver+17+for+SQL+Server"
+        )
+
+        # Load data into SQL Server using to_sql(append)
+        df_clients.to_sql(
+                        "ddboost_clients",
+                        engine,
+                        if_exists="append",
+                        index=False
+                    )
+    
+        logger.info("Query completed.")
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        send_failure_email('load_ddboost_clients_into_db', 'Something went wrong while loading DDBoost clients into the database.', e)
+        
+    
+    
+
+
 
 
 # Function to fetch table data from datbase 
@@ -479,7 +528,7 @@ def create_managed_eosl_base_table(user, password, db_name, host, port):
         )
         cursor = conn.cursor()
         cursor.fast_executemany = True
-        print("Connection established to create the managed_eosl_base table.")
+        logger.info("Connection established to create the managed_eosl_base table.")
 
         
         query = """
@@ -529,7 +578,7 @@ def create_managed_eosl_base_table(user, password, db_name, host, port):
 
         alter_query = f"""
         ALTER TABLE dbo.managed_eosl_base
-        ALTER COLUMN [CIName_Correct] VARCHAR(255);
+        ALTER COLUMN [CI Name] VARCHAR(255);
         """
         cursor.execute(alter_query)
 
@@ -538,12 +587,14 @@ def create_managed_eosl_base_table(user, password, db_name, host, port):
                 ALTER TABLE EOSLdatastore.dbo.managed_eosl_base
                 ADD [CIName_Correct] AS (
                     CASE 
-                        WHEN CHARINDEX('.', [CIName_Correct]) > 0 
-                            THEN LEFT([CIName_Correct], CHARINDEX('.', [CIName_Correct]) - 1)
-                        ELSE [CIName_Correct]
+                        WHEN CHARINDEX('.', [CI Name]) > 0 
+                            THEN LEFT([CI Name], CHARINDEX('.', [CI Name]) - 1)
+                        ELSE [CI Name]
                     END
                 ) PERSISTED;
-                CREATE INDEX IX_managed_eosl_base_CIName_Correct ON EOSLdatastore.dbo.managed_eosl_base([CIName_Correct]);
+
+                CREATE INDEX IX_managed_eosl_base_CIName_Correct 
+                    ON EOSLdatastore.dbo.managed_eosl_base([CIName_Correct]);
 
         """
         cursor.execute(correct_col_query)
@@ -624,8 +675,8 @@ def create_base_master_table(user, password, db_name, host, port):
 
         create_col_query = """
                         ALTER TABLE dbo.master_eosl_base
-                        ADD ss_ids NVARCHAR(255),
-                            db_ids NVARCHAR(255);
+                        ADD ss_ids NVARCHAR(100),
+                            db_ids NVARCHAR(100);
                     """
         cursor.execute(create_col_query)
 
@@ -650,7 +701,7 @@ def create_base_master_table(user, password, db_name, host, port):
 
         alter_query = f"""
         ALTER TABLE dbo.master_eosl_base
-        ALTER COLUMN [CIName_Correct] VARCHAR(255);
+        ALTER COLUMN [CI Name] VARCHAR(255);
         """
         cursor.execute(alter_query)
 
@@ -659,9 +710,9 @@ def create_base_master_table(user, password, db_name, host, port):
                 ALTER TABLE EOSLdatastore.dbo.master_eosl_base
                 ADD [CIName_Correct] AS (
                     CASE 
-                        WHEN CHARINDEX('.', [CIName_Correct]) > 0 
-                            THEN LEFT([CIName_Correct], CHARINDEX('.', [CIName_Correct]) - 1)
-                        ELSE [CIName_Correct]
+                        WHEN CHARINDEX('.', [CI Name]) > 0 
+                            THEN LEFT([CI Name], CHARINDEX('.', [CI Name]) - 1)
+                        ELSE [CI Name]
                     END
                 ) PERSISTED;
                 CREATE INDEX IX_master_eosl_base_CIName_Correct ON EOSLdatastore.dbo.master_eosl_base([CIName_Correct]);
@@ -692,7 +743,7 @@ def merge_base_master_n_managed(user, password, db_name, host, port):
         )
         cursor = conn.cursor()
         cursor.fast_executemany = True
-        print("Connection established to merge base master and base managed table.")
+        logger.info("Connection established to merge base master and base managed table.")
 
         
         merge_query = """
@@ -1189,4 +1240,71 @@ def create_master_eosl_table(user, password, db_name, host, port):
             pass
 
 
+
+
+def load_nas_report_into_vital(eosldb_username,eosldb_password, eosldb_name, eosldb_host, eosldb_port, vitaldb_username, vitaldb_password, vitaldb_name, vitaldb_host, vitaldb_port, table_name='nas_report', environment='vital production'):
+    try:
+        logger.info(f"Starting to load nas report data into vital database in {environment} environment.")
+        # fetch the nas report data from nas_report table in EOSL datastore database
+        select_query = f"""
+                SELECT * from dbo.nas_report;
+                """
+        df_nas_report = fetch_table_data(select_query, eosldb_username,eosldb_password, eosldb_name, eosldb_host, eosldb_port)
+        
+        # load the nas report data into the nas_report table in vital database
+        load_data_into_db(df_nas_report, table_name, vitaldb_username, vitaldb_password, vitaldb_name, vitaldb_host, vitaldb_port)
+        
+
+    except Exception as e:
+        print("Error:", e)
+        send_failure_email('load_nas_report_into_vital', f'Something went wrong while loading nas report data into the vital database for {environment}.', e)
+
+    
+
+
+# Function to fetch table data from datbase 
+def load_ddboost_client(user, password, db_name, host, port):
+    
+    try:
+        # Connect to SQL Server
+        conn = pyodbc.connect(
+            f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={host};DATABASE={db_name};UID={user};PWD={password}"
+        )
+        cursor = conn.cursor()
+        logger.info("Database Connection established to fetch table data.")
+    
+        # Run SELECT query
+        query = "Select DISTINCT [Client] from dbo.ddboost_report;"
+        cursor.execute(query)
+        
+        logger.info("Query completed.")
+
+        # Fetch all rows
+        rows = cursor.fetchall()
+        
+        # Extract column names
+        columns = [column[0] for column in cursor.description]
+        
+        # Create DataFrame
+        table_df = pd.DataFrame.from_records(rows, columns=columns)
+
+        # Add created_at column with current timestamp
+        table_df.loc[:, 'created_at'] = pd.Timestamp.utcnow()
+
+        # load this data into the table
+        load_data_into_db(table_df, 'ddboost_clients', user, password, db_name, host, port)
+
+    
+    except Exception as e:
+        logger.info("Error:", e)
+        send_failure_email('run_custom_query', 'Something went wrong while running custom query.', e)
+        
+    
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+            logger.info(" Connection closed.")
+        except:
+            pass
 

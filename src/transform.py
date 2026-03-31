@@ -1,7 +1,11 @@
+import re
+
 import numpy as np
 import pandas as pd
 import json
 import logging
+
+from pygments.token import Name
 from src.utils import convert_into_tb, extract_version_tuple, send_failure_email, mod_list_col
 from src.load import fetch_table_data, load_data_into_db, run_custom_query, create_index, create_index_wo_cgl, alter_col_len, create_index_w_len
 
@@ -476,21 +480,21 @@ def merge_storage_data(aiops_df, ibm_df):
 
 
 def transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_port):
-
+    logger.info('Transforming Master EOSL data for HW Asset, Initialized...') 
     # Fetch CI Name, Serial Number, and Host from the master table
     logger.info('Fetching data from master table')
-    query = 'SELECT [CI Name],[Serial Number],[Host] From EOSLdatastore.dbo.master_eosl;'
+    query = 'SELECT [CIName_Correct],[Product Name],[Serial Number],[Host], [Operating System], [Application Ids],[Application Names],[Client Owner],[IT Director],[IT Lead],[IT SME],[IT SME Backup],[Managed By],[BIA Tier] From EOSLdatastore.dbo.master_eosl;'
     table_df = fetch_table_data(query, db_username, db_password, db_name, db_host, db_port)
 
     # Identify IBM frame records based on the CI Name pattern (e.g., 9043-MRX-78FB9CX-P27B08-Kittle)
     pattern = r"^\d{4}-[A-Z]{3}-"
-    df_filtered = table_df[table_df['CI Name'].str.match(pattern, na=False)]
+    df_filtered = table_df[table_df['CIName_Correct'].str.match(pattern, na=False)]
 
     # Extract the set of serial numbers that belong to IBM frames
     valid_serials =  set(df_filtered['Serial Number'])
     
     # Extract the set of IBM frame names from CI Name
-    valid_frames = set(df_filtered['CI Name'])
+    valid_frames = set(df_filtered['CIName_Correct'])
     
     # Map IBM frame serial numbers to their corresponding frame names
     frames = {}
@@ -507,30 +511,71 @@ def transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_
     # Flag rows where the CI entry represents a host
     table_df['is_host'] = table_df['Host'].notna()
 
+    # use all the regex pattern on the Product Name to have desired device
+    # Frames (IBM Power)
+    pt1 = r"^[0-9]{4}-[0-9A-Z]{3}$"
+    # vxrail
+    pt2 = r"\bVxRail\b"
+    # PowerEdge
+    pt3 = r"\bPowerEdge\b"
+    # Apollo
+    pt4 = r"\bApollo\b"
+    # IBM System Family
+    pt5 = r"^(System\b)|\bIBM System\b"
+    # UCS Family
+    pt6 = r"\b(UCS|Cisco|SNS)\b"
+    # Sun Family
+    pt7 = r"\bT5240\b|\bsun ?fire\b|\bsun ?server\b"
+    # Kontron
+    pt8 = r"\bKontron\b"
+    # ConnectPort
+    pt9 = r"\bConnectport\b" 
+    # SEL family
+    pt10 = r"\bSEL-"
+
+    # Combine all patterns into a single regex pattern
+    combined_pattern = f"({pt1}|{pt2}|{pt3}|{pt4}|{pt5}|{pt6}|{pt7}|{pt8}|{pt9}|{pt10})"
+
     # Determine the HW Asset value: 
     # - If it's a host, use Host
     #  # - If it's an IBM frame, use the IBM frame name
-    #  # - Otherwise, default to CI Name
+    #  # - If pattern match on product name, use the CI Name as HW asset
+    #  # - Otherwise, default to None
     table_df['HW Asset'] = np.select(
         [
             table_df['is_host'] == True,
-            table_df['is_ibm_frame'] == True
+            table_df['is_ibm_frame'] == True,
+            table_df['Product Name'].str.contains(combined_pattern, regex=True, flags=re.IGNORECASE, na=False)
         ],
         [
             table_df['Host'],
-            table_df['ibm_frame']
+            table_df['ibm_frame'],
+            table_df['CIName_Correct']
         ],
-        default = table_df['CI Name']
+        default = None
     )
 
+    # create new column HW Asset Short by having only the first part of the HW Asset column before any ., as we want to use this column for our analysis and it is better to have only the main asset name in this column instead of having all the details in it.
+    table_df['HW Asset Short'] = table_df['HW Asset'].str.split('.').str[0]
+
+    # modifying the operating systme colunm to have the updated_os column with only windows version without edition and other details, as we want to use this column for our analysis and it is better to have only windows version in this column instead of having all the details in it.
+    # pattern = r"(Windows(?:\s+\w+)*?(?:\s+\d[\w.]*)?)(?=\s+(Standard|Datacenter|Professional|Enterprise|Essentials|Pro|Home|Education|Core)\b|$)"
+    pattern = r"(Windows(?:\s+\w+)*?(?:\s+\d[\w.]*)?)(?=\s*(Standard|Datacenter|Professional|Enterprise|Essentials|Pro|Home|Education|Core|\(|$))"
+
+    mask = table_df["Operating System"].str.contains("Windows", case=True, na=False)
+
+    # new_df.loc[mask, "updated_os"] = new_df.loc[mask, "Operating System"].str.extract(pattern)[0]
+    table_df["updated_os"] = table_df["Operating System"].where(~mask, table_df["Operating System"].str.extract(pattern)[0])
+
+        
     # Create a temporary table in db to join with master table
     logger.info('Creating Temporary HW Asset table....')
     load_data_into_db(table_df, 'Temp_HW_Asset', db_username, db_password, db_name, db_host, db_port)
     # Create Index on CI Name
     ## Alter  column with change in its length
-    create_index_w_len('Temp_HW_Asset', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
+    create_index_w_len('Temp_HW_Asset', 'CIName_Correct', db_username, db_password, db_name, db_host, db_port, 255)
     
-    create_index_w_len('master_eosl', 'CI Name', db_username, db_password, db_name, db_host, db_port, 255)
+    create_index_w_len('master_eosl', 'CIName_Correct', db_username, db_password, db_name, db_host, db_port, 255)
 
     # Add the new columns to the master table (columns from Temp_HW_Asset)
     add_col_query = """
@@ -538,7 +583,9 @@ def transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_
         ADD [is_host] FLOAT,
             [ibm_frame] VARCHAR(MAX),
             [is_ibm_frame] FLOAT,
-            [HW Asset] VARCHAR(MAX)
+            [HW Asset] VARCHAR(MAX),
+            [HW Asset Short] VARCHAR(MAX),
+            [updated_os] VARCHAR(MAX)
             ;
         """
     ## run query to add new column to our master table
@@ -552,11 +599,13 @@ def transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_
                     m.[is_host] = t.[is_host],
                     m.[ibm_frame] = t.[ibm_frame],
                     m.[is_ibm_frame] = t.[is_ibm_frame],
-                    m.[HW Asset] = t.[HW Asset]
+                    m.[HW Asset] = t.[HW Asset],
+                    m.[HW Asset Short] = t.[HW Asset Short],
+                    m.[updated_os] = t.[updated_os]
 
                 FROM EOSLdatastore.dbo.master_eosl m
                 JOIN EOSLdatastore.dbo.Temp_HW_Asset t
-                    ON m.[CI Name] = t.[CI Name];
+                    ON m.[CIName_Correct] = t.[CIName_Correct];
 
                 """
     
@@ -570,8 +619,102 @@ def transform_n_load_master_eols(db_username, db_password, db_name, db_host, db_
     # logger.info("Droping Temp HW Assets table...")
     # run_custom_query(drop_query, db_username, db_password, db_name, db_host, db_port)
 
+    # # Also return the trasformed table as dataframe
+    # query = "SELECT * From EOSLdatastore.dbo.master_eosl;"
+    # transformed_master_df = fetch_table_data(query, db_username, db_password, db_name, db_host, db_port)
+    # return transformed_master_df
+
+
+def normalize_multi_value_columns(db_username, db_password, db_name, db_host, db_port):
+
+    # Fetch master table data to have the multi value columns data for normalization and splitting
+    logger.info('Fetching data from master table')
+    query = 'SELECT * From EOSLdatastore.dbo.master_eosl;'
+    df = fetch_table_data(query, db_username, db_password, db_name, db_host, db_port)
 
     
+    # Columns that contain semicolon-delimited multi‑value fields
+    cols_to_split = [
+        "Application Ids", "Application Names", "Client Owner", "IT Director",
+        "IT Lead", "IT SME", "IT SME Backup", "Managed By", "BIA Tier"
+    ]
+
+    # -----------------------------------------------------------
+    # STEP 1 — Normalize and split all multi-value columns
+    # -----------------------------------------------------------
+    df[cols_to_split] = (
+        df[cols_to_split]
+        .fillna("")                     # Replace NaN/None with empty string
+        .astype(str)                    # Ensure all values are strings
+        .apply(lambda s: 
+            s.str.split(r';\s*')        # Split on semicolon + optional spaces
+        )                               # IMPORTANT: s is a Series → regex works
+    )
+
+    # -----------------------------------------------------------
+    # STEP 2 — Compute the maximum list length per row
+    # This tells us how many items the row *should* have
+    # -----------------------------------------------------------
+    df["max_len"] = df[cols_to_split].applymap(len).max(axis=1)
+
+    # -----------------------------------------------------------
+    # STEP 3 — Pad shorter lists so all columns have equal length
+    # If a column has only 1 value but others have 2 or 3,
+    # we repeat the single value to match the longest list.
+    # -----------------------------------------------------------
+    def pad_lists(row):
+        for col in cols_to_split:
+            current_len = len(row[col])             # How many items this column has
+            needed = row["max_len"] - current_len   # How many more items needed
+            if needed > 0:
+                # Repeat the first value to fill the gap
+                row[col] = row[col] + [row[col][0]] * needed
+        return row
+
+    df = df.apply(pad_lists, axis=1)
+
+    # -----------------------------------------------------------
+    # STEP 4 — Explode all columns together
+    # Now that all lists have matching lengths, explode works safely.
+    # -----------------------------------------------------------
+    df = df.explode(cols_to_split, ignore_index=True)
+
+    # -----------------------------------------------------------
+
+    ## drop DB EOSL column as it is not required and also it is creating duplicate rows because of multiple dbs for same server
+    # Step 1: Drop the column
+    df = df.drop(columns=["DB EOSL", "OS Expiry Date", "MW EOSL"])
+
+    # Step 2: Keep only unique rows
+    df = df.drop_duplicates()
+
+
+    # Also return the trasformed table as dataframe
+    return df
+
+
+
+def merge_dpa_data(db_username, db_password, db_name, db_host, db_port,server='ppdm'): # Merge UDN and ODN data for DPA Servers
+
+    # Fetch CI Name, Serial Number, and Host from the master table
+    logger.info(f'Fetching data from dpa table for {server} servers...')
+    query =f'SELECT * From EOSLdatastore.dbo.{server}_servers_udn;'
+    dpa_udn = fetch_table_data(query, db_username, db_password, db_name, db_host, db_port)
+    query =f'SELECT * From EOSLdatastore.dbo.{server}_servers_odn;'
+    dpa_odn = fetch_table_data(query, db_username, db_password, db_name, db_host, db_port)
+    # only take columns that are common in both dataframe for merging
+    common_cols = list(set(dpa_udn.columns).intersection(set(dpa_odn.columns)))
+    dpa_udn = dpa_udn[common_cols]  
+    dpa_odn = dpa_odn[common_cols]
+    # concatenate both the dataframe
+    merged_df = pd.concat([dpa_udn, dpa_odn], ignore_index=True)
+    
+    # load the merged data into new table in db
+    load_data_into_db(merged_df, f'{server}_servers', db_username, db_password, db_name, db_host, db_port)
+    # creating indexes on Client for avamar_servers table
+    create_index_w_len(f'{server}_servers', 'Client',db_username, db_password, db_name, db_host, db_port, 255)
+    
+
 
 
     
